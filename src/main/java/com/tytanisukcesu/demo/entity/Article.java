@@ -2,6 +2,7 @@ package com.tytanisukcesu.demo.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -115,5 +116,35 @@ public class Article {
 
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return Objects.equals(catalogueNumber, article.catalogueNumber) &&
+                Objects.equals(manufacturer, article.manufacturer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(catalogueNumber, manufacturer);
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", catalogueNumber='" + catalogueNumber + '\'' +
+                ", isConsumable=" + isConsumable +
+                ", isAlternative=" + isAlternative +
+                ", purchasePrice=" + purchasePrice +
+                ", salePrice=" + salePrice +
+                ", manufacturer=" + manufacturer +
+                ", yield=" + yield +
+                ", setOfModels=" + setOfModels +
+                '}';
     }
 }
