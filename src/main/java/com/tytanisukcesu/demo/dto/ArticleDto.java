@@ -1,41 +1,40 @@
-package com.tytanisukcesu.demo.entity;
+package com.tytanisukcesu.demo.dto;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.demo.entity.Manufacturer;
+import com.tytanisukcesu.demo.entity.Model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-@Entity
-public class Article {
+public class ArticleDto {
 
-    @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID id;
-    @Column(nullable = false)
+
     private String name;
-    @Column(unique = true, nullable = false)
+
     private String catalogueNumber;
-    @Column(nullable = false)
-    private Boolean isConsumable; //czy eksploatacyjny
-    @Column(nullable = false)
-    private Boolean isAlternative; //czy zamiennik
-    @Column(nullable = false)
+
+    private Boolean isConsumable;
+
+    private Boolean isAlternative;
+
     private BigDecimal purchasePrice;
-    @Column(nullable = false)
+
     private BigDecimal salePrice;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "manufacurer_ID")
+
     private Manufacturer manufacturer;
-    @Column(nullable = false)
-    private Integer yield; //wydajnosc materialu w 1000 stron
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "model_article",
-            joinColumns = @JoinColumn(name = "articleId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "modelId", referencedColumnName = "id"))
+
+    private Integer yield;
+
+    @JsonIgnore
     private Set<Model> setOfModels;
 
-    public Article() {
+    public ArticleDto() {
     }
 
     public UUID getId() {
@@ -94,6 +93,14 @@ public class Article {
         this.salePrice = salePrice;
     }
 
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
     public Integer getYield() {
         return yield;
     }
@@ -110,31 +117,9 @@ public class Article {
         this.setOfModels = setOfModels;
     }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Article article = (Article) o;
-        return Objects.equals(catalogueNumber, article.catalogueNumber) &&
-                Objects.equals(manufacturer, article.manufacturer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(catalogueNumber, manufacturer);
-    }
-
     @Override
     public String toString() {
-        return "Article{" +
+        return "ArticleDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", catalogueNumber='" + catalogueNumber + '\'' +
