@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ManufacturerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private UUID id;
+    private Long id;
 
     private String name;
 
@@ -37,11 +37,11 @@ public class ManufacturerDto {
                 '}';
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -4,6 +4,7 @@ import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class ManucturerService {
+@Service
+public class ManufacturerService {
 
     @Autowired
     private ManufacturerRepository manufacturerRepository;
@@ -23,7 +25,7 @@ public class ManucturerService {
         return provideDto(manufacturer);
     }
 
-    public boolean remove(UUID id){
+    public boolean remove(Long id){
         Optional<Manufacturer> manufacturer = manufacturerRepository.findById(id);
         if(manufacturer.isPresent()){
             manufacturerRepository.delete(manufacturer.get());
@@ -33,7 +35,16 @@ public class ManucturerService {
         }
     }
 
-    public ManufacturerDto getById(UUID id){
+    public List<ManufacturerDto> findAll(){
+        List<Manufacturer> manufacturerList = manufacturerRepository.findAll();
+        return manufacturerList.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
+
+
+    public ManufacturerDto getById(Long id){
         Optional <Manufacturer> manufacturer = manufacturerRepository.findById(id);
         return provideDto(manufacturer.orElse(new Manufacturer()));
     }
@@ -43,12 +54,14 @@ public class ManucturerService {
         Iterable<Manufacturer> manufacturer = manufacturerRepository.findByName(name);
         while (manufacturer.iterator().hasNext()){
             manufacturerList.add(manufacturer.iterator().next());
+            break;
         }
         return manufacturerList.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
-    
+
+
 
     private ManufacturerDto provideDto(Manufacturer manufacturer) {
         ManufacturerDto manufacturerDto = new ManufacturerDto();
@@ -67,8 +80,6 @@ public class ManucturerService {
         manufacturer.setSetOfCopierModels(manufacturerDto.getSetOfCopierModels());
         return manufacturer;
     }
-
-
 
 
 

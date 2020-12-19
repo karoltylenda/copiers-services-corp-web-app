@@ -10,10 +10,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ManufacturerRepository extends JpaRepository<Manufacturer, UUID> {
+public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
 
     Iterable<Manufacturer> findByName(String name);
-
 
 
 

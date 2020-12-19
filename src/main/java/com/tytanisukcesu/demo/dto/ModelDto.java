@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ModelDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private UUID id;
+    private Long id;
 
     private String name;
 
@@ -33,11 +33,11 @@ public class ModelDto {
     public ModelDto() {
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

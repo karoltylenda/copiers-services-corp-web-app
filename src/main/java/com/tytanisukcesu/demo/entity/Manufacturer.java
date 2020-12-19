@@ -6,11 +6,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Manufacturers")
+@Table(name = "manufacturers")
 public class Manufacturer {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(unique = true, nullable = false)
     private String name;
     @OneToMany(mappedBy = "manufacturer")
@@ -22,11 +23,11 @@ public class Manufacturer {
     public Manufacturer() {
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

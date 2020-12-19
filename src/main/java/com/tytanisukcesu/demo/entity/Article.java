@@ -7,11 +7,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Articles")
+@Table(name = "articles")
 public class Article {
 
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(unique = true, nullable = false)
@@ -24,7 +25,7 @@ public class Article {
     private BigDecimal purchasePrice;
     @Column(nullable = false)
     private BigDecimal salePrice;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "manufacurer_ID")
     private Manufacturer manufacturer;
     @Column(nullable = false)
@@ -39,11 +40,11 @@ public class Article {
     public Article() {
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
