@@ -26,12 +26,12 @@ public class ManufacturerController {
     }
 
     @GetMapping
-    public ManufacturerDto getByName(@RequestParam String name){
-        return manufacturerService.getById(1L);
+    public List<ManufacturerDto> getByName(@RequestParam String name){
+        return manufacturerService.getByName(name);
     }
 
     @PostMapping
-    public ManufacturerDto save(ManufacturerDto manufacturerDto){
+    public ManufacturerDto save(@RequestBody ManufacturerDto manufacturerDto){
         return manufacturerService.save(manufacturerDto);
     }
 
@@ -40,13 +40,18 @@ public class ManufacturerController {
         return manufacturerService.getById(id);
     }
 
-    @DeleteMapping(value = "{id}")
-    public ResponseEntity delete(@PathParam("id") Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id){
         if(manufacturerService.remove(id)){
             return ResponseEntity.accepted().build();
         }else{
             return ResponseEntity.status(404).build();
         }
+    }
+
+    @PutMapping(value = "/{id}")
+    public ManufacturerDto update(@PathVariable("id") Long id, @RequestBody ManufacturerDto manufacturerDto){
+        return manufacturerService.update(id,manufacturerDto);
     }
 
 }

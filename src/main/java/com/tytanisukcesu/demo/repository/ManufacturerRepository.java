@@ -12,7 +12,9 @@ import java.util.UUID;
 @Repository
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
 
-    Iterable<Manufacturer> findByName(String name);
+
+    List<Manufacturer> getAllByNameContains(String name);
+
 
 
 

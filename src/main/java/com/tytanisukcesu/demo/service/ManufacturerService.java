@@ -42,6 +42,16 @@ public class ManufacturerService {
                 .collect(Collectors.toList());
     }
 
+    public ManufacturerDto update(Long id, ManufacturerDto manufacturerDto){
+        Manufacturer manufacturer = manufacturerRepository.findById(id).get();
+        Manufacturer manufacturerUpdated = provideEntity(manufacturerDto);
+        manufacturer.setName(manufacturerUpdated.getName());
+        manufacturer.setSetOfCopierModels(manufacturerUpdated.getSetOfCopierModels());
+        manufacturer.setSetOfCopierArticles(manufacturerUpdated.getSetOfCopierArticles());
+        manufacturerRepository.save(manufacturer);
+        return provideDto(manufacturer);
+    }
+
 
 
     public ManufacturerDto getById(Long id){
@@ -49,18 +59,12 @@ public class ManufacturerService {
         return provideDto(manufacturer.orElse(new Manufacturer()));
     }
 
-    public List<ManufacturerDto> getByName(String name){
-        List<Manufacturer> manufacturerList = new ArrayList<>();
-        Iterable<Manufacturer> manufacturer = manufacturerRepository.findByName(name);
-        while (manufacturer.iterator().hasNext()){
-            manufacturerList.add(manufacturer.iterator().next());
-            break;
-        }
+    public List<ManufacturerDto> getByName(String name) {
+        List<Manufacturer> manufacturerList = manufacturerRepository.getAllByNameContains(name);
         return manufacturerList.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
-
 
 
     private ManufacturerDto provideDto(Manufacturer manufacturer) {
