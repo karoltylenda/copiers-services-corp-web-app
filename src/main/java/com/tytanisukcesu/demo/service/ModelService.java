@@ -91,11 +91,18 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByPrintsInColor(){
-        List<Model> models = modelRepository.getAllByPrintsInColor();
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
+    public List<ModelDto> getAllByPrintsInColor(Boolean isColor){
+        if(isColor){
+            List<Model> models = modelRepository.getAllByPrintsInColor();
+            return models.stream()
+                    .map(this::provideDto)
+                    .collect(Collectors.toList());
+        }else{
+            List<Model> models = modelRepository.getAllByPrintsInColorNot();
+            return models.stream()
+                    .map(this::provideDto)
+                    .collect(Collectors.toList());
+        }
     }
 
     public List<ModelDto> getAllByPrintingSpeedGreaterThanEqual(Integer speed){

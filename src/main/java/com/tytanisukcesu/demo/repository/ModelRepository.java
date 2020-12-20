@@ -19,6 +19,8 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByPrintingFormatEquals(String printingFormat);
 
+    List<Model> getAllByPrintsInColorNot();
+
 
 
 }

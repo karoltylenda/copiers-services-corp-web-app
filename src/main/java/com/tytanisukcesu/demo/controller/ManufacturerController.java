@@ -15,14 +15,14 @@ public class ManufacturerController {
     @Autowired
     private ManufacturerService manufacturerService;
 
-    @GetMapping(value = "all")
-    public List<ManufacturerDto> getAll(){
-        return manufacturerService.findAll();
-    }
 
     @GetMapping
     public List<ManufacturerDto> getByName(@RequestParam String name){
-        return manufacturerService.getByName(name);
+        if(name!=null){
+            return manufacturerService.getByName(name);
+        }else {
+            return manufacturerService.findAll();
+        }
     }
 
     @PostMapping
