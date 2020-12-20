@@ -86,7 +86,7 @@ public class ArticleService {
     }
 
     public ArticleDto getById(Long id){
-        Article article = articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id).orElse(new Article());
         return provideDto(article);
     }
 
