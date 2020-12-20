@@ -25,7 +25,7 @@ public class ManufacturerService {
         return provideDto(manufacturer);
     }
 
-    public boolean remove(Long id){
+    public boolean delete(Long id){
         Optional<Manufacturer> manufacturer = manufacturerRepository.findById(id);
         if(manufacturer.isPresent()){
             manufacturerRepository.delete(manufacturer.get());
@@ -51,7 +51,6 @@ public class ManufacturerService {
         manufacturerRepository.save(manufacturer);
         return provideDto(manufacturer);
     }
-
 
 
     public ManufacturerDto getById(Long id){

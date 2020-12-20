@@ -1,17 +1,12 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ManufacturerDto;
-import com.tytanisukcesu.demo.entity.Manufacturer;
-import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import com.tytanisukcesu.demo.service.ManufacturerService;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/manufacturers")
@@ -42,7 +37,7 @@ public class ManufacturerController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id){
-        if(manufacturerService.remove(id)){
+        if(manufacturerService.delete(id)){
             return ResponseEntity.accepted().build();
         }else{
             return ResponseEntity.status(404).build();
