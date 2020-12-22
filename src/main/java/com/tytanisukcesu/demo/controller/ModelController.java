@@ -1,9 +1,8 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ModelDto;
-import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.service.ModelService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +10,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/models")
+@RequiredArgsConstructor
 public class ModelController {
 
-    @Autowired
-    private ModelService modelService;
+    private final ModelService modelService;
+
 
     @GetMapping
     public List<ModelDto> getByParameter(@RequestParam String name,

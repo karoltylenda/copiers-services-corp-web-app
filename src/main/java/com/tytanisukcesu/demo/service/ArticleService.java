@@ -1,11 +1,9 @@
 package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.dto.ArticleDto;
-import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Article;
-import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.repository.ArticleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +11,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
+
+    private final ArticleRepository articleRepository;
+
 
     private Article provideEntity(ArticleDto articleDto){
         Article article = new Article();

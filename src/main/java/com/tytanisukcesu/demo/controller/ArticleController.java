@@ -1,10 +1,8 @@
 package com.tytanisukcesu.demo.controller;
 
-import com.tytanisukcesu.demo.dao.ArticleDao;
 import com.tytanisukcesu.demo.dto.ArticleDto;
-import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.service.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/articles")
+@RequiredArgsConstructor
 public class ArticleController {
 
-    @Autowired
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     @GetMapping
     public List<ArticleDto> getByParameter(@RequestParam String name,

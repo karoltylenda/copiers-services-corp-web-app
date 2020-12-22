@@ -3,20 +3,17 @@ package com.tytanisukcesu.demo.service;
 import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.repository.ManufacturerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ManufacturerService {
 
-    @Autowired
-    private ManufacturerRepository manufacturerRepository;
+    private final ManufacturerRepository manufacturerRepository;
 
 
     public ManufacturerDto save(ManufacturerDto manufacturerDto){

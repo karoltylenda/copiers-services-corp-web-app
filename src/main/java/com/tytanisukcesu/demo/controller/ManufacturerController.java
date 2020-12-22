@@ -2,7 +2,7 @@ package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.service.ManufacturerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/manufacturers")
+@RequiredArgsConstructor
 public class ManufacturerController {
 
-    @Autowired
-    private ManufacturerService manufacturerService;
+    private final ManufacturerService manufacturerService;
 
 
     @GetMapping

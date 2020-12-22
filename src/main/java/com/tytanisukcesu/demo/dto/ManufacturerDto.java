@@ -5,11 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.entity.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 import java.util.Set;
-import java.util.UUID;
 
 public class ManufacturerDto {
 

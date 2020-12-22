@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
-
-import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 public class ModelDto {
 

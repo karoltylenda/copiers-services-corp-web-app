@@ -3,6 +3,7 @@ package com.tytanisukcesu.demo.service;
 import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.repository.ModelRepository;
+import lombok.RequiredArgsConstructor;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ModelService {
 
-    @Autowired
-    private ModelRepository modelRepository;
+    private final ModelRepository modelRepository;
 
     private Model provideEntity(ModelDto modelDto){
         Model model = new Model();

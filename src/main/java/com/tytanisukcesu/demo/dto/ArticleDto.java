@@ -8,7 +8,6 @@ import com.tytanisukcesu.demo.entity.Model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
-import java.util.UUID;
 
 public class ArticleDto {
 
