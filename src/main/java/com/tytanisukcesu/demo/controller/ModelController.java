@@ -1,6 +1,8 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ModelDto;
+import com.tytanisukcesu.demo.entity.Manufacturer;
+import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
 import com.tytanisukcesu.demo.service.ModelService;
 import lombok.RequiredArgsConstructor;
@@ -17,25 +19,35 @@ public class ModelController {
     private final ModelService modelService;
 
 
+//    @GetMapping(value = "/search")
+//    public List<ModelDto> getByParameter(@RequestParam String name,
+//                                         @RequestParam String manufacturer,
+//                                         @RequestParam PrintingFormat printingFormat,
+//                                         @RequestParam Integer speed,
+//                                         @RequestParam Boolean printInColor){
+//        if(name!=null){
+//            return modelService.getAllByNameContains(name);
+//        }else if(manufacturer!=null){
+//            return modelService.getAllByManufacturer(manufacturer);
+//        }else if(printingFormat!=null){
+//            return modelService.getAllByPrintingFormatEquals(printingFormat);
+//        }else if(speed!=null){
+//            return modelService.getAllByPrintingSpeedGreaterThanEqual(speed);
+//        }else if(printInColor!=null){
+//            return modelService.getAllByPrintsInColor(printInColor);
+//        }
+//    }
+
+    @GetMapping(value = "/search")
+    public List<ModelDto> getByAllParameters(@RequestParam Manufacturer manufacturer,
+                                             @RequestParam String name,
+                                             @RequestParam Boolean printsInColor){
+        return modelService.getAllByParameters(manufacturer,name,printsInColor);
+    }
+
     @GetMapping
-    public List<ModelDto> getByParameter(@RequestParam String name,
-                                         @RequestParam String manufacturer,
-                                         @RequestParam PrintingFormat printingFormat,
-                                         @RequestParam Integer speed,
-                                         @RequestParam Boolean printInColor){
-        if(name!=null){
-            return modelService.getAllByNameContains(name);
-        }else if(manufacturer!=null){
-            return modelService.getAllByManufacturer(manufacturer);
-        }else if(printingFormat!=null){
-            return modelService.getAllByPrintingFormatEquals(printingFormat);
-        }else if(speed!=null){
-            return modelService.getAllByPrintingSpeedGreaterThanEqual(speed);
-        }else if(printInColor!=null){
-            return modelService.getAllByPrintsInColor(printInColor);
-        }else{
-            return modelService.findAll();
-        }
+    public List<ModelDto> getAll(){
+        return modelService.findAll();
     }
 
     @PostMapping

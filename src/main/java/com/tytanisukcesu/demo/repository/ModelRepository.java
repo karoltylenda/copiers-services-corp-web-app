@@ -1,5 +1,6 @@
 package com.tytanisukcesu.demo.repository;
 
+import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,7 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByPrintsInColorNot(Boolean printsInColor);
 
+    List<Model> getAllByManufacturerAndNameContainsAndPrintsInColor(Manufacturer manufacturer,String name,Boolean printsInColor);
 
 
 }

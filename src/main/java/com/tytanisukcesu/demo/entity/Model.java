@@ -22,9 +22,8 @@ public class Model {
     @ManyToMany(mappedBy = "setOfModels")
     private Set<Article> setOfConsumables;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "model_Id", referencedColumnName = "id")
     private Manufacturer manufacturer;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private PrintingFormat printingFormat;
 
     public Model() {

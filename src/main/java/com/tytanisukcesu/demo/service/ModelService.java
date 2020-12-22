@@ -1,15 +1,12 @@
 package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.dto.ModelDto;
+import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +19,7 @@ public class ModelService {
 
     private Model provideEntity(ModelDto modelDto){
         Model model = new Model();
+        model.setId(modelDto.getId());
         model.setManufacturer(modelDto.getManufacturer());
         model.setName(modelDto.getName());
         model.setPrintingFormat(modelDto.getPrintingFormat());
@@ -34,6 +32,7 @@ public class ModelService {
 
     private ModelDto provideDto(Model model){
         ModelDto modelDto = new ModelDto();
+        modelDto.setId(model.getId());
         modelDto.setManufacturer(model.getManufacturer());
         modelDto.setName(model.getName());
         modelDto.setPrintingFormat(model.getPrintingFormat());
@@ -121,6 +120,13 @@ public class ModelService {
 
     public List<ModelDto> getAllByPrintingFormatEquals(PrintingFormat printingFormat){
         List<Model> models = modelRepository.getAllByPrintingFormatEquals(printingFormat);
+        return models.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<ModelDto> getAllByParameters(Manufacturer manufacturer, String name, Boolean printsInColor){
+        List<Model> models = modelRepository.getAllByManufacturerAndNameContainsAndPrintsInColor(manufacturer,name,printsInColor);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
