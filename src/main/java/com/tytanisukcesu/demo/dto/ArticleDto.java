@@ -30,7 +30,6 @@ public class ArticleDto {
 
     private Integer yield;
 
-    @JsonIgnore
     private Set<Model> setOfModels;
 
     public ArticleDto() {

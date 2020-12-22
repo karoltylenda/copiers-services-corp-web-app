@@ -1,6 +1,7 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ManufacturerDto;
+import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +17,18 @@ public class ManufacturerController {
     private final ManufacturerService manufacturerService;
 
 
-    @GetMapping
-    public List<ManufacturerDto> getByName(@RequestParam String name){
-        if(name!=null){
+    //TODO z 2 parametrami
+    @GetMapping(value = "/search")
+    public List<ManufacturerDto> getByName(@RequestParam String name) {
             return manufacturerService.getByName(name);
-        }else {
-            return manufacturerService.findAll();
         }
+
+
+    @GetMapping
+    public List<ManufacturerDto> getAll(){
+        return manufacturerService.findAll();
     }
+
 
     @PostMapping
     public ManufacturerDto save(@RequestBody ManufacturerDto manufacturerDto){

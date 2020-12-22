@@ -2,6 +2,7 @@ package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Model;
+import com.tytanisukcesu.demo.entity.PrintingFormat;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.dom4j.rule.Mode;
@@ -93,17 +94,15 @@ public class ModelService {
     }
 
     public List<ModelDto> getAllByPrintsInColor(Boolean isColor){
+        List<Model> models;
         if(isColor){
-            List<Model> models = modelRepository.getAllByPrintsInColor();
-            return models.stream()
-                    .map(this::provideDto)
-                    .collect(Collectors.toList());
+            models = modelRepository.getAllByPrintsInColor(isColor);
         }else{
-            List<Model> models = modelRepository.getAllByPrintsInColorNot();
-            return models.stream()
-                    .map(this::provideDto)
-                    .collect(Collectors.toList());
+            models = modelRepository.getAllByPrintsInColorNot(isColor);
         }
+        return models.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
     }
 
     public List<ModelDto> getAllByPrintingSpeedGreaterThanEqual(Integer speed){
@@ -114,13 +113,13 @@ public class ModelService {
     }
 
     public List<ModelDto> getAllByManufacturer(String manufacturer){
-        List<Model> models = modelRepository.getAllByManufacturer(manufacturer);
+        List<Model> models = modelRepository.getAllByManufacturerName(manufacturer);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByPrintingFormatEquals(String printingFormat){
+    public List<ModelDto> getAllByPrintingFormatEquals(PrintingFormat printingFormat){
         List<Model> models = modelRepository.getAllByPrintingFormatEquals(printingFormat);
         return models.stream()
                 .map(this::provideDto)

@@ -15,10 +15,8 @@ public class ManufacturerDto {
 
     private String name;
 
-    @JsonIgnore
     private Set<Model> setOfCopierModels;
 
-    @JsonIgnore
     private Set<Article> setOfCopierArticles;
 
     public ManufacturerDto() {

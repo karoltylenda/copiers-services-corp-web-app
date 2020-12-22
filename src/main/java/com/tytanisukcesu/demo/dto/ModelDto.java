@@ -20,7 +20,6 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
-    @JsonIgnore
     private Set<Article> setOfConsumables;
 
     private Manufacturer manufacturer;

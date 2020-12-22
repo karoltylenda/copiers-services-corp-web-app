@@ -1,6 +1,7 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ModelDto;
+import com.tytanisukcesu.demo.entity.PrintingFormat;
 import com.tytanisukcesu.demo.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class ModelController {
     @GetMapping
     public List<ModelDto> getByParameter(@RequestParam String name,
                                          @RequestParam String manufacturer,
-                                         @RequestParam String printingFormat,
+                                         @RequestParam PrintingFormat printingFormat,
                                          @RequestParam Integer speed,
                                          @RequestParam Boolean printInColor){
         if(name!=null){
@@ -60,11 +61,6 @@ public class ModelController {
     public ModelDto update(@PathVariable("id") Long id,@RequestBody ModelDto modelDto){
         return modelService.update(id,modelDto);
     }
-
-
-
-
-
 
 
 
