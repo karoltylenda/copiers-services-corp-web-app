@@ -4,18 +4,27 @@ import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
+import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ModelService {
+public class ModelService{
 
     private final ModelRepository modelRepository;
+
+    private final ManufacturerRepository manufacturerRepository;
+
+    @PersistenceContext
+    private final EntityManager entityManager;
 
     private Model provideEntity(ModelDto modelDto){
         Model model = new Model();
@@ -44,26 +53,26 @@ public class ModelService {
     }
 
     public ModelDto save(ModelDto modelDto){
-        Model model = provideEntity(modelDto);
+        Model model = new Model();
+        model.setConsumables(modelDto.getConsumables());
+        model.setId(modelDto.getId());
+        model.setProductionYear(modelDto.getProductionYear());
+        model.setPrintsInColor(modelDto.getPrintsInColor());
+        model.setPrintingSpeed(modelDto.getPrintingSpeed());
+        model.setPrintingFormat(modelDto.getPrintingFormat());
+        model.setName(modelDto.getName());
         modelRepository.save(model);
-        return provideDto(model);
-    }
 
-    public boolean delete(Long id){
-        Optional<Model> model = modelRepository.findById(id);
-        if(model.isPresent()){
-            modelRepository.delete(model.get());
-            return true;
-        }else{
-            return false;
+        if(modelDto.getManufacturer()!=null){
+            Manufacturer manufacturer = manufacturerRepository.getByName(modelDto.getManufacturer().getName());
+            if(manufacturer!=null){
+                model.setManufacturer(manufacturer);
+                modelRepository.save(model);
+            }else{
+                update(model.getId(),modelDto);
+            }
         }
-    }
-
-    public List<ModelDto> findAll(){
-        List<Model> models = modelRepository.findAll();
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
+        return provideDto(model);
     }
 
     public ModelDto update(Long id, ModelDto modelDto){
@@ -79,6 +88,26 @@ public class ModelService {
         modelRepository.save(model);
         return provideDto(model);
     }
+
+    public boolean delete(Long id){
+        Optional<Model> model = modelRepository.findById(id);
+        if(model.isPresent()){
+            modelRepository.delete(model.get());
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+    public List<ModelDto> findAll(){
+        List<Model> models = modelRepository.findAll();
+        return models.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
 
     public ModelDto getById(Long id){
         Optional<Model> model = modelRepository.findById(id);

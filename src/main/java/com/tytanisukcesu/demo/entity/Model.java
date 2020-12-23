@@ -1,5 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -20,8 +22,10 @@ public class Model {
     @Column(nullable = false)
     private Integer printingSpeed;
     @ManyToMany(mappedBy = "models")
+    @JsonIgnore
     private Set<Article> consumables;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Manufacturer manufacturer;
     @Column(nullable = true)
     private PrintingFormat printingFormat;

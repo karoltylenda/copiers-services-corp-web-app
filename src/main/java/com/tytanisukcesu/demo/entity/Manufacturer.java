@@ -1,5 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -15,8 +17,10 @@ public class Manufacturer {
     @Column(unique = true, nullable = false)
     private String name;
     @OneToMany(mappedBy = "manufacturer")
+    @JsonIgnore
     private Set<Model> setOfCopierModels;
     @OneToMany(mappedBy = "manufacturer")
+    @JsonIgnore
     private Set<Article> setOfCopierArticles;
 
 
