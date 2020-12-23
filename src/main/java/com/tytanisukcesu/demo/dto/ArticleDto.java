@@ -30,7 +30,7 @@ public class ArticleDto {
 
     private Integer yield;
 
-    private Set<Model> setOfModels;
+    private Set<Model> models;
 
     public ArticleDto() {
     }
@@ -107,12 +107,12 @@ public class ArticleDto {
         this.yield = yield;
     }
 
-    public Set<Model> getSetOfModels() {
-        return setOfModels;
+    public Set<Model> getModels() {
+        return models;
     }
 
-    public void setSetOfModels(Set<Model> setOfModels) {
-        this.setOfModels = setOfModels;
+    public void setModels(Set<Model> models) {
+        this.models = models;
     }
 
     @Override
@@ -127,7 +127,7 @@ public class ArticleDto {
                 ", salePrice=" + salePrice +
                 ", manufacturer=" + manufacturer +
                 ", yield=" + yield +
-                ", setOfModels=" + setOfModels +
+                ", models=" + models +
                 '}';
     }
 }

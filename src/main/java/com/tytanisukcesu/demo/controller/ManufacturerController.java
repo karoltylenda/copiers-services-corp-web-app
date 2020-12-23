@@ -1,7 +1,6 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ManufacturerDto;
-import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

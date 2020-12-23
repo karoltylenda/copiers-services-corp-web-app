@@ -20,7 +20,7 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
-    private Set<Article> setOfConsumables;
+    private Set<Article> consumables;
 
     private Manufacturer manufacturer;
 
@@ -69,12 +69,12 @@ public class ModelDto {
         this.printingSpeed = printingSpeed;
     }
 
-    public Set<Article> getSetOfConsumables() {
-        return setOfConsumables;
+    public Set<Article> getConsumables() {
+        return consumables;
     }
 
-    public void setSetOfConsumables(Set<Article> setOfConsumables) {
-        this.setOfConsumables = setOfConsumables;
+    public void setConsumables(Set<Article> consumables) {
+        this.consumables = consumables;
     }
 
     public Manufacturer getManufacturer() {
@@ -101,7 +101,7 @@ public class ModelDto {
                 ", printsInColor=" + printsInColor +
                 ", productionYear=" + productionYear +
                 ", printingSpeed=" + printingSpeed +
-                ", setOfConsumables=" + setOfConsumables +
+                ", consumables=" + consumables +
                 ", manufacturer=" + manufacturer +
                 ", printingFormat=" + printingFormat +
                 '}';

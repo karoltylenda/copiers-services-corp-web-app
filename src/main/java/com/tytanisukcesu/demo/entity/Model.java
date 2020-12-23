@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Models")
+@Table(name = "models")
 public class Model {
 
     @Id
@@ -19,8 +19,8 @@ public class Model {
     private Integer productionYear;
     @Column(nullable = false)
     private Integer printingSpeed;
-    @ManyToMany(mappedBy = "setOfModels")
-    private Set<Article> setOfConsumables;
+    @ManyToMany(mappedBy = "models")
+    private Set<Article> consumables;
     @ManyToOne(cascade = CascadeType.ALL)
     private Manufacturer manufacturer;
     @Column(nullable = true)
@@ -62,14 +62,13 @@ public class Model {
         this.printingSpeed = printingSpeed;
     }
 
-    public Set<Article> getSetOfConsumables() {
-        return setOfConsumables;
+    public Set<Article> getConsumables() {
+        return consumables;
     }
 
-    public void setSetOfConsumables(Set<Article> setOfConsumables) {
-        this.setOfConsumables = setOfConsumables;
+    public void setConsumables(Set<Article> consumables) {
+        this.consumables = consumables;
     }
-
 
     public PrintingFormat getPrintingFormat() {
         return printingFormat;
@@ -109,6 +108,8 @@ public class Model {
         return Objects.hash(name, manufacturer);
     }
 
+
+
     @Override
     public String toString() {
         return "Model{" +
@@ -117,7 +118,7 @@ public class Model {
                 ", printsInColor=" + printsInColor +
                 ", productionYear=" + productionYear +
                 ", printingSpeed=" + printingSpeed +
-                ", setOfConsumables=" + setOfConsumables +
+                ", consumables=" + consumables +
                 ", manufacturer=" + manufacturer +
                 ", printingFormat=" + printingFormat +
                 '}';

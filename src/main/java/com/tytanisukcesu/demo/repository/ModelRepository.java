@@ -23,7 +23,7 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByPrintsInColorNot(Boolean printsInColor);
 
-    List<Model> getAllByManufacturerAndNameContainsAndPrintsInColor(Manufacturer manufacturer,String name,Boolean printsInColor);
+    List<Model> getAllByManufacturerNameAndNameContainsAndPrintsInColor(String manufacturerName,String modelName,Boolean printsInColor);
 
 
 }

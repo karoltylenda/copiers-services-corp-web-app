@@ -26,16 +26,16 @@ public class Article {
     @Column(nullable = false)
     private BigDecimal salePrice;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "manufacurer_ID")
     private Manufacturer manufacturer;
     @Column(nullable = false)
     private Integer yield; //wydajnosc materialu w 1000 stron
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "model_article",
-            joinColumns = @JoinColumn(name = "articleId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "modelId", referencedColumnName = "id"))
-    private Set<Model> setOfModels;
+            name = "articles_and_models_connection",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "model_id")
+    )
+    private Set<Model> models;
 
     public Article() {
     }
@@ -104,12 +104,12 @@ public class Article {
         this.yield = yield;
     }
 
-    public Set<Model> getSetOfModels() {
-        return setOfModels;
+    public Set<Model> getModels() {
+        return models;
     }
 
-    public void setSetOfModels(Set<Model> setOfModels) {
-        this.setOfModels = setOfModels;
+    public void setModels(Set<Model> models) {
+        this.models = models;
     }
 
     public Manufacturer getManufacturer() {
@@ -146,7 +146,7 @@ public class Article {
                 ", salePrice=" + salePrice +
                 ", manufacturer=" + manufacturer +
                 ", yield=" + yield +
-                ", setOfModels=" + setOfModels +
+                ", models=" + models +
                 '}';
     }
 }

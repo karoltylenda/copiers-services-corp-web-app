@@ -28,7 +28,7 @@ public class ArticleService {
         article.setSalePrice(articleDto.getSalePrice());
         article.setManufacturer(articleDto.getManufacturer());
         article.setYield(articleDto.getYield());
-        article.setSetOfModels(articleDto.getSetOfModels());
+        article.setModels(articleDto.getModels());
         return article;
     }
 
@@ -42,7 +42,7 @@ public class ArticleService {
         articleDto.setSalePrice(article.getSalePrice());
         articleDto.setManufacturer(article.getManufacturer());
         articleDto.setYield(article.getYield());
-        articleDto.setSetOfModels(article.getSetOfModels());
+        articleDto.setModels(article.getModels());
         return articleDto;
     }
 
@@ -80,7 +80,7 @@ public class ArticleService {
         article.setSalePrice(articleUpdated.getSalePrice());
         article.setManufacturer(articleUpdated.getManufacturer());
         article.setYield(articleUpdated.getYield());
-        article.setSetOfModels(articleUpdated.getSetOfModels());
+        article.setModels(articleUpdated.getModels());
         articleRepository.save(article);
         return provideDto(article);
     }

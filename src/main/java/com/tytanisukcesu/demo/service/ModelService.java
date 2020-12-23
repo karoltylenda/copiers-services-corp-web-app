@@ -26,7 +26,7 @@ public class ModelService {
         model.setPrintingSpeed(modelDto.getPrintingSpeed());
         model.setPrintsInColor(modelDto.getPrintsInColor());
         model.setProductionYear(modelDto.getProductionYear());
-        model.setSetOfConsumables(modelDto.getSetOfConsumables());
+        model.setConsumables(modelDto.getConsumables());
         return model;
     }
 
@@ -39,7 +39,7 @@ public class ModelService {
         modelDto.setPrintingSpeed(model.getPrintingSpeed());
         modelDto.setPrintsInColor(model.getPrintsInColor());
         modelDto.setProductionYear(model.getProductionYear());
-        modelDto.setSetOfConsumables(model.getSetOfConsumables());
+        modelDto.setConsumables(model.getConsumables());
         return modelDto;
     }
 
@@ -75,7 +75,7 @@ public class ModelService {
         model.setPrintingSpeed(modelUpdated.getPrintingSpeed());
         model.setPrintsInColor(modelUpdated.getPrintsInColor());
         model.setProductionYear(modelUpdated.getProductionYear());
-        model.setSetOfConsumables(modelUpdated.getSetOfConsumables());
+        model.setConsumables(modelUpdated.getConsumables());
         modelRepository.save(model);
         return provideDto(model);
     }
@@ -125,8 +125,8 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByParameters(Manufacturer manufacturer, String name, Boolean printsInColor){
-        List<Model> models = modelRepository.getAllByManufacturerAndNameContainsAndPrintsInColor(manufacturer,name,printsInColor);
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor){
+        List<Model> models = modelRepository.getAllByManufacturerNameAndNameContainsAndPrintsInColor(manufacturerName,modelName,printsInColor);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
