@@ -1,6 +1,8 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,16 +11,21 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "manufacturers")
+@Builder
+@AllArgsConstructor
 public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false)
     private String name;
+
     @OneToMany(mappedBy = "manufacturer")
     @JsonIgnore
     private Set<Model> setOfCopierModels;
+
     @OneToMany(mappedBy = "manufacturer")
     @JsonIgnore
     private Set<Article> setOfCopierArticles;

@@ -10,10 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/manufacturers")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ManufacturerController {
 
-    private final ManufacturerService manufacturerService;
+    public ManufacturerController(ManufacturerService manufacturerService) {
+        this.manufacturerService = manufacturerService;
+    }
+
+    private ManufacturerService manufacturerService;
 
     //TODO z 2 parametrami
     @GetMapping(value = "/search")

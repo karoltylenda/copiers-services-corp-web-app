@@ -11,11 +11,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ArticleService {
 
 
-    private final ArticleRepository articleRepository;
+    public ArticleService(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
+
+    private ArticleRepository articleRepository;
 
 
     private Article provideEntity(ArticleDto articleDto){

@@ -11,11 +11,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/models")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ModelController {
 
-    private final ModelService modelService;
+    private ModelService modelService;
 
+    public ModelController(ModelService modelService) {
+        this.modelService = modelService;
+    }
 
     @GetMapping(value = "/search")
     public List<ModelDto> getByAllParameters(@RequestParam String manufacturer,

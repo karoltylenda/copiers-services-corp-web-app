@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "models")
@@ -24,10 +23,13 @@ public class Model {
     @ManyToMany(mappedBy = "models")
     @JsonIgnore
     private Set<Article> consumables;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
-    @Column(nullable = true)
+
+    @Column
     private PrintingFormat printingFormat;
 
     public Model() {
@@ -111,7 +113,6 @@ public class Model {
     public int hashCode() {
         return Objects.hash(name, manufacturer);
     }
-
 
 
     @Override

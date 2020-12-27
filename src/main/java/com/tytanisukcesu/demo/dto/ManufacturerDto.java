@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.entity.Model;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 
 import java.util.Set;
 
+@Builder
+@AllArgsConstructor
 public class ManufacturerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
