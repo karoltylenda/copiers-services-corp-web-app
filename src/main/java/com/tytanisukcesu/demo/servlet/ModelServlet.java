@@ -1,11 +1,16 @@
 package com.tytanisukcesu.demo.servlet;
 
+import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/main/models")
@@ -15,8 +20,25 @@ public class ModelServlet {
     private final ModelService modelService;
 
     @GetMapping
-    public String getAllModel(Model model){
-        model.addAttribute("models", modelService.findAll());
+    public String getAllModel(Model springModel){
+        springModel.addAttribute("models", modelService.findAll());
         return "models";
     }
+
+    @GetMapping(value = "/search")
+    public String GetSingleModel(@RequestParam(required = false, defaultValue = "") String manufacturer,
+                                       @RequestParam(required = false, defaultValue = "") String model,
+                                       @RequestParam(defaultValue = "true") boolean printsInColor,
+                                        Model springModel){
+        springModel.addAttribute("models",modelService.getAllByParameters(manufacturer,model,printsInColor));
+        return "models";
+    }
+
+    @GetMapping(value = "/1")
+    public String getById(Model springModel){
+        springModel.addAttribute("karol",modelService.getById(1L));
+        return "model";
+    }
+
+
 }
