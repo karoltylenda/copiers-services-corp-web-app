@@ -14,18 +14,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ModelService {
 
-    private ModelRepository modelRepository;
-
-    public ModelService(ModelRepository modelRepository, ManufacturerRepository manufacturerRepository) {
-        this.modelRepository = modelRepository;
-        this.manufacturerRepository = manufacturerRepository;
-    }
-
-    private ManufacturerRepository manufacturerRepository;
-
+    private final ModelRepository modelRepository;
+    private final ManufacturerRepository manufacturerRepository;
 
     private Model provideEntity(ModelDto modelDto) {
         Model model = new Model();
@@ -165,12 +158,10 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor) {
-        List<Model> models = modelRepository.getAllByManufacturerNameAndNameContainsAndPrintsInColor(manufacturerName, modelName, printsInColor);
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, boolean printsInColor) {
+        List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(manufacturerName, modelName, printsInColor);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
-
-
 }

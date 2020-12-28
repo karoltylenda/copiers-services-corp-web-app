@@ -1,12 +1,10 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "articles")
@@ -20,9 +18,9 @@ public class Article {
     @Column(unique = true, nullable = false)
     private String catalogueNumber;
     @Column(nullable = false)
-    private Boolean isConsumable; //czy eksploatacyjny
+    private boolean isConsumable; //czy eksploatacyjny
     @Column(nullable = false)
-    private Boolean isAlternative; //czy zamiennik
+    private boolean isAlternative; //czy zamiennik
     @Column(nullable = false)
     private BigDecimal purchasePrice;
     @Column(nullable = false)
@@ -67,19 +65,19 @@ public class Article {
         this.catalogueNumber = catalogueNumber;
     }
 
-    public Boolean getConsumable() {
+    public boolean getConsumable() {
         return isConsumable;
     }
 
-    public void setConsumable(Boolean consumable) {
+    public void setConsumable(boolean consumable) {
         isConsumable = consumable;
     }
 
-    public Boolean getAlternative() {
+    public boolean getAlternative() {
         return isAlternative;
     }
 
-    public void setAlternative(Boolean alternative) {
+    public void setAlternative(boolean alternative) {
         isAlternative = alternative;
     }
 

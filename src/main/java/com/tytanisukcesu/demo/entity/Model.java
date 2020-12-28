@@ -1,7 +1,6 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -16,7 +15,7 @@ public class Model {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private Boolean printsInColor;
+    private boolean printsInColor;
     private Integer productionYear;
     @Column(nullable = false)
     private Integer printingSpeed;
@@ -44,11 +43,11 @@ public class Model {
         this.id = id;
     }
 
-    public Boolean getPrintsInColor() {
+    public boolean getPrintsInColor() {
         return printsInColor;
     }
 
-    public void setPrintsInColor(Boolean printsInColor) {
+    public void setPrintsInColor(boolean printsInColor) {
         this.printsInColor = printsInColor;
     }
 

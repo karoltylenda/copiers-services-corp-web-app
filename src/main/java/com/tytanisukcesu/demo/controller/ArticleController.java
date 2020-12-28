@@ -10,14 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/articles")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ArticleController {
 
-    private ArticleService articleService;
-
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
+    private final ArticleService articleService;
 
     @GetMapping
     public List<ArticleDto> getByParameter(@RequestParam String name,

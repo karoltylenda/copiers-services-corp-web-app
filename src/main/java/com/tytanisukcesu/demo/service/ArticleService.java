@@ -5,22 +5,15 @@ import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ArticleService {
 
-
-    public ArticleService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
-
-    private ArticleRepository articleRepository;
-
+    private final ArticleRepository articleRepository;
 
     private Article provideEntity(ArticleDto articleDto){
         Article article = new Article();
@@ -107,11 +100,4 @@ public class ArticleService {
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
-
-
-
-
-
-
-
 }

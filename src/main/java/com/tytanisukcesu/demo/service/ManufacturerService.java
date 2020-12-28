@@ -13,15 +13,10 @@ import java.util.stream.Collectors;
 import static com.tytanisukcesu.demo.mapper.ManufacturerMapper.MAPPER;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ManufacturerService {
 
-    public ManufacturerService(ManufacturerRepository manufacturerRepository) {
-        this.manufacturerRepository = manufacturerRepository;
-    }
-
-    private ManufacturerRepository manufacturerRepository;
-
+    private final ManufacturerRepository manufacturerRepository;
 
     public ManufacturerDto save(ManufacturerDto manufacturerDto) {
         Manufacturer manufacturer = provideEntity(manufacturerDto);
@@ -98,6 +93,4 @@ public class ManufacturerService {
                 .setOfCopierModels(manufacturerDto.getSetOfCopierModels())
                 .build();
     }
-
-
 }

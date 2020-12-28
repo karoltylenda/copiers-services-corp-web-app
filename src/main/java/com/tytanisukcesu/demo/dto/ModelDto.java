@@ -1,6 +1,5 @@
 package com.tytanisukcesu.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.entity.Manufacturer;
@@ -14,7 +13,7 @@ public class ModelDto {
 
     private String name;
 
-    private Boolean printsInColor;
+    private boolean printsInColor;
 
     private Integer productionYear;
 
@@ -45,11 +44,11 @@ public class ModelDto {
         this.name = name;
     }
 
-    public Boolean getPrintsInColor() {
+    public boolean getPrintsInColor() {
         return printsInColor;
     }
 
-    public void setPrintsInColor(Boolean printsInColor) {
+    public void setPrintsInColor(boolean printsInColor) {
         this.printsInColor = printsInColor;
     }
 
