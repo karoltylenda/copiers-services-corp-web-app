@@ -15,7 +15,6 @@ public class ManufacturerController {
 
     private final ManufacturerService manufacturerService;
 
-    //TODO z 2 parametrami
     @GetMapping(value = "/search")
     public List<ManufacturerDto> getByName(@RequestParam String name) {
             return manufacturerService.getByName(name);

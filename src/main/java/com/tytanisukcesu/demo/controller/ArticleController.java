@@ -15,6 +15,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+    //TODO z 2 parametrami
     @GetMapping
     public List<ArticleDto> getByParameter(@RequestParam String name,
                                            @RequestParam String catalogNumber){
