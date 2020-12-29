@@ -85,7 +85,7 @@ public class ManufacturerService {
                 .build();
     }
 
-    private Manufacturer provideEntity(ManufacturerDto manufacturerDto) {
+    public Manufacturer provideEntity(ManufacturerDto manufacturerDto) {
         return Manufacturer.builder()
                 .id(manufacturerDto.getId())
                 .name(manufacturerDto.getName())

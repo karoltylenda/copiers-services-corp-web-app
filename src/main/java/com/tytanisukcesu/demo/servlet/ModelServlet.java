@@ -1,14 +1,15 @@
 package com.tytanisukcesu.demo.servlet;
 
+import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.dto.ModelDto;
+import com.tytanisukcesu.demo.entity.Manufacturer;
+import com.tytanisukcesu.demo.service.ManufacturerService;
 import com.tytanisukcesu.demo.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class ModelServlet {
 
     private final ModelService modelService;
+    private final ManufacturerService manufacturerService;
 
     @GetMapping
     public String getAllModel(Model springModel){
@@ -44,6 +46,21 @@ public class ModelServlet {
         return "model";
     }
 
+    @GetMapping("/save")
+    public RedirectView save(@RequestParam String manufacturerName,  @ModelAttribute ModelDto modelDto) {
+        ManufacturerDto manufacturerDto = new ManufacturerDto();
+
+        if (manufacturerService.getByName(manufacturerName).isEmpty()) {
+            manufacturerDto.setName(manufacturerName);
+            manufacturerService.save(manufacturerDto);
+        } else {
+            manufacturerDto = manufacturerService.getByName(manufacturerName).get(0);
+            manufacturerService.update(manufacturerDto.getId(), manufacturerDto);
+        }
+        modelDto.setManufacturer(manufacturerService.provideEntity(manufacturerDto));
+        modelService.save(modelDto);
+        return new RedirectView("/main/addModelForm");
+    }
 
 
 }
