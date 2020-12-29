@@ -38,11 +38,12 @@ public class ModelServlet {
         return "models";
     }
 
-    @GetMapping(value = "/1")
-    public String getById(Model springModel){
-        springModel.addAttribute("karol",modelService.getById(1L));
+    @GetMapping(value = "/{id}")
+    public String getById(@PathVariable("id") Long id, Model springModel){
+        springModel.addAttribute("model",modelService.getById(id));
         return "model";
     }
+
 
 
 }
