@@ -9,24 +9,18 @@ import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ModelService{
+public class ModelService {
 
     private final ModelRepository modelRepository;
-
     private final ManufacturerRepository manufacturerRepository;
 
-    @PersistenceContext
-    private final EntityManager entityManager;
-
-    private Model provideEntity(ModelDto modelDto){
+    private Model provideEntity(ModelDto modelDto) {
         Model model = new Model();
         model.setId(modelDto.getId());
         model.setManufacturer(modelDto.getManufacturer());
@@ -39,7 +33,7 @@ public class ModelService{
         return model;
     }
 
-    private ModelDto provideDto(Model model){
+    private ModelDto provideDto(Model model) {
         ModelDto modelDto = new ModelDto();
         modelDto.setId(model.getId());
         modelDto.setManufacturer(model.getManufacturer());
@@ -52,7 +46,7 @@ public class ModelService{
         return modelDto;
     }
 
-    public ModelDto save(ModelDto modelDto){
+    public ModelDto save(ModelDto modelDto) {
         Model model = new Model();
         model.setConsumables(modelDto.getConsumables());
         model.setId(modelDto.getId());
@@ -61,47 +55,57 @@ public class ModelService{
         model.setPrintingSpeed(modelDto.getPrintingSpeed());
         model.setPrintingFormat(modelDto.getPrintingFormat());
         model.setName(modelDto.getName());
+
         modelRepository.save(model);
 
-        if(modelDto.getManufacturer()!=null){
+        return ifManufacturerExists(modelDto, model);
+    }
+
+    private ModelDto ifManufacturerExists(ModelDto modelDto, Model model) {
+        if (modelDto.getManufacturer() != null) {
             Manufacturer manufacturer = manufacturerRepository.getByName(modelDto.getManufacturer().getName());
-            if(manufacturer!=null){
+            if (manufacturer != null) {
                 model.setManufacturer(manufacturer);
                 modelRepository.save(model);
-            }else{
-                update(model.getId(),modelDto);
+                return provideDto(model);
+            } else {
+                return update(model.getId(), modelDto);
             }
         }
-        return provideDto(model);
+        return new ModelDto();
     }
 
-    public ModelDto update(Long id, ModelDto modelDto){
-        Model model = modelRepository.findById(id).get();
-        Model modelUpdated = provideEntity(modelDto);
-        model.setManufacturer(modelUpdated.getManufacturer());
-        model.setName(modelUpdated.getName());
-        model.setPrintingFormat(modelUpdated.getPrintingFormat());
-        model.setPrintingSpeed(modelUpdated.getPrintingSpeed());
-        model.setPrintsInColor(modelUpdated.getPrintsInColor());
-        model.setProductionYear(modelUpdated.getProductionYear());
-        model.setConsumables(modelUpdated.getConsumables());
-        modelRepository.save(model);
-        return provideDto(model);
+    public ModelDto update(Long id, ModelDto modelDto) {
+        Optional<Model> byId = modelRepository.findById(id);
+        if (byId.isPresent()) {
+            Model modelUpdated = provideEntity(modelDto);
+            Model model = byId.get();
+            model.setManufacturer(modelUpdated.getManufacturer());
+            model.setName(modelUpdated.getName());
+            model.setPrintingFormat(modelUpdated.getPrintingFormat());
+            model.setPrintingSpeed(modelUpdated.getPrintingSpeed());
+            model.setPrintsInColor(modelUpdated.getPrintsInColor());
+            model.setProductionYear(modelUpdated.getProductionYear());
+            model.setConsumables(modelUpdated.getConsumables());
+            modelRepository.save(model);
+            return provideDto(model);
+        } else {
+            return new ModelDto();
+        }
     }
 
-    public boolean delete(Long id){
+    public boolean delete(Long id) {
         Optional<Model> model = modelRepository.findById(id);
-        if(model.isPresent()){
+        if (model.isPresent()) {
             modelRepository.delete(model.get());
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
 
-
-    public List<ModelDto> findAll(){
+    public List<ModelDto> findAll() {
         List<Model> models = modelRepository.findAll();
         return models.stream()
                 .map(this::provideDto)
@@ -109,23 +113,23 @@ public class ModelService{
     }
 
 
-    public ModelDto getById(Long id){
+    public ModelDto getById(Long id) {
         Optional<Model> model = modelRepository.findById(id);
         return provideDto(model.orElse(new Model()));
     }
 
-    public List<ModelDto> getAllByNameContains(String name){
+    public List<ModelDto> getAllByNameContains(String name) {
         List<Model> models = modelRepository.getAllByNameContains(name);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByPrintsInColor(Boolean isColor){
+    public List<ModelDto> getAllByPrintsInColor(boolean isColor) {
         List<Model> models;
-        if(isColor){
+        if (isColor) {
             models = modelRepository.getAllByPrintsInColor(isColor);
-        }else{
+        } else {
             models = modelRepository.getAllByPrintsInColorNot(isColor);
         }
         return models.stream()
@@ -133,38 +137,38 @@ public class ModelService{
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByPrintingSpeedGreaterThanEqual(Integer speed){
+    public List<ModelDto> getAllByPrintingSpeedGreaterThanEqual(Integer speed) {
         List<Model> models = modelRepository.getAllByPrintingSpeedGreaterThanEqual(speed);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByManufacturer(String manufacturer){
+    public List<ModelDto> getAllByManufacturer(String manufacturer) {
         List<Model> models = modelRepository.getAllByManufacturerName(manufacturer);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByPrintingFormatEquals(PrintingFormat printingFormat){
+    public List<ModelDto> getAllByPrintingFormatEquals(PrintingFormat printingFormat) {
         List<Model> models = modelRepository.getAllByPrintingFormatEquals(printingFormat);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor){
-        List<Model> models = modelRepository.getAllByManufacturerNameAndNameContainsAndPrintsInColor(manufacturerName,modelName,printsInColor);
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor) {
+        List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(manufacturerName, modelName, printsInColor);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
 
-
-
-
-
-
-
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName){
+        List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContains(manufacturerName, modelName);
+        return models.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
 }

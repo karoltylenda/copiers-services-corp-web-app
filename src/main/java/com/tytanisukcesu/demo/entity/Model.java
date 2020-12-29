@@ -1,11 +1,9 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "models")
@@ -17,17 +15,20 @@ public class Model {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private Boolean printsInColor;
+    private boolean printsInColor;
     private Integer productionYear;
     @Column(nullable = false)
     private Integer printingSpeed;
     @ManyToMany(mappedBy = "models")
     @JsonIgnore
     private Set<Article> consumables;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
-    @Column(nullable = true)
+
+    @Column
     private PrintingFormat printingFormat;
 
     public Model() {
@@ -42,11 +43,11 @@ public class Model {
         this.id = id;
     }
 
-    public Boolean getPrintsInColor() {
+    public boolean getPrintsInColor() {
         return printsInColor;
     }
 
-    public void setPrintsInColor(Boolean printsInColor) {
+    public void setPrintsInColor(boolean printsInColor) {
         this.printsInColor = printsInColor;
     }
 
@@ -111,7 +112,6 @@ public class Model {
     public int hashCode() {
         return Objects.hash(name, manufacturer);
     }
-
 
 
     @Override

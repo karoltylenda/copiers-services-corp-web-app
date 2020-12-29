@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main/models</title>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Name:
+            </th>
+            <th>
+                Manufacturer:
+            </th>
+            <th>
+                Size:
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="model: ${models}">
+                <td>
+                    <span th:text="${model.getName()}"></span>
+                </td>
+                <td>
+                    <span th:text="${model.getManufacturer().getName()}"></span>
+                </td>
+                <td>
+                    <span th:text="${model.getPrintingFormat()}"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

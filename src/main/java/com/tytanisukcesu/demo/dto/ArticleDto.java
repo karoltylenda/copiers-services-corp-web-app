@@ -1,11 +1,8 @@
 package com.tytanisukcesu.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -18,9 +15,9 @@ public class ArticleDto {
 
     private String catalogueNumber;
 
-    private Boolean isConsumable;
+    private boolean isConsumable;
 
-    private Boolean isAlternative;
+    private boolean isAlternative;
 
     private BigDecimal purchasePrice;
 
@@ -59,15 +56,15 @@ public class ArticleDto {
         this.catalogueNumber = catalogueNumber;
     }
 
-    public Boolean getConsumable() {
+    public boolean getConsumable() {
         return isConsumable;
     }
 
-    public void setConsumable(Boolean consumable) {
+    public void setConsumable(boolean consumable) {
         isConsumable = consumable;
     }
 
-    public Boolean getAlternative() {
+    public boolean getAlternative() {
         return isAlternative;
     }
 

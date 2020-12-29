@@ -3,6 +3,7 @@ package com.tytanisukcesu.demo.repository;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
+import org.dom4j.rule.Mode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByNameContains(String name);
 
-    List<Model> getAllByPrintsInColor(Boolean printsInColor);
+    List<Model> getAllByPrintsInColor(boolean printsInColor);
 
     List<Model> getAllByPrintingSpeedGreaterThanEqual(Integer speed);
 
@@ -26,9 +27,10 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByPrintingFormatEquals(PrintingFormat printingFormat);
 
-    List<Model> getAllByPrintsInColorNot(Boolean printsInColor);
+    List<Model> getAllByPrintsInColorNot(boolean printsInColor);
 
-    List<Model> getAllByManufacturerNameAndNameContainsAndPrintsInColor(String manufacturerName,String modelName,Boolean printsInColor);
+    List<Model> getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(String manufacturerName,String modelName,boolean printsInColor);
 
+    List<Model> getAllByManufacturerNameContainsAndNameContains(String manufacturerName, String modelName);
 
 }

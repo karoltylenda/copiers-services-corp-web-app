@@ -16,11 +16,10 @@ public class ModelController {
 
     private final ModelService modelService;
 
-
     @GetMapping(value = "/search")
-    public List<ModelDto> getByAllParameters(@RequestParam String manufacturer,
-                                             @RequestParam String model,
-                                             @RequestParam Boolean printsInColor){
+    public List<ModelDto> getByAllParameters(@RequestParam(required = false, defaultValue = "") String manufacturer,
+                                             @RequestParam(required = false, defaultValue = "") String model,
+                                             @RequestParam(defaultValue = "true") boolean printsInColor){
         return modelService.getAllByParameters(manufacturer,model,printsInColor);
     }
 
