@@ -31,4 +31,6 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(String manufacturerName,String modelName,boolean printsInColor);
 
+    List<Model> getAllByManufacturerNameContainsAndNameContains(String manufacturerName, String modelName);
+
 }

@@ -28,9 +28,13 @@ public class ModelServlet {
     @GetMapping(value = "/search")
     public String GetSingleModel(@RequestParam(required = false, defaultValue = "") String manufacturer,
                                        @RequestParam(required = false, defaultValue = "") String model,
-                                       @RequestParam(defaultValue = "true") boolean printsInColor,
+                                       @RequestParam(required = false) Boolean printsInColor,
                                         Model springModel){
-        springModel.addAttribute("models",modelService.getAllByParameters(manufacturer,model,printsInColor));
+        if (printsInColor == null){
+            springModel.addAttribute("models", modelService.getAllByParameters(manufacturer, model));
+        } else {
+            springModel.addAttribute("models",modelService.getAllByParameters(manufacturer,model,printsInColor));
+        }
         return "models";
     }
 

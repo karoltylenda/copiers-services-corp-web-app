@@ -158,8 +158,15 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, boolean printsInColor) {
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor) {
         List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(manufacturerName, modelName, printsInColor);
+        return models.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName){
+        List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContains(manufacturerName, modelName);
         return models.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
