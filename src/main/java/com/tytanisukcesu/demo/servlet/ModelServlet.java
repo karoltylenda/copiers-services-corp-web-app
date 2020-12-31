@@ -22,13 +22,13 @@ public class ModelServlet {
     private final ManufacturerService manufacturerService;
 
     @GetMapping
-    public String getAllModel(Model springModel){
-        springModel.addAttribute("models", modelService.findAllWithMapper());
+    public String findAll(Model springModel){
+        springModel.addAttribute("models", modelService.findAll());
         return "models";
     }
 
     @GetMapping(value = "/search")
-    public String getSingleModel(@RequestParam(required = false, defaultValue = "") String manufacturer,
+    public String getAllByParameters(@RequestParam(required = false, defaultValue = "") String manufacturer,
                                        @RequestParam(required = false, defaultValue = "") String model,
                                        @RequestParam(required = false) Boolean printsInColor,
                                         Model springModel){
@@ -49,7 +49,6 @@ public class ModelServlet {
     @GetMapping("/save")
     public RedirectView save(@RequestParam String manufacturerName,  @ModelAttribute ModelDto modelDto) {
         ManufacturerDto manufacturerDto = new ManufacturerDto();
-
         if (manufacturerService.getByName(manufacturerName).isEmpty()) {
             manufacturerDto.setName(manufacturerName);
             manufacturerService.save(manufacturerDto);
