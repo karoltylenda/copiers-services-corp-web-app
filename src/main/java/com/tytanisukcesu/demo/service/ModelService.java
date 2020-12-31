@@ -4,11 +4,13 @@ import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
+import com.tytanisukcesu.demo.mapper.ModelMapper;
 import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,7 +106,6 @@ public class ModelService {
         }
     }
 
-
     public List<ModelDto> findAll() {
         List<Model> models = modelRepository.findAll();
         return models.stream()
@@ -112,50 +113,9 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-
     public ModelDto getById(Long id) {
         Optional<Model> model = modelRepository.findById(id);
         return provideDto(model.orElse(new Model()));
-    }
-
-    public List<ModelDto> getAllByNameContains(String name) {
-        List<Model> models = modelRepository.getAllByNameContains(name);
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ModelDto> getAllByPrintsInColor(boolean isColor) {
-        List<Model> models;
-        if (isColor) {
-            models = modelRepository.getAllByPrintsInColor(isColor);
-        } else {
-            models = modelRepository.getAllByPrintsInColorNot(isColor);
-        }
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ModelDto> getAllByPrintingSpeedGreaterThanEqual(Integer speed) {
-        List<Model> models = modelRepository.getAllByPrintingSpeedGreaterThanEqual(speed);
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ModelDto> getAllByManufacturer(String manufacturer) {
-        List<Model> models = modelRepository.getAllByManufacturerName(manufacturer);
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ModelDto> getAllByPrintingFormatEquals(PrintingFormat printingFormat) {
-        List<Model> models = modelRepository.getAllByPrintingFormatEquals(printingFormat);
-        return models.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
     }
 
     public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor) {

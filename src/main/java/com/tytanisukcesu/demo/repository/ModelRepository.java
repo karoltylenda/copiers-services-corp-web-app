@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public interface ModelRepository extends JpaRepository<Model, Long> {
 
-
-
     List<Model> getAllByNameContains(String name);
 
     List<Model> getAllByPrintsInColor(boolean printsInColor);

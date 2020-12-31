@@ -23,12 +23,12 @@ public class ModelServlet {
 
     @GetMapping
     public String getAllModel(Model springModel){
-        springModel.addAttribute("models", modelService.findAll());
+        springModel.addAttribute("models", modelService.findAllWithMapper());
         return "models";
     }
 
     @GetMapping(value = "/search")
-    public String GetSingleModel(@RequestParam(required = false, defaultValue = "") String manufacturer,
+    public String getSingleModel(@RequestParam(required = false, defaultValue = "") String manufacturer,
                                        @RequestParam(required = false, defaultValue = "") String model,
                                        @RequestParam(required = false) Boolean printsInColor,
                                         Model springModel){
