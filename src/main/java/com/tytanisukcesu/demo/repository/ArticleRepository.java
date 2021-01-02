@@ -7,16 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ArticleRepository extends JpaRepository<Article,Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    List<Article> getAllByNameContains(String name);
-
-    List<Article> getAllByCatalogueNumberContains(String catalogNumber);
-
-    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndConsumableAndAlternativeAndManufacturerNameContains(String name, String catalogueNumber, Boolean isConsumable, Boolean isAlternative, String manufacturerName);
+    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndIsConsumableAndIsAlternativeAndManufacturerNameContains(String name, String catalogueNumber, Boolean isConsumable, Boolean isAlternative, String manufacturerName);
 
     List<Article> getAllByNameContainsAndCatalogueNumberContainsAndManufacturerNameContains(String name, String catalogueNumber, String manufacturerName);
-
-
 
 }

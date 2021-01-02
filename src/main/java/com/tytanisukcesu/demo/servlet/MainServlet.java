@@ -15,4 +15,10 @@ public class MainServlet {
     private String addModelForm() {
         return "addModelForm";
     }
+
+    @GetMapping("/main/addArticleForm")
+    private String addArticleForm(){
+        return "addArticleForm";
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -26,8 +26,9 @@ public class Article {
     private BigDecimal purchasePrice;
     @Column(nullable = false)
     private BigDecimal salePrice;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonIgnore
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
     @Column(nullable = false)
     private Integer yield; //wydajnosc materialu w 1000 stron

@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/main/articles")
 @RequiredArgsConstructor
@@ -51,19 +53,15 @@ public class ArticleServlet {
     @PostMapping("/save")
     public RedirectView save(@RequestParam String manufacturerName, @ModelAttribute ArticleDto articleDto){
         ManufacturerDto manufacturerDto = new ManufacturerDto();
-        if(manufacturerService.getByName(manufacturerName).isEmpty()){
+        if (manufacturerService.getByName(manufacturerName).isEmpty()) {
             manufacturerDto.setName(manufacturerName);
             manufacturerService.save(manufacturerDto);
-        }else{
+        } else {
             manufacturerDto = manufacturerService.getByName(manufacturerName).get(0);
-            manufacturerService.update(manufacturerDto.getId(),manufacturerDto);
+            manufacturerService.update(manufacturerDto.getId(), manufacturerDto);
         }
         articleDto.setManufacturer(manufacturerService.provideEntity(manufacturerDto));
         articleService.save(articleDto);
-        return new RedirectView("/main");
-
-
+        return new RedirectView("/main/addArticleForm");
     }
-
-
 }

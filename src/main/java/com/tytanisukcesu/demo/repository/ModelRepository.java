@@ -25,4 +25,5 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     List<Model> getAllByManufacturerNameContainsAndNameContains(String manufacturerName, String modelName);
 
+
 }

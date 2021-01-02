@@ -68,6 +68,11 @@ public class ManufacturerService {
                 .collect(Collectors.toList());
     }
 
+    public ManufacturerDto getOptionalByName(String name){
+        Manufacturer manufacturerOptional = manufacturerRepository.getOptionalByName(name).orElse(new Manufacturer());
+        return provideDto(manufacturerOptional);
+    }
+
     //opcja z mapperem
     //TODO
     public List<ManufacturerDto> getWithMapper(String name) {

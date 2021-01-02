@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main/Articles</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>
+            Id:
+        </th>
+        <th>
+            Name:
+        </th>
+        <th>
+            Manufacturer Name:
+        </th>
+        <th>
+            Catalog number:
+        </th>
+        <th>
+            Consumable:
+        </th>
+        <th>
+            Alternative:
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="article: ${articles}">
+        <td>
+            <span th:text="${article.id}"></span>
+        </td>
+        <td>
+            <span th:text="${article.name}"></span>
+        </td>
+        <td>
+            <span th:text="${article.getManufacturer().getName()}"></span>
+        </td>
+        <td>
+            <span th:text="${article.getCatalogueNumber()}"></span>
+        </td>
+        <td>
+            <span th:text="${article.getConsumable()}"></span>
+        </td>
+        <td>
+            <span th:text="${article.getAlternative()}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

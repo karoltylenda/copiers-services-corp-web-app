@@ -17,6 +17,7 @@ public class ArticleService {
 
     private Article provideEntity(ArticleDto articleDto){
         Article article = new Article();
+        article.setId(articleDto.getId());
         article.setName(articleDto.getName());
         article.setCatalogueNumber(articleDto.getCatalogueNumber());
         article.setConsumable(articleDto.getConsumable());
@@ -31,6 +32,7 @@ public class ArticleService {
 
     private ArticleDto provideDto(Article article){
         ArticleDto articleDto = new ArticleDto();
+        articleDto.setId(article.getId());
         articleDto.setName(article.getName());
         articleDto.setCatalogueNumber(article.getCatalogueNumber());
         articleDto.setConsumable(article.getConsumable());
@@ -87,22 +89,9 @@ public class ArticleService {
         return provideDto(article);
     }
 
-    public List<ArticleDto> getAllByName(String name){
-        List<Article> articles = articleRepository.getAllByNameContains(name);
-        return articles.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ArticleDto> getAllByCatalogNumber(String catalogNumber){
-        List<Article> articles = articleRepository.getAllByCatalogueNumberContains(catalogNumber);
-        return articles.stream()
-                .map(this::provideDto)
-                .collect(Collectors.toList());
-    }
 
     public List<ArticleDto> getAllByParameters(String name, String catalogueNumber, Boolean isConsumable, Boolean isAlternative, String manufacturerName){
-        List<Article> articles = articleRepository.getAllByNameContainsAndCatalogueNumberContainsAndConsumableAndAlternativeAndManufacturerNameContains(name,catalogueNumber,isConsumable,isAlternative,manufacturerName);
+        List<Article> articles = articleRepository.getAllByNameContainsAndCatalogueNumberContainsAndIsConsumableAndIsAlternativeAndManufacturerNameContains(name,catalogueNumber,isConsumable,isAlternative,manufacturerName);
         return articles.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
