@@ -43,7 +43,7 @@ public class ArticleServlet {
         if(isConsumable == null && isAlternative == null){
             springModel.addAttribute("articles",articleService.getAllByParameters(name,catalogueNumber,manufacturerName));
         }else{
-            springModel.addAttribute("articles",articleService.getAllByParameters(name,catalogueNumber,isConsumable,isAlternative,manufacturerName))
+            springModel.addAttribute("articles",articleService.getAllByParameters(name,catalogueNumber,isConsumable,isAlternative,manufacturerName));
         }
         return "articles";
     }
@@ -53,7 +53,7 @@ public class ArticleServlet {
         ManufacturerDto manufacturerDto = new ManufacturerDto();
         if(manufacturerService.getByName(manufacturerName).isEmpty()){
             manufacturerDto.setName(manufacturerName);
-            manufacturerService.save(manufacturerDto)
+            manufacturerService.save(manufacturerDto);
         }else{
             manufacturerDto = manufacturerService.getByName(manufacturerName).get(0);
             manufacturerService.update(manufacturerDto.getId(),manufacturerDto);
@@ -65,5 +65,5 @@ public class ArticleServlet {
 
     }
 
-    
+
 }
