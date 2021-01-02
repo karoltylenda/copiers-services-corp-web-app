@@ -46,6 +46,7 @@ public class ModelServlet {
         return "model";
     }
 
+    //FIXME - zmien na postMapping
     @GetMapping("/save")
     public RedirectView save(@RequestParam String manufacturerName,  @ModelAttribute ModelDto modelDto) {
         ManufacturerDto manufacturerDto = new ManufacturerDto();

@@ -13,7 +13,7 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 
     List<Article> getAllByCatalogueNumberContains(String catalogNumber);
 
-    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndConsumableAndAlternativeAndManufacturerNameContains(String name, String catalogueNumber, boolean isConsumable, boolean isAlternative, String manufacturerName);
+    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndConsumableAndAlternativeAndManufacturerNameContains(String name, String catalogueNumber, Boolean isConsumable, Boolean isAlternative, String manufacturerName);
 
     List<Article> getAllByNameContainsAndCatalogueNumberContainsAndManufacturerNameContains(String name, String catalogueNumber, String manufacturerName);
 

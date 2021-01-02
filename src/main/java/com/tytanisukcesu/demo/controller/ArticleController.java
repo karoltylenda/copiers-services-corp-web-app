@@ -1,7 +1,6 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ArticleDto;
-import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class ArticleController {
     public List<ArticleDto> getByAllParameters(@RequestParam(required = false, defaultValue = "") String name,
                                              @RequestParam(required = false, defaultValue = "") String catalogueNumber,
                                              @RequestParam boolean isConsumable,
-                                             @RequestParam(defaultValue = "true") boolean isAlternative,
+                                             @RequestParam(defaultValue = "false") boolean isAlternative,
                                              @RequestParam(required = false, defaultValue = "") String manufacturerName){
         return articleService.getAllByParameters(name,catalogueNumber,isConsumable,isAlternative,manufacturerName);
     }
