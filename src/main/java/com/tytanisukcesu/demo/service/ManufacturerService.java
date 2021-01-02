@@ -69,6 +69,7 @@ public class ManufacturerService {
     }
 
     //opcja z mapperem
+    //TODO
     public List<ManufacturerDto> getWithMapper(String name) {
         return manufacturerRepository.findAll().stream()
                 .map(MAPPER::manufacturerToManufacturerDto)
@@ -76,6 +77,7 @@ public class ManufacturerService {
     }
 
     //opcja z builderem
+    //TODO
     private ManufacturerDto provideDto(Manufacturer manufacturer) {
         return ManufacturerDto.builder()
                 .id(manufacturer.getId())

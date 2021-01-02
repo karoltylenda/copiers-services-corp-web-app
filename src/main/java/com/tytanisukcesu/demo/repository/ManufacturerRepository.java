@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
 
     List<Manufacturer> getAllByNameContains(String name);
+
     Manufacturer getByName(String name);
 
 

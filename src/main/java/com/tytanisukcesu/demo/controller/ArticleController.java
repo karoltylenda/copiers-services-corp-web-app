@@ -1,6 +1,7 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.ArticleDto;
+import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +16,13 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    //TODO z 2 parametrami
-    @GetMapping
-    public List<ArticleDto> getByParameter(@RequestParam String name,
-                                           @RequestParam String catalogNumber){
-        if(name!=null){
-            return articleService.getAllByName(name);
-        }else if(catalogNumber!=null){
-            return articleService.getAllByCatalogNumber(catalogNumber);
-        }else{
-            return articleService.findAll();
-        }
+    @GetMapping(value = "/search")
+    public List<ArticleDto> getByAllParameters(@RequestParam(required = false, defaultValue = "") String name,
+                                             @RequestParam(required = false, defaultValue = "") String catalogueNumber,
+                                             @RequestParam boolean isConsumable,
+                                             @RequestParam(defaultValue = "true") boolean isAlternative,
+                                             @RequestParam(required = false, defaultValue = "") String manufacturerName){
+        return articleService.getAllByParameters(name,catalogueNumber,isConsumable,isAlternative,manufacturerName);
     }
 
     @PostMapping

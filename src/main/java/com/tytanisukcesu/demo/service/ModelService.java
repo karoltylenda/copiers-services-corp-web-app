@@ -118,7 +118,7 @@ public class ModelService {
         return provideDto(model.orElse(new Model()));
     }
 
-    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, Boolean printsInColor) {
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName, boolean printsInColor) {
         List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(manufacturerName, modelName, printsInColor);
         return models.stream()
                 .map(this::provideDto)

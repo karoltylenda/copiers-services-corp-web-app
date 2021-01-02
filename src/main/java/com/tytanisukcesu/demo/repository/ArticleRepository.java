@@ -13,9 +13,9 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 
     List<Article> getAllByCatalogueNumberContains(String catalogNumber);
 
-    //TODO
-    //wyszukiwanie po cenie, po zamiennikach, czy ekspl, po manu itd..
+    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndConsumableAndAlternativeAndManufacturerNameContains(String name, String catalogueNumber, boolean isConsumable, boolean isAlternative, String manufacturerName);
 
+    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndManufacturerNameContains(String name, String catalogueNumber, String manufacturerName);
 
 
 

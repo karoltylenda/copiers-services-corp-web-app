@@ -100,4 +100,19 @@ public class ArticleService {
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
+
+    public List<ArticleDto> getAllByParameters(String name, String catalogueNumber, boolean isConsumable, boolean isAlternative, String manufacturerName){
+        List<Article> articles = articleRepository.getAllByNameContainsAndCatalogueNumberContainsAndConsumableAndAlternativeAndManufacturerNameContains(name,catalogueNumber,isConsumable,isAlternative,manufacturerName);
+        return articles.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<ArticleDto> getAllByParameters(String name, String catalogueNumber, String manufacturerName){
+        List<Article> articles = articleRepository.getAllByNameContainsAndCatalogueNumberContainsAndManufacturerNameContains(name,catalogueNumber,manufacturerName);
+        return articles.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
 }
