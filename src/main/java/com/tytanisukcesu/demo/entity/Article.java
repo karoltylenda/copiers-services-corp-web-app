@@ -26,10 +26,13 @@ public class Article {
     private BigDecimal purchasePrice;
     @Column(nullable = false)
     private BigDecimal salePrice;
+
+    //TODO - dlaczego na all nie dziala
     @ManyToOne(cascade = CascadeType.MERGE)
     @JsonIgnore
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
+
     @Column(nullable = false)
     private Integer yield; //wydajnosc materialu w 1000 stron
     @ManyToMany(cascade = CascadeType.ALL)
