@@ -7,6 +7,10 @@ import com.tytanisukcesu.demo.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -26,7 +30,7 @@ public class CustomerService {
                 .build();
     }
 
-    private Customer provideDto(CustomerDto customerDto){
+    private Customer provideEntity(CustomerDto customerDto){
         return Customer.builder()
                 .id(customerDto.getId())
                 .address(customerDto.getAddress())
@@ -38,5 +42,59 @@ public class CustomerService {
                 .telephoneNumber(customerDto.getTelephoneNumber())
                 .build();
     }
+
+    public CustomerDto save(CustomerDto customerDto){
+        Customer customer = provideEntity(customerDto);
+        customerRepository.save(customer);
+        return provideDto(customer);
+    }
+
+    public boolean delete(Long id){
+        Optional<Customer> customer = customerRepository.findById(id);
+        if(customer.isPresent()){
+            customerRepository.delete(customer.get());
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //FIXME - return do zmiany?
+    public CustomerDto getById(Long id){
+        Optional<Customer> customer = customerRepository.findById(id);
+        return provideDto(customer.orElse(new Customer()));
+    }
+
+    public List<CustomerDto> findAll(){
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
+    }
+
+    public CustomerDto update(Long id, CustomerDto customerDto){
+        Customer customer = customerRepository.findById(id).orElseThrow();
+        Customer customerUpdated = provideEntity(customerDto);
+        customer.setAddress(customerUpdated.getAddress());
+        customer.setCompanyName(customerUpdated.getCompanyName());
+        customer.setCompanySiteUrl(customerUpdated.getCompanySiteUrl());
+        customer.setEmail(customerUpdated.getEmail());
+        customer.setId(customerUpdated.getId());
+        customer.setNip(customerUpdated.getNip());
+        customer.setRegon(customerUpdated.getRegon());
+        customer.setTelephoneNumber(customerUpdated.getTelephoneNumber());
+        return provideDto(customer);
+    }
+
+    public CustomerDto getByNip(String nip){
+        Optional<Customer> customer = customerRepository.getCustomerByNip(nip);
+        return provideDto(customer.orElse(new Customer()));
+    }
+
+
+
+
+
+
 
 }

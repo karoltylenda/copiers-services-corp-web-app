@@ -4,8 +4,11 @@ import com.tytanisukcesu.demo.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CustomerRepository extends JpaRepository<Long, Customer> {
+import java.util.Optional;
 
+@Repository
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
+    Optional<Customer> getCustomerByNip(String nip);
 
 }
