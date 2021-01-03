@@ -1,15 +1,16 @@
 package com.tytanisukcesu.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "customers")
-@Data
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
 public class Customer {
 
     @Id
@@ -19,13 +20,13 @@ public class Customer {
     @Column(nullable = false)
     private String companyName;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String nip;
 
     private String regon;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "addressId")
+    @JoinColumn(referencedColumnName = "id")
     private Address address;
 
     private Long telephoneNumber;
@@ -35,5 +36,32 @@ public class Customer {
     private String companySiteUrl;
 
     public Customer() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(nip, customer.nip);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nip);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", nip='" + nip + '\'' +
+                ", regon='" + regon + '\'' +
+                ", address=" + address +
+                ", telephoneNumber=" + telephoneNumber +
+                ", email='" + email + '\'' +
+                ", companySiteUrl='" + companySiteUrl + '\'' +
+                '}';
     }
 }

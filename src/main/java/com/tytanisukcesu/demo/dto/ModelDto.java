@@ -19,6 +19,7 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
+    //FIXME - zmian na dto
     private Set<Article> consumables;
 
     private Manufacturer manufacturer;
