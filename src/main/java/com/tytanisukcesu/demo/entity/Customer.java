@@ -1,5 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "customers")
 @Data
+@Builder
 public class Customer {
 
     @Id
