@@ -86,9 +86,11 @@ public class CustomerService {
         return provideDto(customer);
     }
 
-    public CustomerDto getByNip(String nip){
-        Optional<Customer> customer = customerRepository.getCustomerByNip(nip);
-        return provideDto(customer.orElse(new Customer()));
+    public List<CustomerDto> getAllByParameters(String nip,String companyName){
+        List<Customer> customers = customerRepository.getCustomerByNipContainsAndCompanyNameContains(nip,companyName);
+        return customers.stream()
+                .map(this::provideDto)
+                .collect(Collectors.toList());
     }
 
 
