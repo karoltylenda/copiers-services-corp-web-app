@@ -8,10 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/main/customers")
 @RequiredArgsConstructor
 public class CustomerServlet {
@@ -20,7 +21,7 @@ public class CustomerServlet {
     private final AddressService addressService;
 
     @GetMapping
-    public String findAll(Model springModel){
+    public String findAll(Model springModel) {
         springModel.addAttribute("customers", customerService.findAll());
         return "customers";
     }
@@ -28,29 +29,29 @@ public class CustomerServlet {
     @GetMapping(value = "/search")
     public String getAllByParameters(@RequestParam(required = false, defaultValue = "") String nip,
                                      @RequestParam(required = false, defaultValue = "") String companyName,
-                                     Model springModel){
+                                     Model springModel) {
         springModel.addAttribute("customers", customerService.getAllByParameters(nip, companyName));
         return "customers";
     }
 
     @GetMapping(value = "/{id}")
-    public String getById(@PathVariable("id") Long id, Model springModel){
-        springModel.addAttribute("customer",customerService.getById(id));
+    public String getById(@PathVariable("id") Long id, Model springModel) {
+        springModel.addAttribute("customer", customerService.getById(id));
         return "customer";
     }
 
     @PostMapping(value = "/save")
-    public CustomerDto save(@RequestBody CustomerDto customerDto){
+    public RedirectView save(@ModelAttribute CustomerDto customerDto) {
         Optional<AddressDto> addressIfExists = addressService.findAddressIfExists(addressService.provideDto(customerDto.getAddress()));
-        if(addressIfExists.get().getId() != null){
+        if (addressIfExists.get().getId() != null) {
             customerDto.setAddress(addressService.provideEntity(addressIfExists.get()));
-        }else{
+        } else {
             customerDto.setAddress(addressService.provideEntity(addressService.save(addressIfExists.get())));
         }
 
         customerService.save(customerDto);
 
-        return customerDto;
+        return new RedirectView("/main/addCustomerForm");
     }
 
 

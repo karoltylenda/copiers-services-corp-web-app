@@ -17,8 +17,15 @@ public class MainServlet {
     }
 
     @GetMapping("/main/addArticleForm")
-    private String addArticleForm(){
+    private String addArticleForm() {
         return "addArticleForm";
     }
+
+
+    @GetMapping("/main/addCustomerForm")
+    private String addCustomerForm() {
+        return "addCustomerForm";
+    }
+
 
 }

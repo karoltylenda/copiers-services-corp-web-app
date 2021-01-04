@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main/addCustomer</title>
+</head>
+<body>
+<form method="post" action="/main/customers/save">
+    <label>Customer:</label>
+
+    <label>company name:</label><br>
+    <input type="text" name="companyName"> <br>
+
+    <label>nip Number:</label><br>
+    <input type="text" name="nip"> <br>
+
+    <label>regon:</label><br>
+    <input type="text" name="regon"> <br>
+
+    <label>telephoneNumber:</label><br>
+    <input type="number" name="telephoneNumber"> <br>
+
+    <label>email:</label><br>
+    <input type="text" name="email"> <br>
+
+    <label>companySiteUrl:</label><br>
+    <input type="text" name="companySiteUrl"> <br>
+
+    <label>province:</label><br>
+    <input type="text" name="address.province"> <br>
+    <label>city:</label><br>
+    <input type="text" name="address.city"> <br>
+    <label>postCode:</label><br>
+    <input type="text" name="address.postCode"> <br>
+    <label>street:</label><br>
+    <input type="text" name="address.street"> <br>
+    <label>Address:</label><br>
+    <input type="text" name="address.houseNumber"> <br>
+    <label>Address:</label><br>
+    <input type="text" name="address.apartmentNumber"> <br>
+
+
+
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

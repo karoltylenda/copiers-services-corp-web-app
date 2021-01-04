@@ -82,6 +82,9 @@ public class AddressService {
         Address addressToReturn = new Address();
         List<Address> addresses = addressRepository.findAll();
         Address addressToFind = provideEntity(addressDto);
+        if(addresses.isEmpty()){
+            addressToReturn = provideEntity(addressDto);
+        }
         for(Address address:addresses){
             if(address.equals(addressToFind)){
                 addressToReturn = address;
