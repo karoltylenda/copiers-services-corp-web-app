@@ -1,8 +1,10 @@
 package com.tytanisukcesu.demo.controller;
 
+import com.tytanisukcesu.demo.dto.AddressDto;
 import com.tytanisukcesu.demo.dto.CustomerDto;
 import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Customer;
+import com.tytanisukcesu.demo.service.AddressService;
 import com.tytanisukcesu.demo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/customers")
@@ -17,6 +20,7 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final AddressService addressService;
 
     @GetMapping(value = "/search")
     public List<CustomerDto> getAllByParameters(@RequestParam(required = false,defaultValue = "") String nip,
@@ -31,7 +35,16 @@ public class CustomerController {
 
     @PostMapping
     public CustomerDto save(@RequestBody CustomerDto customerDto){
-        return customerService.save(customerDto);
+        Optional<AddressDto> addressIfExists = addressService.findAddressIfExists(addressService.provideDto(customerDto.getAddress()));
+        if(addressIfExists.get().getId() != null){
+            customerDto.setAddress(addressService.provideEntity(addressIfExists.get()));
+        }else{
+            customerDto.setAddress(addressService.provideEntity(addressService.save(addressIfExists.get())));
+        }
+
+        customerService.save(customerDto);
+
+        return customerDto;
     }
 
     @GetMapping(value = "/{id}")

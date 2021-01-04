@@ -17,7 +17,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    private CustomerDto provideDto(Customer customer){
+    public CustomerDto provideDto(Customer customer){
         return CustomerDto.builder()
                 .id(customer.getId())
                 .address(customer.getAddress())
@@ -30,7 +30,7 @@ public class CustomerService {
                 .build();
     }
 
-    private Customer provideEntity(CustomerDto customerDto){
+    public Customer provideEntity(CustomerDto customerDto){
         return Customer.builder()
                 .id(customerDto.getId())
                 .address(customerDto.getAddress())
@@ -92,11 +92,5 @@ public class CustomerService {
                 .map(this::provideDto)
                 .collect(Collectors.toList());
     }
-
-
-
-
-
-
 
 }

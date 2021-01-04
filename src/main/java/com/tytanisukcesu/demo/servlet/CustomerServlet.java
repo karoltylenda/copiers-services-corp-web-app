@@ -1,22 +1,17 @@
 package com.tytanisukcesu.demo.servlet;
 
 import com.tytanisukcesu.demo.dto.AddressDto;
-import com.tytanisukcesu.demo.dto.ArticleDto;
 import com.tytanisukcesu.demo.dto.CustomerDto;
-import com.tytanisukcesu.demo.dto.ManufacturerDto;
-import com.tytanisukcesu.demo.entity.Address;
-import com.tytanisukcesu.demo.entity.Customer;
 import com.tytanisukcesu.demo.service.AddressService;
 import com.tytanisukcesu.demo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.List;
+import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/main/customers")
 @RequiredArgsConstructor
 public class CustomerServlet {
@@ -45,29 +40,17 @@ public class CustomerServlet {
     }
 
     @PostMapping(value = "/save")
-    public RedirectView save(@RequestParam AddressDto addressDto, @ModelAttribute CustomerDto customerDto){
-        List<AddressDto> addressList = addressService.findAll();
-        if(addressList.contains(addressDto)){
-            //updare
+    public CustomerDto save(@RequestBody CustomerDto customerDto){
+        Optional<AddressDto> addressIfExists = addressService.findAddressIfExists(addressService.provideDto(customerDto.getAddress()));
+        if(addressIfExists.get().getId() != null){
+            customerDto.setAddress(addressService.provideEntity(addressIfExists.get()));
         }else{
-
+            customerDto.setAddress(addressService.provideEntity(addressService.save(addressIfExists.get())));
         }
 
+        customerService.save(customerDto);
 
-
-//        if (manufacturerService.getByName(manufacturerName).isEmpty()) {
-//            manufacturerDto.setName(manufacturerName);
-//            manufacturerService.save(manufacturerDto);
-//        } else {
-//            manufacturerDto = manufacturerService.getByName(manufacturerName).get(0);
-//            manufacturerService.update(manufacturerDto.getId(), manufacturerDto);
-//        }
-
-        if(
-
-        articleDto.setManufacturer(manufacturerService.provideEntity(manufacturerDto));
-        articleService.save(articleDto);
-        return new RedirectView("/main/addArticleForm");
+        return customerDto;
     }
 
 

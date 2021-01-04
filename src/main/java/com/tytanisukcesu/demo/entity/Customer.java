@@ -25,7 +25,7 @@ public class Customer {
 
     private String regon;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
