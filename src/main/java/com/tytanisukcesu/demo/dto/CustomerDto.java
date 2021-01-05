@@ -10,6 +10,8 @@ import java.util.Objects;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class CustomerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -28,23 +30,6 @@ public class CustomerDto {
     private String email;
 
     private String companySiteUrl;
-
-    public CustomerDto() {
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerDto{" +
-                "id=" + id +
-                ", companyName='" + companyName + '\'' +
-                ", nip='" + nip + '\'' +
-                ", regon='" + regon + '\'' +
-                ", address=" + address +
-                ", telephoneNumber=" + telephoneNumber +
-                ", email='" + email + '\'' +
-                ", companySiteUrl='" + companySiteUrl + '\'' +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,14 +1,19 @@
 package com.tytanisukcesu.demo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 @Table(name = "devices")
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Device {
 
     @Id
@@ -22,6 +27,7 @@ public class Device {
     @Column(unique = true)
     private String serialNumber;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "customerId", referencedColumnName = "id")
     private Customer customer;
@@ -32,9 +38,11 @@ public class Device {
     private String houseNumber;
     private String apartmentNumber;
 
-    //licznik wydrukowanych stron
+    private BigDecimal monoPagePrice;
+    private BigDecimal colorPagePrice;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "device")
+    private Set<Counter> counters;
 
-    public Device() {
-    }
 }

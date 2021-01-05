@@ -13,6 +13,8 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Customer {
 
     @Id
@@ -41,9 +43,6 @@ public class Customer {
     @JsonIgnore
     private Set<Device> devices;
 
-    public Customer() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,17 +56,4 @@ public class Customer {
         return Objects.hash(nip);
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", companyName='" + companyName + '\'' +
-                ", nip='" + nip + '\'' +
-                ", regon='" + regon + '\'' +
-                ", address=" + address +
-                ", telephoneNumber=" + telephoneNumber +
-                ", email='" + email + '\'' +
-                ", companySiteUrl='" + companySiteUrl + '\'' +
-                '}';
-    }
 }

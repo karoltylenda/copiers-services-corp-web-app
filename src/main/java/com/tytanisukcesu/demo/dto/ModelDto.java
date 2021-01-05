@@ -4,8 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
+import lombok.*;
+
+import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class ModelDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -26,84 +35,16 @@ public class ModelDto {
 
     private PrintingFormat printingFormat;
 
-    public ModelDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean getPrintsInColor() {
-        return printsInColor;
-    }
-
-    public void setPrintsInColor(boolean printsInColor) {
-        this.printsInColor = printsInColor;
-    }
-
-    public Integer getProductionYear() {
-        return productionYear;
-    }
-
-    public void setProductionYear(Integer productionYear) {
-        this.productionYear = productionYear;
-    }
-
-    public Integer getPrintingSpeed() {
-        return printingSpeed;
-    }
-
-    public void setPrintingSpeed(Integer printingSpeed) {
-        this.printingSpeed = printingSpeed;
-    }
-
-    public Set<Article> getConsumables() {
-        return consumables;
-    }
-
-    public void setConsumables(Set<Article> consumables) {
-        this.consumables = consumables;
-    }
-
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public PrintingFormat getPrintingFormat() {
-        return printingFormat;
-    }
-
-    public void setPrintingFormat(PrintingFormat printingFormat) {
-        this.printingFormat = printingFormat;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ModelDto)) return false;
+        ModelDto modelDto = (ModelDto) o;
+        return Objects.equals(name, modelDto.name) && Objects.equals(manufacturer, modelDto.manufacturer);
     }
 
     @Override
-    public String toString() {
-        return "ModelDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", printsInColor=" + printsInColor +
-                ", productionYear=" + productionYear +
-                ", printingSpeed=" + printingSpeed +
-                ", consumables=" + consumables +
-                ", manufacturer=" + manufacturer +
-                ", printingFormat=" + printingFormat +
-                '}';
+    public int hashCode() {
+        return Objects.hash(name, manufacturer);
     }
 }

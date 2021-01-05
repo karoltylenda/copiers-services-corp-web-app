@@ -2,15 +2,17 @@ package com.tytanisukcesu.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Customer;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class AddressDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -30,6 +32,16 @@ public class AddressDto {
 
     private Set<Customer> customers;
 
-    public AddressDto() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressDto)) return false;
+        AddressDto that = (AddressDto) o;
+        return Objects.equals(province, that.province) && Objects.equals(city, that.city) && Objects.equals(postCode, that.postCode) && Objects.equals(street, that.street) && Objects.equals(houseNumber, that.houseNumber) && Objects.equals(apartmentNumber, that.apartmentNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(province, city, postCode, street, houseNumber, apartmentNumber);
     }
 }
