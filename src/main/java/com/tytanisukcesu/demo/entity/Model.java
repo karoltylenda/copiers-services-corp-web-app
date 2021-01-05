@@ -1,6 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
@@ -30,6 +31,10 @@ public class Model {
 
     @Column
     private PrintingFormat printingFormat;
+
+    @OneToMany(mappedBy = "model")
+    @JsonIgnore
+    private Set<Device> devices;
 
     public Model() {
 
