@@ -42,20 +42,10 @@ public class CustomerServlet {
 
     @PostMapping(value = "/save")
     public RedirectView save(@ModelAttribute CustomerDto customerDto) {
-        customerService.save(checkIfAddressExists(customerDto));
+        customerService.save(customerDto);
         return new RedirectView("/main/addCustomerForm");
     }
 
-    //FIXME - do przeniesia do service
-    private CustomerDto checkIfAddressExists(CustomerDto customerDto) {
-        Optional<AddressDto> addressIfExists = addressService.findAddressIfExists(addressService.provideDto(customerDto.getAddress()));
-        if (addressIfExists.get().getId() != null) {
-            customerDto.setAddress(addressService.provideEntity(addressIfExists.get()));
-        } else {
-            customerDto.setAddress(addressService.provideEntity(addressService.save(addressIfExists.get())));
-        }
-        return customerDto;
-    }
 
 
 }

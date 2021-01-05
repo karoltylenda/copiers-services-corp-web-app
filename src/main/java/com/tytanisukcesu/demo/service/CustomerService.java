@@ -1,5 +1,6 @@
 package com.tytanisukcesu.demo.service;
 
+import com.tytanisukcesu.demo.dto.AddressDto;
 import com.tytanisukcesu.demo.dto.CustomerDto;
 import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.entity.Customer;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final AddressService addressService;
 
     public CustomerDto provideDto(Customer customer){
         return CustomerDto.builder()
@@ -44,7 +46,7 @@ public class CustomerService {
     }
 
     public CustomerDto save(CustomerDto customerDto){
-        Customer customer = provideEntity(customerDto);
+        Customer customer = provideEntity(checkIfAddressExists(customerDto));
         customerRepository.save(customer);
         return provideDto(customer);
     }
@@ -91,6 +93,16 @@ public class CustomerService {
         return customers.stream()
                 .map(this::provideDto)
                 .collect(Collectors.toList());
+    }
+
+    private CustomerDto checkIfAddressExists(CustomerDto customerDto) {
+        Optional<AddressDto> addressIfExists = addressService.findAddressIfExists(addressService.provideDto(customerDto.getAddress()));
+        if (addressIfExists.get().getId() != null) {
+            customerDto.setAddress(addressService.provideEntity(addressIfExists.get()));
+        } else {
+            customerDto.setAddress(addressService.provideEntity(addressService.save(addressIfExists.get())));
+        }
+        return customerDto;
     }
 
 }
