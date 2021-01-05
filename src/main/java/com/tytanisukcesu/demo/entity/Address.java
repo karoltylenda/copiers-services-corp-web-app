@@ -9,10 +9,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "addresses")
-@Builder
-@AllArgsConstructor
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Address {
 
     @Id
@@ -39,9 +41,6 @@ public class Address {
     @JsonIgnore
     private Set<Customer> customers;
 
-    public Address() {
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,17 +59,4 @@ public class Address {
         return Objects.hash(province, city, postCode, street, houseNumber, apartmentNumber);
     }
 
-    @Override
-    public String toString() {
-        return "Address{" +
-                "id=" + id +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", street='" + street + '\'' +
-                ", houseNumber='" + houseNumber + '\'' +
-                ", apartmentNumber='" + apartmentNumber + '\'' +
-                ", customers=" + customers +
-                '}';
-    }
 }
