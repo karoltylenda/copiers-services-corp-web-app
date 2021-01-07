@@ -32,13 +32,8 @@ public class Device {
     @JoinColumn(name = "customerId", referencedColumnName = "id")
     private Customer customer;
 
-    private String postCode;
-    private String street;
-    private String city;
-    private String houseNumber;
-    private String apartmentNumber;
-
     private BigDecimal monoPagePrice;
+
     private BigDecimal colorPagePrice;
 
     @JsonIgnore

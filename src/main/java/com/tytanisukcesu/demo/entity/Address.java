@@ -37,9 +37,12 @@ public class Address {
 
     private String apartmentNumber;
 
+    //FIXME - one to one czy many ?
     @OneToMany(mappedBy = "address",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Customer> customers;
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -19,11 +19,6 @@ public class DeviceDto {
     private Model model;
     private String serialNumber;
     private Customer customer;
-    private String postCode;
-    private String street;
-    private String city;
-    private String houseNumber;
-    private String apartmentNumber;
     private BigDecimal monoPagePrice;
     private BigDecimal colorPagePrice;
     private Set<Counter> counters;
