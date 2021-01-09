@@ -1,18 +1,13 @@
 package com.tytanisukcesu.demo.controller;
 
-import com.tytanisukcesu.demo.dto.AddressDto;
 import com.tytanisukcesu.demo.dto.CustomerDto;
-import com.tytanisukcesu.demo.dto.ModelDto;
-import com.tytanisukcesu.demo.entity.Customer;
 import com.tytanisukcesu.demo.service.AddressService;
 import com.tytanisukcesu.demo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/customers")
@@ -35,17 +30,9 @@ public class CustomerController {
 
     @PostMapping
     public CustomerDto save(@RequestBody CustomerDto customerDto){
-        Optional<AddressDto> addressIfExists = addressService.findAddressIfExists(addressService.provideDto(customerDto.getAddress()));
-        if(addressIfExists.get().getId() != null){
-            customerDto.setAddress(addressService.provideEntity(addressIfExists.get()));
-        }else{
-            customerDto.setAddress(addressService.provideEntity(addressService.save(addressIfExists.get())));
-        }
-
-        customerService.save(customerDto);
-
-        return customerDto;
+        return customerService.save(customerDto);
     }
+
 
     @GetMapping(value = "/{id}")
     public CustomerDto getById(@PathVariable("id") Long id){

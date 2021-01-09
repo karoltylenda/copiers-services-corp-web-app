@@ -15,12 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String name;
     @Column(nullable = false)
     private boolean printsInColor;
@@ -31,30 +32,16 @@ public class Model {
     @JsonIgnore
     private Set<Article> consumables;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @Column
     private PrintingFormat printingFormat;
 
-    @OneToMany(mappedBy = "model",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "model",cascade = CascadeType.MERGE)
     @JsonIgnore
     private Set<Device> devices;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Model model = (Model) o;
-        return Objects.equals(name, model.name) &&
-                Objects.equals(manufacturer, model.manufacturer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, manufacturer);
-    }
 
 }

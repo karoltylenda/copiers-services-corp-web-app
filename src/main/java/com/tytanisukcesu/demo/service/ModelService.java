@@ -22,7 +22,7 @@ public class ModelService {
     private final ModelRepository modelRepository;
     private final ManufacturerRepository manufacturerRepository;
 
-    private Model provideEntity(ModelDto modelDto) {
+    public Model provideEntity(ModelDto modelDto) {
         Model model = new Model();
         model.setId(modelDto.getId());
         model.setManufacturer(modelDto.getManufacturer());
@@ -35,7 +35,7 @@ public class ModelService {
         return model;
     }
 
-    private ModelDto provideDto(Model model) {
+    public ModelDto provideDto(Model model) {
         ModelDto modelDto = new ModelDto();
         modelDto.setId(model.getId());
         modelDto.setManufacturer(model.getManufacturer());
@@ -50,20 +50,22 @@ public class ModelService {
 
     public ModelDto save(ModelDto modelDto) {
         Model model = new Model();
-        model.setConsumables(modelDto.getConsumables());
-        model.setId(modelDto.getId());
-        model.setProductionYear(modelDto.getProductionYear());
-        model.setPrintsInColor(modelDto.isPrintsInColor());
-        model.setPrintingSpeed(modelDto.getPrintingSpeed());
-        model.setPrintingFormat(modelDto.getPrintingFormat());
-        model.setName(modelDto.getName());
-
-        modelRepository.save(model);
-
+        if (modelRepository.getAllByName(modelDto.getName()).isEmpty()) {
+            model.setConsumables(modelDto.getConsumables());
+            model.setId(modelDto.getId());
+            model.setProductionYear(modelDto.getProductionYear());
+            model.setPrintsInColor(modelDto.isPrintsInColor());
+            model.setPrintingSpeed(modelDto.getPrintingSpeed());
+            model.setPrintingFormat(modelDto.getPrintingFormat());
+            model.setName(modelDto.getName());
+        } else{
+            model = modelRepository.getAllByName(modelDto.getName()).get(0);
+        }
         return ifManufacturerExists(modelDto, model);
     }
 
-    private ModelDto ifManufacturerExists(ModelDto modelDto, Model model) {
+
+    public ModelDto ifManufacturerExists(ModelDto modelDto, Model model) {
         if (modelDto.getManufacturer() != null) {
             Manufacturer manufacturer = manufacturerRepository.getByName(modelDto.getManufacturer().getName());
             if (manufacturer != null) {
@@ -125,7 +127,7 @@ public class ModelService {
                 .collect(Collectors.toList());
     }
 
-    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName){
+    public List<ModelDto> getAllByParameters(String manufacturerName, String modelName) {
         List<Model> models = modelRepository.getAllByManufacturerNameContainsAndNameContains(manufacturerName, modelName);
         return models.stream()
                 .map(this::provideDto)

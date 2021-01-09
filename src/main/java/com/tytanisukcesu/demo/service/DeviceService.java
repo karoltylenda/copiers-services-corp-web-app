@@ -1,8 +1,12 @@
 package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.dto.DeviceDto;
+import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Device;
+import com.tytanisukcesu.demo.entity.Manufacturer;
+import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.repository.DeviceRepository;
+import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,9 @@ import java.util.stream.Collectors;
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final ManufacturerService manufacturerService;
+    private final ModelService modelService;
 
     public List<DeviceDto> findAll() {
         return deviceRepository.findAll()
@@ -25,9 +32,13 @@ public class DeviceService {
 
     public DeviceDto save(DeviceDto deviceDto) {
         Device device = provideEntity(deviceDto);
+        ModelDto modelDto = modelService.save(modelService.provideDto(device.getModel()));
+        device.setModel(modelService.provideEntity(modelDto));
         deviceRepository.save(device);
         return provideDto(device);
     }
+
+
 
     public DeviceDto findById(Long id) {
         Optional<Device> device = deviceRepository.findById(id);

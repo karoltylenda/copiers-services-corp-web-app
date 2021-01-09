@@ -31,7 +31,6 @@ public class Customer {
     private String regon;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    @JoinColumn(name = "addressId",referencedColumnName = "id")
     private Set<Address> addresses;
 
     private Long telephoneNumber;

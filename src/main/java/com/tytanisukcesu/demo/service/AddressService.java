@@ -19,7 +19,7 @@ public class AddressService {
         return Address.builder()
                 .id(addressDto.getId())
                 .apartmentNumber(addressDto.getApartmentNumber())
-                .customers(addressDto.getCustomers())
+                .customer(addressDto.getCustomer())
                 .houseNumber(addressDto.getHouseNumber())
                 .postCode(addressDto.getPostCode())
                 .city(addressDto.getCity())
@@ -32,7 +32,7 @@ public class AddressService {
         return AddressDto.builder()
                 .id(address.getId())
                 .apartmentNumber(address.getApartmentNumber())
-                .customers(address.getCustomers())
+                .customer(address.getCustomer())
                 .houseNumber(address.getHouseNumber())
                 .postCode(address.getPostCode())
                 .city(address.getCity())
@@ -70,7 +70,7 @@ public class AddressService {
         Address addressUpdated = provideEntity(addressDto);
         address.setApartmentNumber(addressUpdated.getApartmentNumber());
         address.setCity(addressUpdated.getCity());
-        address.setCustomers(addressUpdated.getCustomers());
+        address.setCustomer(addressUpdated.getCustomer());
         address.setHouseNumber(addressUpdated.getHouseNumber());
         address.setPostCode(addressUpdated.getPostCode());
         address.setProvince(addressUpdated.getProvince());

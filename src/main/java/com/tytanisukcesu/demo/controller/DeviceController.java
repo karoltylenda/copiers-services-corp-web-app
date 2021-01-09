@@ -1,8 +1,10 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.DeviceDto;
+import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Device;
+import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.service.DeviceService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,7 @@ public class DeviceController {
     }
 
     @PostMapping
-    public DeviceDto save(@RequestBody DeviceDto deviceDto){
+    public DeviceDto save(@RequestBody DeviceDto deviceDto, ModelDto modelDto){
         return deviceService.save(deviceDto);
     }
 

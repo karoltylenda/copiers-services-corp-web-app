@@ -5,6 +5,7 @@ import com.tytanisukcesu.demo.entity.Address;
 import lombok.*;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,6 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class CustomerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -23,7 +25,7 @@ public class CustomerDto {
 
     private String regon;
 
-    private Address address;
+    private Set<Address> addresses;
 
     private Long telephoneNumber;
 
@@ -31,16 +33,5 @@ public class CustomerDto {
 
     private String companySiteUrl;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CustomerDto that = (CustomerDto) o;
-        return Objects.equals(nip, that.nip);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(nip);
-    }
 }
