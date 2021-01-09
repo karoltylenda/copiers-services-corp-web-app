@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Address {
 
     @Id
@@ -37,29 +38,10 @@ public class Address {
 
     private String apartmentNumber;
 
-    //FIXME - one to one czy many ?
-    @OneToMany(mappedBy = "address",cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonIgnore
-    private Set<Customer> customers;
+    private Customer customer;
 
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(province, address.province) &&
-                Objects.equals(city, address.city) &&
-                Objects.equals(postCode, address.postCode) &&
-                Objects.equals(street, address.street) &&
-                Objects.equals(houseNumber, address.houseNumber) &&
-                Objects.equals(apartmentNumber, address.apartmentNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(province, city, postCode, street, houseNumber, apartmentNumber);
-    }
+    private boolean isInvoice; //true - faktura, false - instalacja
 
 }

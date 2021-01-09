@@ -20,7 +20,7 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "modelId", referencedColumnName = "id")
     private Model model;
 
@@ -28,7 +28,7 @@ public class Device {
     private String serialNumber;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId", referencedColumnName = "id")
     private Customer customer;
 

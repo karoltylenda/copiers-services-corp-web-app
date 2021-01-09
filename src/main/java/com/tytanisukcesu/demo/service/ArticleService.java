@@ -20,8 +20,8 @@ public class ArticleService {
         article.setId(articleDto.getId());
         article.setName(articleDto.getName());
         article.setCatalogueNumber(articleDto.getCatalogueNumber());
-        article.setConsumable(articleDto.getConsumable());
-        article.setAlternative(articleDto.getAlternative());
+        article.setConsumable(articleDto.isConsumable());
+        article.setAlternative(articleDto.isAlternative());
         article.setPurchasePrice(articleDto.getPurchasePrice());
         article.setSalePrice(articleDto.getSalePrice());
         article.setManufacturer(articleDto.getManufacturer());
@@ -35,8 +35,8 @@ public class ArticleService {
         articleDto.setId(article.getId());
         articleDto.setName(article.getName());
         articleDto.setCatalogueNumber(article.getCatalogueNumber());
-        articleDto.setConsumable(article.getConsumable());
-        articleDto.setAlternative(article.getAlternative());
+        articleDto.setConsumable(article.isConsumable());
+        articleDto.setAlternative(article.isAlternative());
         articleDto.setPurchasePrice(article.getPurchasePrice());
         articleDto.setSalePrice(article.getSalePrice());
         articleDto.setManufacturer(article.getManufacturer());
@@ -73,8 +73,8 @@ public class ArticleService {
         Article articleUpdated = provideEntity(articleDto);
         article.setName(articleUpdated.getName());
         article.setCatalogueNumber(articleUpdated.getCatalogueNumber());
-        article.setConsumable(articleUpdated.getConsumable());
-        article.setAlternative(articleUpdated.getAlternative());
+        article.setConsumable(articleUpdated.isConsumable());
+        article.setAlternative(articleUpdated.isAlternative());
         article.setPurchasePrice(articleUpdated.getPurchasePrice());
         article.setSalePrice(articleUpdated.getSalePrice());
         article.setManufacturer(articleUpdated.getManufacturer());

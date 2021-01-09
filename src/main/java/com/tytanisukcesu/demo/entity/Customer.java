@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Customer {
 
     @Id
@@ -29,9 +30,9 @@ public class Customer {
 
     private String regon;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(referencedColumnName = "id")
-    private Address address;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JoinColumn(name = "addressId",referencedColumnName = "id")
+    private Set<Address> addresses;
 
     private Long telephoneNumber;
 
@@ -43,17 +44,5 @@ public class Customer {
     @JsonIgnore
     private Set<Device> devices;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(nip, customer.nip);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nip);
-    }
 
 }

@@ -29,7 +29,7 @@ public class ModelService {
         model.setName(modelDto.getName());
         model.setPrintingFormat(modelDto.getPrintingFormat());
         model.setPrintingSpeed(modelDto.getPrintingSpeed());
-        model.setPrintsInColor(modelDto.getPrintsInColor());
+        model.setPrintsInColor(modelDto.isPrintsInColor());
         model.setProductionYear(modelDto.getProductionYear());
         model.setConsumables(modelDto.getConsumables());
         return model;
@@ -42,7 +42,7 @@ public class ModelService {
         modelDto.setName(model.getName());
         modelDto.setPrintingFormat(model.getPrintingFormat());
         modelDto.setPrintingSpeed(model.getPrintingSpeed());
-        modelDto.setPrintsInColor(model.getPrintsInColor());
+        modelDto.setPrintsInColor(model.isPrintsInColor());
         modelDto.setProductionYear(model.getProductionYear());
         modelDto.setConsumables(model.getConsumables());
         return modelDto;
@@ -53,7 +53,7 @@ public class ModelService {
         model.setConsumables(modelDto.getConsumables());
         model.setId(modelDto.getId());
         model.setProductionYear(modelDto.getProductionYear());
-        model.setPrintsInColor(modelDto.getPrintsInColor());
+        model.setPrintsInColor(modelDto.isPrintsInColor());
         model.setPrintingSpeed(modelDto.getPrintingSpeed());
         model.setPrintingFormat(modelDto.getPrintingFormat());
         model.setName(modelDto.getName());
@@ -86,7 +86,7 @@ public class ModelService {
             model.setName(modelUpdated.getName());
             model.setPrintingFormat(modelUpdated.getPrintingFormat());
             model.setPrintingSpeed(modelUpdated.getPrintingSpeed());
-            model.setPrintsInColor(modelUpdated.getPrintsInColor());
+            model.setPrintsInColor(modelUpdated.isPrintsInColor());
             model.setProductionYear(modelUpdated.getProductionYear());
             model.setConsumables(modelUpdated.getConsumables());
             modelRepository.save(model);

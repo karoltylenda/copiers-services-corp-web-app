@@ -39,7 +39,7 @@ public class Model {
     @Column
     private PrintingFormat printingFormat;
 
-    @OneToMany(mappedBy = "model")
+    @OneToMany(mappedBy = "model",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Device> devices;
 
