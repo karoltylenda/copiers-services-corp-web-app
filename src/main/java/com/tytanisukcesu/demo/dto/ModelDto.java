@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class ModelDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -35,16 +36,5 @@ public class ModelDto {
 
     private PrintingFormat printingFormat;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ModelDto)) return false;
-        ModelDto modelDto = (ModelDto) o;
-        return Objects.equals(name, modelDto.name) && Objects.equals(manufacturer, modelDto.manufacturer);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, manufacturer);
-    }
 }

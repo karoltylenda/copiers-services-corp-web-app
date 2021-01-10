@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class ManufacturerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -25,16 +26,5 @@ public class ManufacturerDto {
 
     private Set<Article> setOfCopierArticles;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ManufacturerDto)) return false;
-        ManufacturerDto that = (ManufacturerDto) o;
-        return Objects.equals(name, that.name);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
 }

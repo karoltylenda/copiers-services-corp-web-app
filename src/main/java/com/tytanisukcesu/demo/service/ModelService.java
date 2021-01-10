@@ -3,14 +3,12 @@ package com.tytanisukcesu.demo.service;
 import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
-import com.tytanisukcesu.demo.entity.PrintingFormat;
-import com.tytanisukcesu.demo.mapper.ModelMapper;
 import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +19,7 @@ public class ModelService {
 
     private final ModelRepository modelRepository;
     private final ManufacturerRepository manufacturerRepository;
+    private final ManufacturerService manufacturerService;
 
     public Model provideEntity(ModelDto modelDto) {
         Model model = new Model();
@@ -49,34 +48,23 @@ public class ModelService {
     }
 
     public ModelDto save(ModelDto modelDto) {
-        Model model = new Model();
-        if (modelRepository.getAllByName(modelDto.getName()).isEmpty()) {
-            model.setConsumables(modelDto.getConsumables());
-            model.setId(modelDto.getId());
-            model.setProductionYear(modelDto.getProductionYear());
-            model.setPrintsInColor(modelDto.isPrintsInColor());
-            model.setPrintingSpeed(modelDto.getPrintingSpeed());
-            model.setPrintingFormat(modelDto.getPrintingFormat());
-            model.setName(modelDto.getName());
-        } else{
-            model = modelRepository.getAllByName(modelDto.getName()).get(0);
+        Model model = provideEntity(modelDto);
+        List<Model> modelOptional = modelRepository.getAllByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
+        if (modelOptional.isEmpty()) {
+            model = modelRepository.save(ifManufacturerExists(modelDto));
         }
-        return ifManufacturerExists(modelDto, model);
+        return provideDto(model);
     }
 
-
-    public ModelDto ifManufacturerExists(ModelDto modelDto, Model model) {
-        if (modelDto.getManufacturer() != null) {
-            Manufacturer manufacturer = manufacturerRepository.getByName(modelDto.getManufacturer().getName());
-            if (manufacturer != null) {
-                model.setManufacturer(manufacturer);
-                modelRepository.save(model);
-                return provideDto(model);
-            } else {
-                return update(model.getId(), modelDto);
-            }
+    private Model ifManufacturerExists(ModelDto modelDto) {
+        Manufacturer manufacturer = modelDto.getManufacturer();
+        if (manufacturerRepository.getByName(manufacturer.getName()) == null) {
+            manufacturer = manufacturerRepository.save(manufacturer);
+        } else {
+            manufacturer = manufacturerRepository.getByName(manufacturer.getName());
         }
-        return new ModelDto();
+        modelDto.setManufacturer(manufacturer);
+        return provideEntity(modelDto);
     }
 
     public ModelDto update(Long id, ModelDto modelDto) {
@@ -91,7 +79,6 @@ public class ModelService {
             model.setPrintsInColor(modelUpdated.isPrintsInColor());
             model.setProductionYear(modelUpdated.getProductionYear());
             model.setConsumables(modelUpdated.getConsumables());
-            modelRepository.save(model);
             return provideDto(model);
         } else {
             return new ModelDto();

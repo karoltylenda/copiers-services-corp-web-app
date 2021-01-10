@@ -83,7 +83,7 @@ public class ManufacturerService {
 
     //opcja z builderem
     //TODO
-    private ManufacturerDto provideDto(Manufacturer manufacturer) {
+    public ManufacturerDto provideDto(Manufacturer manufacturer) {
         return ManufacturerDto.builder()
                 .id(manufacturer.getId())
                 .name(manufacturer.getName())

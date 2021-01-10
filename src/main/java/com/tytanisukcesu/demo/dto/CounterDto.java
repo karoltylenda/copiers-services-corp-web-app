@@ -11,6 +11,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class CounterDto {
 
     private Long id;
@@ -21,16 +22,5 @@ public class CounterDto {
     private boolean isUsedToBilling;
     private Device device;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CounterDto)) return false;
-        CounterDto that = (CounterDto) o;
-        return Objects.equals(counterDate, that.counterDate) && Objects.equals(monoCounter, that.monoCounter) && Objects.equals(colorCounter, that.colorCounter) && Objects.equals(totalCounter, that.totalCounter) && Objects.equals(device, that.device);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(counterDate, monoCounter, colorCounter, totalCounter, device);
-    }
 }

@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class DeviceDto {
     private Long id;
     private Model model;
@@ -23,16 +24,5 @@ public class DeviceDto {
     private BigDecimal colorPagePrice;
     private Set<Counter> counters;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DeviceDto)) return false;
-        DeviceDto deviceDto = (DeviceDto) o;
-        return Objects.equals(model, deviceDto.model) && Objects.equals(serialNumber, deviceDto.serialNumber);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(model, serialNumber);
-    }
 }

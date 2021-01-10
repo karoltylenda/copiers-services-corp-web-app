@@ -14,14 +14,13 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @EqualsAndHashCode
 public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private boolean printsInColor;
@@ -32,7 +31,7 @@ public class Model {
     @JsonIgnore
     private Set<Article> consumables;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
@@ -43,5 +42,18 @@ public class Model {
     @JsonIgnore
     private Set<Device> devices;
 
-
+    @Override
+    public String toString() {
+        return "Model{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", printsInColor=" + printsInColor +
+                ", productionYear=" + productionYear +
+                ", printingSpeed=" + printingSpeed +
+                ", consumables=" + consumables +
+                ", manufacturer=" + manufacturer +
+                ", printingFormat=" + printingFormat +
+                ", devices=" + devices +
+                '}';
+    }
 }

@@ -14,7 +14,6 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Manufacturer {
 
     @Id
@@ -45,4 +44,13 @@ public class Manufacturer {
         return Objects.hash(name);
     }
 
+    @Override
+    public String toString() {
+        return "Manufacturer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", setOfCopierModels=" + setOfCopierModels +
+                ", setOfCopierArticles=" + setOfCopierArticles +
+                '}';
+    }
 }
