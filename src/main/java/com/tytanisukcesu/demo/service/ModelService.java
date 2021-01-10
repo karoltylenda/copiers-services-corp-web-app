@@ -49,8 +49,8 @@ public class ModelService {
 
     public ModelDto save(ModelDto modelDto) {
         Model model = provideEntity(modelDto);
-        List<Model> modelOptional = modelRepository.getAllByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
-        if (modelOptional.isEmpty()) {
+        List<Model> modelList = modelRepository.getAllByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
+        if (modelList.isEmpty()) {
             model = modelRepository.save(ifManufacturerExists(modelDto));
         }
         return provideDto(model);

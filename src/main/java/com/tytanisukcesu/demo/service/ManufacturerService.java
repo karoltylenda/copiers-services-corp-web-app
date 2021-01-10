@@ -19,8 +19,10 @@ public class ManufacturerService {
     private final ManufacturerRepository manufacturerRepository;
 
     public ManufacturerDto save(ManufacturerDto manufacturerDto) {
-        Manufacturer manufacturer = provideEntity(manufacturerDto);
-        manufacturerRepository.save(manufacturer);
+        Manufacturer manufacturer = manufacturerRepository.getByName(manufacturerDto.getName());
+        if(manufacturer == null){
+            manufacturer = manufacturerRepository.save(provideEntity(manufacturerDto));
+        }
         return provideDto(manufacturer);
     }
 

@@ -1,12 +1,14 @@
 package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.dto.DeviceDto;
+import com.tytanisukcesu.demo.dto.ManufacturerDto;
 import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Device;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.repository.DeviceRepository;
 import com.tytanisukcesu.demo.repository.ManufacturerRepository;
+import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class DeviceService {
     private final ManufacturerRepository manufacturerRepository;
     private final ManufacturerService manufacturerService;
     private final ModelService modelService;
+    private final ModelRepository modelRepository;
 
     public List<DeviceDto> findAll() {
         return deviceRepository.findAll()
@@ -34,11 +37,11 @@ public class DeviceService {
         Device device = provideEntity(deviceDto);
         ModelDto modelDto = modelService.save(modelService.provideDto(device.getModel()));
         device.setModel(modelService.provideEntity(modelDto));
+//        ManufacturerDto manufacturerDto = manufacturerService.provideDto(device.getModel().getManufacturer());
+//        device.getModel().setManufacturer(manufacturerService.provideEntity(manufacturerService.save(manufacturerDto)));
         deviceRepository.save(device);
         return provideDto(device);
     }
-
-
 
     public DeviceDto findById(Long id) {
         Optional<Device> device = deviceRepository.findById(id);
