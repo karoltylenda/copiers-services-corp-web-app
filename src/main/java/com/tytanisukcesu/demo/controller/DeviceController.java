@@ -32,7 +32,7 @@ public class DeviceController {
     }
 
     @PostMapping
-    public DeviceDto save(@RequestBody DeviceDto deviceDto, ModelDto modelDto){
+    public DeviceDto save(@RequestBody DeviceDto deviceDto){
         return deviceService.save(deviceDto);
     }
 

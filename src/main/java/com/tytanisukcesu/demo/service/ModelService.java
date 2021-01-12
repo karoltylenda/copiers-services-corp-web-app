@@ -26,6 +26,7 @@ public class ModelService {
         model.setId(modelDto.getId());
         model.setManufacturer(modelDto.getManufacturer());
         model.setName(modelDto.getName());
+        model.setDevices(modelDto.getDevices());
         model.setPrintingFormat(modelDto.getPrintingFormat());
         model.setPrintingSpeed(modelDto.getPrintingSpeed());
         model.setPrintsInColor(modelDto.isPrintsInColor());
@@ -39,6 +40,7 @@ public class ModelService {
         modelDto.setId(model.getId());
         modelDto.setManufacturer(model.getManufacturer());
         modelDto.setName(model.getName());
+        modelDto.setDevices(model.getDevices());
         modelDto.setPrintingFormat(model.getPrintingFormat());
         modelDto.setPrintingSpeed(model.getPrintingSpeed());
         modelDto.setPrintsInColor(model.isPrintsInColor());
@@ -74,6 +76,7 @@ public class ModelService {
             Model model = byId.get();
             model.setManufacturer(modelUpdated.getManufacturer());
             model.setName(modelUpdated.getName());
+            model.setDevices(modelUpdated.getDevices());
             model.setPrintingFormat(modelUpdated.getPrintingFormat());
             model.setPrintingSpeed(modelUpdated.getPrintingSpeed());
             model.setPrintsInColor(modelUpdated.isPrintsInColor());

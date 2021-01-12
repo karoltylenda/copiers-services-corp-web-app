@@ -23,7 +23,7 @@ public class Manufacturer {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "manufacturer",cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "manufacturer")
     @JsonIgnore
     private Set<Model> setOfCopierModels;
 

@@ -16,6 +16,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 public class DeviceDto {
+
     private Long id;
     private Model model;
     private String serialNumber;

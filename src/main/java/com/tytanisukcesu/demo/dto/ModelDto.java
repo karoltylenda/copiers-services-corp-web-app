@@ -1,12 +1,13 @@
 package com.tytanisukcesu.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
+import com.tytanisukcesu.demo.entity.Device;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
 import lombok.*;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -35,6 +36,9 @@ public class ModelDto {
     private Manufacturer manufacturer;
 
     private PrintingFormat printingFormat;
+
+    @JsonIgnore
+    private Set<Device> devices;
 
 
 }

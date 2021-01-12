@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,12 +34,35 @@ public class DeviceService {
                 .collect(Collectors.toList());
     }
 
+    //dziala ale nie dodaje duplikatow
+//    public DeviceDto save(DeviceDto deviceDto) {
+//        Device device = provideEntity(deviceDto);
+////        Model model = device.getModel();
+////        ModelDto modelDto = modelService.provideDto(model);
+////        modelDto = modelService.save(modelDto);
+////        model = modelService.provideEntity(modelDto);
+////        device.setModel(model);
+//        deviceRepository.save(device);
+////        modelService.update(model.getId(),modelDto);
+//        return provideDto(device);
+//    }
+
     public DeviceDto save(DeviceDto deviceDto) {
         Device device = provideEntity(deviceDto);
-        ModelDto modelDto = modelService.save(modelService.provideDto(device.getModel()));
-        device.setModel(modelService.provideEntity(modelDto));
-//        ManufacturerDto manufacturerDto = manufacturerService.provideDto(device.getModel().getManufacturer());
-//        device.getModel().setManufacturer(manufacturerService.provideEntity(manufacturerService.save(manufacturerDto)));
+
+        Model model = device.getModel();
+        ModelDto modelDto = modelService.provideDto(model);
+        List<Model> models = modelRepository.getAllByNameAndManufacturerName(model.getName(),model.getManufacturer().getName());
+        if(models.isEmpty()){
+            modelDto = modelService.save(modelDto);
+        }else{
+            modelDto = modelService.provideDto(models.get(0));
+        }
+
+        Model modelFound = modelService.provideEntity(modelDto);
+        Set<Device> devices = modelFound.getDevices();
+        devices.add(device);
+
         deviceRepository.save(device);
         return provideDto(device);
     }

@@ -27,7 +27,7 @@ public class Model {
     private Integer productionYear;
     @Column(nullable = false)
     private Integer printingSpeed;
-    @ManyToMany(mappedBy = "models")
+    @ManyToMany(mappedBy = "models",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Article> consumables;
 
@@ -38,7 +38,7 @@ public class Model {
     @Column
     private PrintingFormat printingFormat;
 
-    @OneToMany(mappedBy = "model",cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "model",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Device> devices;
 
