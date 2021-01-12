@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Customer;
 import lombok.*;
 
-import java.util.Objects;
-import java.util.Set;
-
 @Getter
 @Setter
 @Builder

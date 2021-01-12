@@ -14,7 +14,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 
     List<Manufacturer> getAllByNameContains(String name);
 
-    Manufacturer getByName(String name);
+    Optional<Manufacturer> getByName(String name);
 
     //fixme
     Optional<Manufacturer> getOptionalByName(String name);

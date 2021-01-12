@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import lombok.*;
-
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Set;
 
 @Getter

@@ -14,6 +14,8 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Manufacturer {
 
     @Id
@@ -25,11 +27,11 @@ public class Manufacturer {
 
     @OneToMany(mappedBy = "manufacturer")
     @JsonIgnore
-    private Set<Model> setOfCopierModels;
+    private Set<Model> models;
 
     @OneToMany(mappedBy = "manufacturer")
     @JsonIgnore
-    private Set<Article> setOfCopierArticles;
+    private Set<Article> articles;
 
     @Override
     public boolean equals(Object o) {
@@ -39,18 +41,4 @@ public class Manufacturer {
         return Objects.equals(name, that.name);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public String toString() {
-        return "Manufacturer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", setOfCopierModels=" + setOfCopierModels +
-                ", setOfCopierArticles=" + setOfCopierArticles +
-                '}';
-    }
 }

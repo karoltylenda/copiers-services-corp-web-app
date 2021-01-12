@@ -15,10 +15,10 @@ import org.springframework.web.servlet.view.RedirectView;
 public class ManufacturerServlet {
 
     private final ManufacturerService manufacturerService;
-
-    @PostMapping("/save")
-    public RedirectView save(@ModelAttribute ManufacturerDto manufacturerDto) {
-        manufacturerService.save(manufacturerDto);
-        return new RedirectView("/main/addManufacturerForm");
-    }
+//
+//    @PostMapping("/save")
+//    public RedirectView save(@ModelAttribute ManufacturerDto manufacturerDto) {
+//        manufacturerService.save(manufacturerDto);
+//        return new RedirectView("/main/addManufacturerForm");
+//    }
 }

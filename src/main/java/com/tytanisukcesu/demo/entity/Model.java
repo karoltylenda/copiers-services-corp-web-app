@@ -31,7 +31,7 @@ public class Model {
     @JsonIgnore
     private Set<Article> consumables;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 

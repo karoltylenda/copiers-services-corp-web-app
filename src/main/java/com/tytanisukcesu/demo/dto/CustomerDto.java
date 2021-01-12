@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Address;
 import lombok.*;
 
-import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -32,6 +31,5 @@ public class CustomerDto {
     private String email;
 
     private String companySiteUrl;
-
 
 }

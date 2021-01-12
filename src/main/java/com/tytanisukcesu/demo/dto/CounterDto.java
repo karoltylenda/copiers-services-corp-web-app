@@ -3,7 +3,6 @@ package com.tytanisukcesu.demo.dto;
 import com.tytanisukcesu.demo.entity.Device;
 import lombok.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -21,6 +20,5 @@ public class CounterDto {
     private Integer totalCounter;
     private boolean isUsedToBilling;
     private Device device;
-
 
 }

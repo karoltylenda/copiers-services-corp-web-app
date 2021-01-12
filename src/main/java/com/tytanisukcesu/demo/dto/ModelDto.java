@@ -7,7 +7,6 @@ import com.tytanisukcesu.demo.entity.Device;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
 import lombok.*;
-
 import java.util.Set;
 
 @Getter
@@ -30,7 +29,6 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
-    //FIXME - zmian na dto
     private Set<Article> consumables;
 
     private Manufacturer manufacturer;
@@ -39,6 +37,5 @@ public class ModelDto {
 
     @JsonIgnore
     private Set<Device> devices;
-
 
 }
