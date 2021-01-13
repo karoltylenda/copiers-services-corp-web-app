@@ -20,6 +20,4 @@ public class ManufacturerDto {
 
     private Set<ModelDto> models;
 
-    private Set<ArticleDto> articles;
-
 }

@@ -3,9 +3,13 @@ package com.tytanisukcesu.demo.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
+import com.tytanisukcesu.demo.entity.Counter;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.PrintingFormat;
 import lombok.*;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Getter
@@ -28,13 +32,16 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
-    private Set<Article> consumables;
-
     private Manufacturer manufacturer;
+
+    private String serialNumber;
 
     private PrintingFormat printingFormat;
 
-    @JsonIgnore
-    private Set<Device> devices;
+    private BigDecimal monoPagePrice;
+
+    private BigDecimal colorPagePrice;
+
+    private Set<Counter> counters;
 
 }
