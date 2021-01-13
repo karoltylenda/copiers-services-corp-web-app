@@ -1,6 +1,8 @@
 package com.tytanisukcesu.demo.service;
 
+import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
+import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.dom4j.rule.Mode;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class ModelService {
 
     private final ModelRepository modelRepository;
+    private final ManufacturerRepository manufacturerRepository;
 
     public List<Model> findAll() {
         return modelRepository.findAll();
@@ -22,9 +25,14 @@ public class ModelService {
 
     public Model save(Model model){
         Optional<Model> modelOptional = modelRepository.getByNameContains(model.getName());
+        Optional<Manufacturer> manufacturerOptional = manufacturerRepository.getOptionalByName(model.getManufacturer().getName());
         if (modelOptional.isPresent() && modelOptional.get().getManufacturer().getName().equalsIgnoreCase(model.getManufacturer().getName())){
             return modelOptional.get();
         } else {
+            if (manufacturerOptional.isPresent()){
+                Manufacturer manufacturer = manufacturerOptional.get();
+                model.setManufacturer(manufacturer);
+            }
             Model modelSaved = modelRepository.save(model);
             return modelSaved;
         }

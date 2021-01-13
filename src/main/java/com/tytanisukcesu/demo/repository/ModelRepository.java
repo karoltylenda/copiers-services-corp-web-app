@@ -30,5 +30,4 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     Optional<Model> getByNameContains(String name);
 
-
 }

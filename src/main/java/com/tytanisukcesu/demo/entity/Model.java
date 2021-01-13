@@ -2,9 +2,7 @@ package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -15,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class Model {
 
     @Id
@@ -27,33 +26,21 @@ public class Model {
     private Integer productionYear;
     @Column(nullable = false)
     private Integer printingSpeed;
-    @ManyToMany(mappedBy = "models",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Article> consumables;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @Column
     private PrintingFormat printingFormat;
 
-    @OneToMany(mappedBy = "model",cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "model",fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Set<Device> devices;
 
-    @Override
-    public String toString() {
-        return "Model{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", printsInColor=" + printsInColor +
-                ", productionYear=" + productionYear +
-                ", printingSpeed=" + printingSpeed +
-                ", consumables=" + consumables +
-                ", manufacturer=" + manufacturer +
-                ", printingFormat=" + printingFormat +
-                ", devices=" + devices +
-                '}';
-    }
+    @ManyToMany(mappedBy = "models",cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Article> consumables;
 }

@@ -20,25 +20,20 @@ public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "manufacturer")
-    @JsonIgnore
+    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Model> models;
 
-    @OneToMany(mappedBy = "manufacturer")
-    @JsonIgnore
+    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Article> articles;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Manufacturer that = (Manufacturer) o;
-        return Objects.equals(name, that.name);
-    }
 
 }

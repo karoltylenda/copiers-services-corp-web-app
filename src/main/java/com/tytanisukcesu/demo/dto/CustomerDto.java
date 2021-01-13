@@ -17,19 +17,12 @@ public class CustomerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
-
     private String companyName;
-
     private String nip;
-
     private String regon;
-
     private Set<Address> addresses;
-
     private Long telephoneNumber;
-
     private String email;
-
     private String companySiteUrl;
 
 }
