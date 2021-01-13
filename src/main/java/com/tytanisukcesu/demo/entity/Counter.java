@@ -10,11 +10,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "counters")
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Counter {
 
     @Id
@@ -26,22 +24,9 @@ public class Counter {
     private Integer totalCounter;
     private boolean isUsedToBilling;
 
-    @JsonIgnore
+    //FIXME - zmiana z device na model - do przejrzenia
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
-    private Device device;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Counter)) return false;
-        Counter counter = (Counter) o;
-        return Objects.equals(counterDate, counter.counterDate) && Objects.equals(monoCounter, counter.monoCounter) && Objects.equals(colorCounter, counter.colorCounter) && Objects.equals(totalCounter, counter.totalCounter) && Objects.equals(device, counter.device);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(counterDate, monoCounter, colorCounter, totalCounter, device);
-    }
+    private Model model;
 
 }
