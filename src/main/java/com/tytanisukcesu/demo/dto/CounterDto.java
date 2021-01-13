@@ -1,6 +1,5 @@
 package com.tytanisukcesu.demo.dto;
 
-import com.tytanisukcesu.demo.entity.Device;
 import lombok.*;
 import java.time.LocalDate;
 

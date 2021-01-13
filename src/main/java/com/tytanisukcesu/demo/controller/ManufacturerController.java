@@ -18,6 +18,7 @@ public class ManufacturerController {
     private final ManufacturerService manufacturerService;
     private final ModelMapper modelMapper;
 
+
     @GetMapping(value = "/search")
     public List<ManufacturerDto> getByName(@RequestParam String name) {
         List<Manufacturer> manufacturers = manufacturerService.findAllByName(name);
