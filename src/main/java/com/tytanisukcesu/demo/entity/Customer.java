@@ -39,9 +39,9 @@ public class Customer {
 
     private String companySiteUrl;
 
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
-    private Set<Device> devices;
+//    @OneToMany(mappedBy = "customer")
+//    @JsonIgnore
+//    private Set<Device> devices;
 
 
 }

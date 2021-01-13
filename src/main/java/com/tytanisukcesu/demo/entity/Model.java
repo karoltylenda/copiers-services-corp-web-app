@@ -34,6 +34,7 @@ public class Model {
     //todo check if persist is redundant
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manufacturer_id")
+    @Column(nullable = false)
     private Manufacturer manufacturer;
 
     @Column(unique = true)
