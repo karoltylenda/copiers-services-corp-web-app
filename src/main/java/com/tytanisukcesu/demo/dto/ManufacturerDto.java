@@ -1,5 +1,6 @@
 package com.tytanisukcesu.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class ManufacturerDto {
 
     private String name;
 
+    @JsonIgnore
     private Set<ModelDto> models;
 
 }

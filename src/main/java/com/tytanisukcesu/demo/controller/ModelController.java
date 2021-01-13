@@ -21,6 +21,7 @@ public class ModelController {
     private final ModelMapper modelMapper;
 
 
+
     //    @GetMapping(value = "/search")
 //    public List<ModelDto> getByAllParameters(@RequestParam(required = false, defaultValue = "") String manufacturer,
 //                                             @RequestParam(required = false, defaultValue = "") String model,
@@ -29,8 +30,7 @@ public class ModelController {
 //    }
 //
 
-    @GetMapping(value = "/search")
-    public List<Model> 
+
 
     @GetMapping
     public List<ModelDto> getAll() {

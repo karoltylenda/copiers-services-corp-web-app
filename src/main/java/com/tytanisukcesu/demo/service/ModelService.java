@@ -23,7 +23,7 @@ public class ModelService {
 
 
     public Model save(Model model) {
-        Optional<Model> modelOptional = modelRepository.getAllByNameSerialNumber(model.getSerialNumber());
+        Optional<Model> modelOptional = modelRepository.getBySerialNumber(model.getSerialNumber());
         if (modelOptional.isPresent()) {
             return modelOptional.get();
         } else {
@@ -74,14 +74,6 @@ public class ModelService {
         return modelOptional.orElse(new Model());
     }
 
-
-    public List<Model> getAllByParameters(String manufacturerName, String modelName, boolean printsInColor) {
-        return modelRepository.getAllByManufacturerNameContainsAndNameContainsAndPrintsInColor(manufacturerName, modelName, printsInColor);
-    }
-
-    public List<Model> getAllByParameters(String manufacturerName, String modelName) {
-        return modelRepository.getAllByManufacturerNameContainsAndNameContains(manufacturerName, modelName);
-    }
 
 }
 

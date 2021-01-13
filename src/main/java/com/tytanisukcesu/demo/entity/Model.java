@@ -1,6 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,9 +33,9 @@ public class Model {
     private Integer printingSpeed;
 
     //todo check if persist is redundant
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinColumn(name = "manufacturer_id")
-    @Column(nullable = false)
+    @JsonMerge
     private Manufacturer manufacturer;
 
     @Column(unique = true)
@@ -44,7 +45,7 @@ public class Model {
     private BigDecimal monoPagePrice;
     private BigDecimal colorPagePrice;
 
-    @OneToMany(mappedBy = "device", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "model", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Counter> counters;
