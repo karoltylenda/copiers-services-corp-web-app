@@ -35,7 +35,9 @@ public class Article {
     private BigDecimal salePrice;
 
     //TODO - dlaczego na all nie dziala
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
@@ -49,19 +51,5 @@ public class Article {
             inverseJoinColumns = @JoinColumn(name = "model_id")
     )
     private Set<Model> models;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Article article = (Article) o;
-        return Objects.equals(catalogueNumber, article.catalogueNumber) &&
-                Objects.equals(manufacturer, article.manufacturer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(catalogueNumber, manufacturer);
-    }
 
 }

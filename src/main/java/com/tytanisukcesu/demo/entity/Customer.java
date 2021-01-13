@@ -39,9 +39,10 @@ public class Customer {
 
     private String companySiteUrl;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Device> devices;
-
 
 }

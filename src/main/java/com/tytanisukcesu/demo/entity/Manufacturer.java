@@ -1,10 +1,9 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
-
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,14 +25,16 @@ public class Manufacturer {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "manufacturer")
     @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+    @JsonIgnore
+    @JsonMerge
     private Set<Model> models;
 
-    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "manufacturer")
     @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+    @JsonIgnore
+    @JsonMerge
     private Set<Article> articles;
 
 }

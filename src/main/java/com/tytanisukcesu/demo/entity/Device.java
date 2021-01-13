@@ -1,6 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,24 +22,32 @@ public class Device {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "modelId", referencedColumnName = "id")
+    @JsonIgnore
+    @JsonMerge
     private Model model;
 
     @Column(unique = true)
     private String serialNumber;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "customerId", referencedColumnName = "id")
+    @JsonIgnore
+    @JsonMerge
     private Customer customer;
 
     private BigDecimal monoPagePrice;
 
     private BigDecimal colorPagePrice;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "device")
+    @JsonIgnore
+    @JsonMerge
     private Set<Counter> counters;
 
 }

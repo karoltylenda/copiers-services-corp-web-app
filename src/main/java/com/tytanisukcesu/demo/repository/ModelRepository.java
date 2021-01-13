@@ -30,4 +30,5 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     Optional<Model> getByNameContains(String name);
 
+    Optional<Model> getByNameAndManufacturerName(String modelName, String ManufacturerName);
 }
