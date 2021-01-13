@@ -9,13 +9,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "manufacturers")
-@Getter
-@Setter
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
+
 public class Manufacturer {
 
     @Id
@@ -25,20 +23,8 @@ public class Manufacturer {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "manufacturer")
-    @JsonIgnore
-    private Set<Model> models;
-
-    @OneToMany(mappedBy = "manufacturer")
-    @JsonIgnore
-    private Set<Article> articles;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Manufacturer that = (Manufacturer) o;
-        return Objects.equals(name, that.name);
-    }
-
+    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Model> setOfCopierModels;
 }

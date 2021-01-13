@@ -4,56 +4,48 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "models")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@Builder
 public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private boolean printsInColor;
+
     private Integer productionYear;
+
     @Column(nullable = false)
     private Integer printingSpeed;
-    @ManyToMany(mappedBy = "models",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Article> consumables;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    //todo check if persist is redundant
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
-    @Column
+    @Column(unique = true)
+    private String serialNumber;
+
     private PrintingFormat printingFormat;
+    private BigDecimal monoPagePrice;
+    private BigDecimal colorPagePrice;
 
-    @OneToMany(mappedBy = "model",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<Device> devices;
+    @OneToMany(mappedBy = "device", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Counter> counters;
 
-    @Override
-    public String toString() {
-        return "Model{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", printsInColor=" + printsInColor +
-                ", productionYear=" + productionYear +
-                ", printingSpeed=" + printingSpeed +
-                ", consumables=" + consumables +
-                ", manufacturer=" + manufacturer +
-                ", printingFormat=" + printingFormat +
-                ", devices=" + devices +
-                '}';
-    }
 }
