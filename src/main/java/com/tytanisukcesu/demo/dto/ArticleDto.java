@@ -2,8 +2,8 @@ package com.tytanisukcesu.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Manufacturer;
-import com.tytanisukcesu.demo.entity.Model;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -33,9 +33,8 @@ public class ArticleDto {
 
     private Manufacturer manufacturer;
 
+    private Set<String> models;
+
     private Integer yield;
-
-    private Set<Model> models;
-
 
 }

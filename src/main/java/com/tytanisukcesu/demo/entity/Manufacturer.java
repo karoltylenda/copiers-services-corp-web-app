@@ -14,6 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Manufacturer {
 
     @Id
@@ -30,4 +31,10 @@ public class Manufacturer {
     @JsonIgnore
     @JsonMerge
     private Set<Model> setOfCopierModels;
+
+    @OneToMany(mappedBy = "manufacturer")
+    @JsonIgnore
+    private Set<Article> articles;
+
+
 }
