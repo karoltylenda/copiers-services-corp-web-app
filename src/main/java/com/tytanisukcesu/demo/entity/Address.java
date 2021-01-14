@@ -9,8 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "addresses")
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,8 +37,7 @@ public class Address {
 
     private String apartmentNumber;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     private Customer customer;
 
     private boolean isInvoice; //true - faktura, false - instalacja

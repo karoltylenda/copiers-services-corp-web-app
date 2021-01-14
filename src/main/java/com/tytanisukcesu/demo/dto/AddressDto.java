@@ -30,5 +30,7 @@ public class AddressDto {
 
     private Customer customer;
 
+    private boolean isInvoice;
+
 
 }
