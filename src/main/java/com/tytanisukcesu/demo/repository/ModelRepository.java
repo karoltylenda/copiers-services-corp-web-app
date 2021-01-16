@@ -14,5 +14,5 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     Optional<Model> getBySerialNumber(String serialNumber);
 
-
+    Optional<Model> getByNameAndManufacturerName(String modelName, String ManufacturerName);
 }

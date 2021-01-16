@@ -1,52 +1,53 @@
 package com.tytanisukcesu.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
-
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
 @Table(name = "models")
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@EqualsAndHashCode
+@ToString
 public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String name;
-
     @Column(nullable = false)
     private boolean printsInColor;
-
     private Integer productionYear;
-
     @Column(nullable = false)
     private Integer printingSpeed;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manufacturer_id")
+    @JsonIgnore
+    @JsonMerge
     private Manufacturer manufacturer;
 
-    @Column(unique = true)
-    private String serialNumber;
-
+    @Column
     private PrintingFormat printingFormat;
-    private BigDecimal monoPagePrice;
-    private BigDecimal colorPagePrice;
 
-    @OneToMany(mappedBy = "model", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "model")
     @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<Counter> counters;
+    @JsonIgnore
+    @JsonMerge
+    private Set<Device> devices;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
+    @ManyToMany(mappedBy = "models")
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @JsonMerge
+    private Set<Article> consumables;
 }

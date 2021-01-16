@@ -1,14 +1,17 @@
 package com.tytanisukcesu.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "customers")
 @Builder
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -36,8 +39,10 @@ public class Customer {
 
     private String companySiteUrl;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<Model> models;
-
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Device> devices;
 
 }
