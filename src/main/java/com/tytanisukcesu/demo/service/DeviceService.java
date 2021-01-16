@@ -1,12 +1,10 @@
 package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.entity.Device;
-import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.repository.DeviceRepository;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +13,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
+    private final ModelService modelService;
     private final ModelRepository modelRepository;
 
     public List<Device> findAll() {
@@ -30,17 +29,16 @@ public class DeviceService {
         return deviceOptional.orElse(new Device());
     }
 
+    @Transactional
     public Device save(Device device) {
-        Model model = device.getModel();
-        Device deviceSaved = new Device();
-        Optional<Model> modelOptional = modelRepository.getByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
-        if (modelOptional.isPresent()){
-            device.setModel(new Model());
-            deviceSaved = deviceRepository.save(device);
-            model.getDevices().add(deviceSaved);
+        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(device.getSerialNumber());
+        if (deviceOptional.isPresent()){
+            return deviceOptional.get();
         } else {
-            deviceSaved = deviceRepository.save(device);
+            Device deviceToSave = new Device();
+            deviceToSave.setSerialNumber(device.getSerialNumber());
+            deviceToSave.setModel(modelService.save(device.getModel()));
+            return deviceRepository.save(deviceToSave);
         }
-        return deviceRepository.findById(deviceSaved.getId()).get();
     }
 }

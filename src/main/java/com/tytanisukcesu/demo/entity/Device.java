@@ -20,7 +20,7 @@ public class Device {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+git    private Long id;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
