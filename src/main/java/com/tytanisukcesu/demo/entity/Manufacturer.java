@@ -24,15 +24,11 @@ public class Manufacturer {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "manufacturer")
-//    fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
+    @OneToMany(mappedBy = "manufacturer",cascade = CascadeType.REMOVE)
     @JsonIgnore
-    @JsonMerge
     private Set<Model> setOfCopierModels;
 
-    @OneToMany(mappedBy = "manufacturer")
+    @OneToMany(mappedBy = "manufacturer",cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<Article> articles;
 

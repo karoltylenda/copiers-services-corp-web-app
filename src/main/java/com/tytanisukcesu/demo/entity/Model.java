@@ -1,12 +1,9 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -32,10 +29,8 @@ public class Model {
     @Column(nullable = false)
     private Integer printingSpeed;
 
-    //todo check if persist is redundant
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinColumn(name = "manufacturer_id")
-    @JsonMerge
     private Manufacturer manufacturer;
 
     @Column(unique = true)
@@ -49,5 +44,9 @@ public class Model {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Counter> counters;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 }

@@ -1,17 +1,14 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "customers")
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -38,6 +35,9 @@ public class Customer {
     private String email;
 
     private String companySiteUrl;
+
+    @OneToMany(mappedBy = "customer")
+    private Set<Model> models;
 
 
 }

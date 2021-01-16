@@ -56,6 +56,7 @@ public class ModelService {
         modelToUpdate.setCounters(model.getCounters());
         modelToUpdate.setMonoPagePrice(model.getMonoPagePrice());
         modelToUpdate.setPrintsInColor(model.isPrintsInColor());
+        modelToUpdate.setCustomer(model.getCustomer());
         return modelToUpdate;
     }
 
