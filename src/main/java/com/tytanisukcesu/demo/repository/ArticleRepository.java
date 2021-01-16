@@ -4,11 +4,13 @@ import com.tytanisukcesu.demo.entity.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-    Optional<Article> getOptionalByName(String name);
+    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndIsConsumableAndIsAlternativeAndManufacturerNameContains(String name, String catalogueNumber, Boolean isConsumable, Boolean isAlternative, String manufacturerName);
+
+    List<Article> getAllByNameContainsAndCatalogueNumberContainsAndManufacturerNameContains(String name, String catalogueNumber, String manufacturerName);
 
 }

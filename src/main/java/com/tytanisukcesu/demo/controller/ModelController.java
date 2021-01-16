@@ -21,19 +21,15 @@ public class ModelController {
     private final ModelMapper modelMapper;
 
 
-
-    //    @GetMapping(value = "/search")
+//    @GetMapping(value = "/search")
 //    public List<ModelDto> getByAllParameters(@RequestParam(required = false, defaultValue = "") String manufacturer,
 //                                             @RequestParam(required = false, defaultValue = "") String model,
 //                                             @RequestParam(defaultValue = "true") boolean printsInColor){
 //        return modelService.getAllByParameters(manufacturer,model,printsInColor);
 //    }
 //
-
-
-
     @GetMapping
-    public List<ModelDto> getAll() {
+    public List<ModelDto> getAll(){
         List<Model> models = modelService.findAll();
         return models.stream()
                 .map(this::convertToDto)
@@ -41,40 +37,39 @@ public class ModelController {
     }
 
     @PostMapping
-    public ModelDto save(@RequestBody ModelDto modelDto) {
+    public ModelDto save(@RequestBody ModelDto modelDto){
         Model model = convertToEntity(modelDto);
         Model modelSaved = modelService.save(model);
         return convertToDto(modelSaved);
     }
 
     @GetMapping(value = "/{id}")
-    public ModelDto getById(@PathVariable("id") Long id) {
+    public ModelDto getById(@PathVariable("id") Long id){
         Model model = modelService.findById(id);
         return convertToDto(model);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id) {
-        if (modelService.deleteById(id)) {
-            return ResponseEntity.accepted().build();
-        } else {
-            return ResponseEntity.status(404).build();
-        }
-    }
-
-    @PutMapping(value = "/{id}")
-    public ModelDto update(@PathVariable("id") Long id, @RequestBody ModelDto modelDto) {
-        Model model = convertToEntity(modelDto);
-        Model modelUpdated = modelService.update(id, model);
-        return convertToDto(modelUpdated);
-    }
-
-    private ModelDto convertToDto(Model model) {
+//    @DeleteMapping(value = "/{id}")
+//    public ResponseEntity delete(@PathVariable("id") Long id){
+//        if(modelService.delete(id)){
+//            return ResponseEntity.accepted().build();
+//        }else{
+//            return ResponseEntity.status(404).build();
+//        }
+//    }
+//
+//    @PutMapping(value = "/{id}")
+//    public ModelDto update(@PathVariable("id") Long id,@RequestBody ModelDto modelDto){
+//        return modelService.update(id,modelDto);
+//    }
+//
+//
+    private ModelDto convertToDto(Model model){
         ModelDto modelDto = modelMapper.map(model, ModelDto.class);
         return modelDto;
     }
 
-    private Model convertToEntity(ModelDto modelDto) {
+    private Model convertToEntity(ModelDto modelDto){
         Model model = modelMapper.map(modelDto, Model.class);
         return model;
     }

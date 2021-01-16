@@ -18,21 +18,18 @@ public class ModelService {
 
     private final ModelRepository modelRepository;
     private final ManufacturerRepository manufacturerRepository;
+    private final ManufacturerService manufacturerService;
 
     public List<Model> findAll() {
         return modelRepository.findAll();
     }
 
-    public Model save(Model model){
-        Optional<Model> modelOptional = modelRepository.getByNameContains(model.getName());
-        Optional<Manufacturer> manufacturerOptional = manufacturerRepository.getOptionalByName(model.getManufacturer().getName());
-        if (modelOptional.isPresent() && modelOptional.get().getManufacturer().getName().equalsIgnoreCase(model.getManufacturer().getName())){
+    public Model save(Model model) {
+        Optional<Model> modelOptional = modelRepository.getModelByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
+        if (modelOptional.isPresent()) {
             return modelOptional.get();
         } else {
-            if (manufacturerOptional.isPresent()){
-                Manufacturer manufacturer = manufacturerOptional.get();
-                model.setManufacturer(manufacturer);
-            }
+            model.setManufacturer(manufacturerService.save(model.getManufacturer()));
             Model modelSaved = modelRepository.save(model);
             return modelSaved;
         }

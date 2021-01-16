@@ -32,23 +32,25 @@ public class ManufacturerService {
     }
 
     public Manufacturer save(Manufacturer manufacturer) {
-        Optional<Manufacturer> manufacturerOptional = manufacturerRepository.getOptionalByName(manufacturer.getName());
+        Optional<Manufacturer> manufacturerOptional = manufacturerRepository.getManufacturerByName(manufacturer.getName());
         if (manufacturerOptional.isPresent()){
             return manufacturerOptional.get();
         } else {
-            return manufacturerRepository.save(manufacturer);
+            Manufacturer manufacturerSaved = manufacturerRepository.save(manufacturer);
+            return manufacturerSaved;
         }
     }
 
     public Manufacturer update(Long id, Manufacturer manufacturer) {
         Manufacturer manufacturerToUpdate = manufacturerRepository.findById(id).orElse(new Manufacturer());
         manufacturerToUpdate.setName(manufacturer.getName());
-        manufacturerToUpdate.setSetOfCopierModels(manufacturer.getSetOfCopierModels());
-        return manufacturerToUpdate; //zmiana na inline + nie potrzebujemy save robic - spring sam save'uje
+        manufacturerToUpdate.setArticles(manufacturer.getArticles());
+        manufacturerToUpdate.setModels(manufacturer.getModels());
+        Manufacturer manufacturerUpdated = manufacturerRepository.save(manufacturerToUpdate);
+        return manufacturerUpdated;
     }
 
     public List<Manufacturer> findAllByName(String name) {
         return manufacturerRepository.getAllByNameContains(name);
     }
 }
-
