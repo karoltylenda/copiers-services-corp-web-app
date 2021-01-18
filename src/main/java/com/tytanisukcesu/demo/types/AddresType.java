@@ -1,4 +1,4 @@
-package com.tytanisukcesu.demo.entity.enums;
+package com.tytanisukcesu.demo.types;
 
 public enum AddresType {
     INVOICE,

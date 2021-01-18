@@ -1,7 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.tytanisukcesu.demo.entity.enums.ServiceOrderStatus;
-import com.tytanisukcesu.demo.entity.enums.ServiceOrderType;
+import com.tytanisukcesu.demo.types.ServiceOrderStatus;
+import com.tytanisukcesu.demo.types.ServiceOrderType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

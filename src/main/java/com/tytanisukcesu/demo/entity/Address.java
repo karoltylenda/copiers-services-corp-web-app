@@ -1,7 +1,7 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tytanisukcesu.demo.entity.enums.AddresType;
+import com.tytanisukcesu.demo.types.AddresType;
 import lombok.*;
 
 import javax.persistence.*;

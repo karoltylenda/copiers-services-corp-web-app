@@ -1,6 +1,6 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.tytanisukcesu.demo.entity.enums.PrintingFormat;
+import com.tytanisukcesu.demo.types.PrintingFormat;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
