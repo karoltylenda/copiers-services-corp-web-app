@@ -6,12 +6,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "articles")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Article {
 
     @Id
@@ -22,7 +19,7 @@ public class Article {
     @Column(unique = true, nullable = false)
     private String catalogueNumber;
     @Column(nullable = false)
-    private boolean isConsumable; //czy eksploatacyjny
+    private boolean isConsumable;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
@@ -30,6 +27,7 @@ public class Article {
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
+    @EqualsAndHashCode.Exclude
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "articles_and_models_connection",
