@@ -9,13 +9,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "devices")
-@Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Device {
 
     @Id
@@ -26,8 +22,6 @@ public class Device {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "modelId", referencedColumnName = "id")
-    @JsonIgnore
-    @JsonMerge
     private Model model;
 
     @Column(unique = true)
@@ -37,8 +31,6 @@ public class Device {
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "customerId", referencedColumnName = "id")
-    @JsonIgnore
-    @JsonMerge
     private Customer customer;
 
     private BigDecimal monoPagePrice;
@@ -46,8 +38,6 @@ public class Device {
     private BigDecimal colorPagePrice;
 
     @OneToMany(mappedBy = "device")
-    @JsonIgnore
-    @JsonMerge
     private Set<Counter> counters;
 
 }

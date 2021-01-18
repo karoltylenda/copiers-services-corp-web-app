@@ -1,20 +1,15 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "manufacturers")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Manufacturer {
 
     @Id
@@ -25,16 +20,18 @@ public class Manufacturer {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "manufacturer")
-    @EqualsAndHashCode.Exclude
     @JsonIgnore
-    @JsonMerge
+    @OneToMany(
+            mappedBy = "manufacturer",
+            cascade = CascadeType.REMOVE)
+    @EqualsAndHashCode.Exclude
     private Set<Model> models;
 
-    @OneToMany(mappedBy = "manufacturer")
-    @EqualsAndHashCode.Exclude
     @JsonIgnore
-    @JsonMerge
+    @OneToMany(
+            mappedBy = "manufacturer",
+            cascade = CascadeType.REMOVE)
+    @EqualsAndHashCode.Exclude
     private Set<Article> articles;
 
 }

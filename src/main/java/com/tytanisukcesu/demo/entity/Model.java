@@ -1,7 +1,5 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonMerge;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
@@ -32,22 +30,12 @@ public class Model {
             fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manufacturer_id")
-    @JsonIgnore
-    @JsonMerge
     private Manufacturer manufacturer;
 
     @Column
     private PrintingFormat printingFormat;
 
-    @OneToMany(mappedBy = "model")
-    @EqualsAndHashCode.Exclude
-    @JsonIgnore
-    @JsonMerge
-    private Set<Device> devices;
-
     @ManyToMany(mappedBy = "models")
     @EqualsAndHashCode.Exclude
-    @JsonIgnore
-    @JsonMerge
     private Set<Article> consumables;
 }
