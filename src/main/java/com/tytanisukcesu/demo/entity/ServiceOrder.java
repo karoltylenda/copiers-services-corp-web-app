@@ -25,7 +25,11 @@ public class ServiceOrder {
     private LocalDateTime serviceOrderEndDate;
     private String descriptionOfTheFault;
 
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinColumn(referencedColumnName = "id")
     private Device device;
 
     @OneToMany

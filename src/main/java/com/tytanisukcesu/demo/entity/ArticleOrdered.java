@@ -24,4 +24,11 @@ public class ArticleOrdered {
     )
     @JoinColumn(referencedColumnName = "id")
     private Article article;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinColumn(referencedColumnName = "id")
+    private ServiceOrder serviceOrder;
 }
