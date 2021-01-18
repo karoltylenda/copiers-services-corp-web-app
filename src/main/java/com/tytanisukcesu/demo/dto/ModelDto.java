@@ -1,11 +1,10 @@
 package com.tytanisukcesu.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Article;
 import com.tytanisukcesu.demo.entity.Device;
 import com.tytanisukcesu.demo.entity.Manufacturer;
-import com.tytanisukcesu.demo.entity.PrintingFormat;
+import com.tytanisukcesu.demo.entity.enums.PrintingFormat;
 import lombok.*;
 import java.util.Set;
 

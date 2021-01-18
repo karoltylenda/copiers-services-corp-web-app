@@ -9,13 +9,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "customers")
-@Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
 public class Customer {
 
     @Id

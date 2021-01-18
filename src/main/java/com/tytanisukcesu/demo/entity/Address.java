@@ -1,21 +1,16 @@
 package com.tytanisukcesu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tytanisukcesu.demo.entity.enums.AddresType;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "addresses")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class Address {
 
     @Id
@@ -38,10 +33,13 @@ public class Address {
 
     private String apartmentNumber;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonIgnore
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.MERGE
+    )
     private Customer customer;
 
-    private boolean isInvoice; //true - faktura, false - instalacja
+    private AddresType addresType;
 
 }

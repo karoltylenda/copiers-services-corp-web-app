@@ -1,4 +1,4 @@
-package com.tytanisukcesu.demo.entity;
+package com.tytanisukcesu.demo.entity.enums;
 
 public enum ServiceOrderStatus {
     NEW,
