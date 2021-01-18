@@ -6,12 +6,9 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "counters")
-@Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Counter {
 
     @Id
