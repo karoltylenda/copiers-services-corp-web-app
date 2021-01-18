@@ -6,13 +6,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "models")
-@Getter
-@Setter
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 public class Model {
 
     @Id
@@ -32,7 +28,6 @@ public class Model {
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
-    @Column
     private PrintingFormat printingFormat;
 
     @ManyToMany(mappedBy = "models")
