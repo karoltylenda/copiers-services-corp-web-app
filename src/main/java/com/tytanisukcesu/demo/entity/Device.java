@@ -1,8 +1,9 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonMerge;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -19,25 +20,35 @@ public class Device {
     private Long id;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "modelId", referencedColumnName = "id")
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(referencedColumnName = "id")
     private Model model;
 
     @Column(unique = true)
     private String serialNumber;
 
     @ManyToOne(
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "customerId", referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id")
     private Customer customer;
 
     private BigDecimal monoPagePrice;
 
     private BigDecimal colorPagePrice;
 
+    private BigDecimal leasePrice;
+
     @OneToMany(mappedBy = "device")
+    @EqualsAndHashCode.Exclude
     private Set<Counter> counters;
+
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(referencedColumnName = "id")
+    private Address address;
 
 }

@@ -15,11 +15,15 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private boolean printsInColor;
+
     private Integer productionYear;
+
     @Column(nullable = false)
     private Integer printingSpeed;
 

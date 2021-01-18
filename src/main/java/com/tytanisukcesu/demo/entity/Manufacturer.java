@@ -1,7 +1,9 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,20 +16,17 @@ public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Exclude
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String name;
 
-    @JsonIgnore
     @OneToMany(
             mappedBy = "manufacturer",
             cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
     private Set<Model> models;
 
-    @JsonIgnore
     @OneToMany(
             mappedBy = "manufacturer",
             cascade = CascadeType.REMOVE)

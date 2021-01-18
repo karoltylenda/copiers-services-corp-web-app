@@ -1,10 +1,10 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,8 +27,9 @@ public class Customer {
 
     private String regon;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Set<Address> addresses;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private Address address;
 
     private Long telephoneNumber;
 
@@ -36,10 +37,14 @@ public class Customer {
 
     private String companySiteUrl;
 
+    @OneToOne(mappedBy = "customer")
+    @JoinColumn(referencedColumnName = "id")
+    private Contract contract;
+
     @OneToMany(
             mappedBy = "customer",
-            cascade = CascadeType.ALL)
-    @JsonIgnore
+            cascade = CascadeType.ALL
+    )
     private Set<Device> devices;
 
 }

@@ -1,9 +1,9 @@
 package com.tytanisukcesu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tytanisukcesu.demo.types.AddresType;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
@@ -33,12 +33,11 @@ public class Address {
 
     private String apartmentNumber;
 
-    @JsonIgnore
-    @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.MERGE
-    )
+    @OneToOne(mappedBy = "address")
     private Customer customer;
+
+    @OneToOne(mappedBy = "address")
+    private Device device;
 
     private AddresType addresType;
 

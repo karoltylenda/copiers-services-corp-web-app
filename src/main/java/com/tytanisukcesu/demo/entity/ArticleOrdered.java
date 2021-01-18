@@ -16,7 +16,12 @@ public class ArticleOrdered {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Integer quantity;
+
     private BigDecimal price;
+
+    private BigDecimal totalPrice;
 
     @ManyToOne(
             fetch = FetchType.EAGER,
@@ -31,4 +36,5 @@ public class ArticleOrdered {
     )
     @JoinColumn(referencedColumnName = "id")
     private ServiceOrder serviceOrder;
+
 }
