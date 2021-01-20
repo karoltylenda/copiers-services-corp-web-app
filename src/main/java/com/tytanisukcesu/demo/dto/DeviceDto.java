@@ -1,7 +1,6 @@
 package com.tytanisukcesu.demo.dto;
 
-import com.tytanisukcesu.demo.entity.Counter;
-import com.tytanisukcesu.demo.entity.Customer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -15,12 +14,19 @@ import java.util.Set;
 @EqualsAndHashCode
 public class DeviceDto {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
+
     private ModelDto model;
+
     private String serialNumber;
-    private Customer customer;
+
+    private CustomerDto customer;
+
     private BigDecimal monoPagePrice;
+
     private BigDecimal colorPagePrice;
-    private Set<Counter> counters;
+
+    private Set<CounterDto> counters;
 
 }

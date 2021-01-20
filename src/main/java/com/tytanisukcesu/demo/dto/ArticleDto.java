@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.entity.Model;
 import lombok.*;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -18,14 +20,15 @@ public class ArticleDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
+
     private String name;
+
     private String catalogueNumber;
+
     private boolean isConsumable;
-    private boolean isAlternative;
-    private BigDecimal purchasePrice;
-    private BigDecimal salePrice;
-    private Manufacturer manufacturer;
-    private Integer yield;
-    private Set<Model> models;
+
+    private ManufacturerDto manufacturer;
+
+    private Set<ModelDto> models;
 
 }

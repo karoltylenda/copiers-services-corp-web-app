@@ -1,7 +1,7 @@
 package com.tytanisukcesu.demo.service;
 
+import com.tytanisukcesu.demo.dto.ModelDto;
 import com.tytanisukcesu.demo.entity.Model;
-import com.tytanisukcesu.demo.repository.ManufacturerRepository;
 import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import java.util.Optional;
 public class ModelService {
 
     private final ModelRepository modelRepository;
-    private final ManufacturerRepository manufacturerRepository;
     private final ManufacturerService manufacturerService;
 
     public List<Model> findAll() {
@@ -34,5 +33,17 @@ public class ModelService {
     public Model findById(Long id) {
         Optional<Model> modelOptional = modelRepository.findById(id);
         return modelOptional.orElse(new Model());
+    }
+
+    public List<ModelDto> getAllByParameters(String manufacturer, String model, boolean printsInColor) {
+        return null;
+    }
+
+    public boolean delete(Long id) {
+        return true;
+    }
+
+    public ModelDto update(Long id, ModelDto modelDto) {
+        return null;
     }
 }

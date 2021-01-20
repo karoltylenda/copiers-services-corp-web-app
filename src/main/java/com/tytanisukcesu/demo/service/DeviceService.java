@@ -1,9 +1,7 @@
 package com.tytanisukcesu.demo.service;
 
 import com.tytanisukcesu.demo.entity.Device;
-import com.tytanisukcesu.demo.entity.Model;
 import com.tytanisukcesu.demo.repository.DeviceRepository;
-import com.tytanisukcesu.demo.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +11,10 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-
 public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final ModelService modelService;
-    private final ModelRepository modelRepository;
 
     public List<Device> findAll() {
         return deviceRepository.findAll();

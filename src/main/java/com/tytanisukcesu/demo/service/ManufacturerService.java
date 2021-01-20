@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ManufacturerService {
 
     private final ManufacturerRepository manufacturerRepository;
-
+//
     public List<Manufacturer> findAll() {
         return manufacturerRepository.findAll();
     }

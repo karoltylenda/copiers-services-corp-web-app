@@ -19,32 +19,31 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/devices")
 @RequiredArgsConstructor
-
 public class DeviceController {
 
-    private final DeviceService deviceService;
-    private final ModelMapper modelMapper;
+//    private final DeviceService deviceService;
+//    private final ModelMapper modelMapper;
+//
+//    @GetMapping
+//    public List<DeviceDto> getAll(){
+//        List<Device> devices = deviceService.findAll();
+//        return devices.stream()
+//                .map(this::convertToDto)
+//                .collect(Collectors.toList());
+//    }
+//
+//    @GetMapping(value = "/{id}")
+//    public DeviceDto getById(@PathVariable("id") Long id){
+//        Device device = deviceService.findById(id);
+//        return convertToDto(device);
+//    }
 
-    @GetMapping
-    public List<DeviceDto> getAll(){
-        List<Device> devices = deviceService.findAll();
-        return devices.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping(value = "/{id}")
-    public DeviceDto getById(@PathVariable("id") Long id){
-        Device device = deviceService.findById(id);
-        return convertToDto(device);
-    }
-
-    @PostMapping
-    public DeviceDto save(@RequestBody DeviceDto deviceDto){
-        Device device = convertToEntity(deviceDto);
-        Device deviceSaved = deviceService.save(device);
-        return convertToDto(deviceSaved);
-    }
+//    @PostMapping
+//    public DeviceDto save(@RequestBody DeviceDto deviceDto){
+//        Device device = convertToEntity(deviceDto);
+//        Device deviceSaved = deviceService.save(device);
+//        return convertToDto(deviceSaved);
+//    }
 
 //    @DeleteMapping(value = "/{id}")
 //    public ResponseEntity delete(@PathVariable("id") Long id){
@@ -60,13 +59,13 @@ public class DeviceController {
 //        return deviceService.update(id,deviceDto);
 //    }
 
-    private DeviceDto convertToDto(Device device){
-        DeviceDto deviceDto = modelMapper.map(device, DeviceDto.class);
-        return deviceDto;
-    }
-
-    private Device convertToEntity(DeviceDto deviceDto){
-        Device device = modelMapper.map(deviceDto, Device.class);
-        return device;
-    }
+//    private DeviceDto convertToDto(Device device){
+//        DeviceDto deviceDto = modelMapper.map(device, DeviceDto.class);
+//        return deviceDto;
+//    }
+//
+//    private Device convertToEntity(DeviceDto deviceDto){
+//        Device device = modelMapper.map(deviceDto, Device.class);
+//        return device;
+//    }
 }

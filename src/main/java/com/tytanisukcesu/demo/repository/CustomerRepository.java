@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    List<Customer> getCustomerByNipContainsAndCompanyNameContains(String nip,String companyName);
+//    List<Customer> getCustomerByNipContainsAndCompanyNameContains(String nip,String companyName);
 
 }

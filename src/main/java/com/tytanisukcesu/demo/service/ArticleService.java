@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ArticleService {
 
-    private final ArticleRepository articleRepository;
+//    private final ArticleRepository articleRepository;
 //
 //    private Article provideEntity(ArticleDto articleDto){
 //        Article article = new Article();

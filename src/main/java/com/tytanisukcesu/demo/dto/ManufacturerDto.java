@@ -2,7 +2,10 @@ package com.tytanisukcesu.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.demo.entity.Article;
+import com.tytanisukcesu.demo.entity.Model;
 import lombok.*;
+
 import java.util.Set;
 
 @Getter
@@ -16,8 +19,13 @@ public class ManufacturerDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
+
     private String name;
-    private Set<ModelDto> models;
-    private Set<ArticleDto> articles;
+
+    @JsonIgnore
+    private Set<Model> models;
+
+    @JsonIgnore
+    private Set<Article> articles;
 
 }

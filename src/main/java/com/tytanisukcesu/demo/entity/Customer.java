@@ -37,7 +37,7 @@ public class Customer {
 
     private String companySiteUrl;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private Contract contract;
 

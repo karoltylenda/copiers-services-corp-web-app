@@ -1,6 +1,6 @@
 package com.tytanisukcesu.demo.dto;
 
-import com.tytanisukcesu.demo.entity.Device;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import java.time.LocalDate;
 
@@ -13,12 +13,19 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class CounterDto {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
+
     private LocalDate counterDate;
+
     private Integer monoCounter;
+
     private Integer colorCounter;
+
     private Integer totalCounter;
+
     private boolean isUsedToBilling;
-    private Device device;
+
+    private DeviceDto device;
 
 }
