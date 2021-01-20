@@ -17,34 +17,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomerService {
 
-//    private final CustomerRepository customerRepository;
-//
-//    public CustomerDto provideDto(Customer customer){
-//        return CustomerDto.builder()
-//                .id(customer.getId())
-//                .addresses(customer.getAddresses())
-//                .companyName(customer.getCompanyName())
-//                .companySiteUrl(customer.getCompanySiteUrl())
-//                .email(customer.getEmail())
-//                .nip(customer.getNip())
-//                .regon(customer.getRegon())
-//                .telephoneNumber(customer.getTelephoneNumber())
-//                .build();
-//    }
-//
-//    public Customer provideEntity(CustomerDto customerDto){
-//        return Customer.builder()
-//                .id(customerDto.getId())
-//                .addresses(customerDto.getAddresses())
-//                .companyName(customerDto.getCompanyName())
-//                .companySiteUrl(customerDto.getCompanySiteUrl())
-//                .email(customerDto.getEmail())
-//                .nip(customerDto.getNip())
-//                .regon(customerDto.getRegon())
-//                .telephoneNumber(customerDto.getTelephoneNumber())
-//                .build();
-//    }
-//
+    private final CustomerRepository customerRepository;
+
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
+    public Customer findById(Long id) {
+        return customerRepository.findById(id).orElse(new Customer());
+    }
+
+    public Customer save(Customer customer) {
+    }
+
 //    public CustomerDto save(CustomerDto customerDto){
 //        Customer customer = provideEntity(customerDto);
 //        customerRepository.save(customer);

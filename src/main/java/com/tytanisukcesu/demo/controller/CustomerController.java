@@ -1,21 +1,24 @@
 package com.tytanisukcesu.demo.controller;
 
 import com.tytanisukcesu.demo.dto.CustomerDto;
-import com.tytanisukcesu.demo.service.AddressService;
+import com.tytanisukcesu.demo.dto.ManufacturerDto;
+import com.tytanisukcesu.demo.entity.Customer;
+import com.tytanisukcesu.demo.entity.Manufacturer;
 import com.tytanisukcesu.demo.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/customers")
 @RequiredArgsConstructor
 public class CustomerController {
 
-//    private final CustomerService customerService;
-//    private final AddressService addressService;
+    private final CustomerService customerService;
+    private final ModelMapper modelMapper;
 //
 //    @GetMapping(value = "/search")
 //    public List<CustomerDto> getAllByParameters(@RequestParam(required = false,defaultValue = "") String nip,
@@ -23,22 +26,27 @@ public class CustomerController {
 //        return customerService.getAllByParameters(nip,companyName);
 //    }
 //
-//    @GetMapping
-//    public List<CustomerDto> getAll(){
-//        return customerService.findAll();
-//    }
-//
-//    @PostMapping
-//    public CustomerDto save(@RequestBody CustomerDto customerDto){
-//        return customerService.save(customerDto);
-//    }
-//
-//
-//    @GetMapping(value = "/{id}")
-//    public CustomerDto getById(@PathVariable("id") Long id){
-//        return customerService.getById(id);
-//    }
-//
+    @GetMapping
+    public List<CustomerDto> getAll(){
+        List<Customer> customers = customerService.findAll();
+        return customers.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @PostMapping
+    public CustomerDto save(@RequestBody CustomerDto customerDto){
+        Customer customer = convertToEntity(customerDto);
+        Customer customerSaved = customerService.save(customer);
+        return convertToDto(customerSaved);
+    }
+
+    @GetMapping(value = "/{id}")
+    public CustomerDto findById(@PathVariable("id") Long id){
+        Customer customer = customerService.findById(id);
+        return convertToDto(customer);
+    }
+
 //    @DeleteMapping(value = "/{id}")
 //    public ResponseEntity delete(@PathVariable("id") Long id){
 //        if(customerService.delete(id)){
@@ -52,6 +60,14 @@ public class CustomerController {
 //    public CustomerDto update(@PathVariable("id") Long id, @RequestBody CustomerDto customerDto){
 //        return customerService.update(id,customerDto);
 //    }
-//
 
+    private CustomerDto convertToDto(Customer customer){
+        CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
+        return customerDto;
+    }
+
+    private Customer convertToEntity(CustomerDto customerDto){
+        Customer customer = modelMapper.map(customerDto, Customer.class);
+        return customer;
+    }
 }

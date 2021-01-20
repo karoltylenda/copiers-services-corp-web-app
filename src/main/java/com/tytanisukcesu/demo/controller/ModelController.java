@@ -44,7 +44,7 @@ public class ModelController {
     }
 
     @GetMapping(value = "/{id}")
-    public ModelDto getById(@PathVariable("id") Long id){
+    public ModelDto findById(@PathVariable("id") Long id){
         Model model = modelService.findById(id);
         return convertToDto(model);
     }

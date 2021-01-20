@@ -31,8 +31,7 @@ public class ModelService {
     }
 
     public Model findById(Long id) {
-        Optional<Model> modelOptional = modelRepository.findById(id);
-        return modelOptional.orElse(new Model());
+        return modelRepository.findById(id).orElse(new Model());
     }
 
     public List<ModelDto> getAllByParameters(String manufacturer, String model, boolean printsInColor) {
