@@ -5,6 +5,7 @@ import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,19 +46,21 @@ public class CustomerController {
         return convertToDto(customer);
     }
 
-//    @DeleteMapping(value = "/{id}")
-//    public ResponseEntity delete(@PathVariable("id") Long id){
-//        if(customerService.delete(id)){
-//            return ResponseEntity.accepted().build();
-//        }else{
-//            return ResponseEntity.status(404).build();
-//        }
-//    }
-//
-//    @PutMapping(value = "/{id}")
-//    public CustomerDto update(@PathVariable("id") Long id, @RequestBody CustomerDto customerDto){
-//        return customerService.update(id,customerDto);
-//    }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id){
+        if(customerService.delete(id)){
+            return ResponseEntity.accepted().build();
+        }else{
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PutMapping(value = "/{id}")
+    public CustomerDto update(@PathVariable("id") Long id, @RequestBody CustomerDto customerDto){
+        Customer customer = convertToEntity(customerDto);
+        Customer customerUpdated = customerService.update(id,customer);
+        return convertToDto(customerUpdated);
+    }
 
     private CustomerDto convertToDto(Customer customer){
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);

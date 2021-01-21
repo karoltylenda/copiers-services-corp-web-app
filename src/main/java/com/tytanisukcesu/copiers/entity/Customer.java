@@ -23,7 +23,7 @@ public class Customer {
     private String companyName;
 
     @Column(nullable = false,unique = true)
-    private String nip;
+    private String taxId;
 
     private String regon;
 
