@@ -18,7 +18,8 @@ public class DeviceService {
     private final ModelService modelService;
 
     public List<Device> findAll() {
-        return deviceRepository.findAll();
+        List<Device> devices = deviceRepository.findAll();
+        return devices;
     }
 
     public Device findById(Long id) {

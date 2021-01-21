@@ -1,94 +1,61 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Address;
+import com.tytanisukcesu.copiers.entity.Device;
+import com.tytanisukcesu.copiers.repository.AddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AddressService {
 
-//    private final AddressRepository addressRepository;
-//
-//    public Address provideEntity(AddressDto addressDto) {
-//        return Address.builder()
-//                .id(addressDto.getId())
-//                .apartmentNumber(addressDto.getApartmentNumber())
-//                .customer(addressDto.getCustomer())
-//                .houseNumber(addressDto.getHouseNumber())
-//                .postCode(addressDto.getPostCode())
-//                .city(addressDto.getCity())
-//                .province(addressDto.getProvince())
-//                .street(addressDto.getStreet())
-//                .build();
-//    }
-//
-//    public AddressDto provideDto(Address address) {
-//        return AddressDto.builder()
-//                .id(address.getId())
-//                .apartmentNumber(address.getApartmentNumber())
-//                .customer(address.getCustomer())
-//                .houseNumber(address.getHouseNumber())
-//                .postCode(address.getPostCode())
-//                .city(address.getCity())
-//                .province(address.getProvince())
-//                .street(address.getStreet())
-//                .build();
-//    }
-//
-//
-//    public AddressDto save(AddressDto addressDto) {
-//        Address address = provideEntity(addressDto);
-//        addressRepository.save(address);
-//        return provideDto(address);
-//    }
-//
-//    public boolean delete(Long id) {
-//        Optional<Address> address = addressRepository.findById(id);
-//        if (address.isPresent()) {
-//            addressRepository.delete(address.get());
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    public List<AddressDto> findAll() {
-//        List<Address> addresses = addressRepository.findAll();
-//        return addresses.stream()
-//                .map(this::provideDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public AddressDto update(Long id, AddressDto addressDto) {
-//        Address address = addressRepository.findById(id).orElseThrow();
-//        Address addressUpdated = provideEntity(addressDto);
-//        address.setApartmentNumber(addressUpdated.getApartmentNumber());
-//        address.setCity(addressUpdated.getCity());
-//        address.setCustomer(addressUpdated.getCustomer());
-//        address.setHouseNumber(addressUpdated.getHouseNumber());
-//        address.setPostCode(addressUpdated.getPostCode());
-//        address.setProvince(addressUpdated.getProvince());
-//        address.setStreet(addressUpdated.getStreet());
-//        return provideDto(address);
-//    }
-//
-//    public Optional<AddressDto> findAddressIfExists(AddressDto addressDto){
-//        Address addressToReturn = new Address();
-//        List<Address> addresses = addressRepository.findAll();
-//        Address addressToFind = provideEntity(addressDto);
-//        if(addresses.isEmpty()){
-//            addressToReturn = provideEntity(addressDto);
-//        }
-//        for(Address address:addresses){
-//            if(address.equals(addressToFind)){
-//                addressToReturn = address;
-//                break;
-//            } else {
-//                addressToReturn = provideEntity(addressDto);
-//            }
-//        }
-//        return Optional.ofNullable(provideDto(addressToReturn));
-//    }
-//
+    private AddressRepository addressRepository;
 
+    public Address save(Address address) {
+        Address addressToSave = addressRepository.save(address);
+        return addressToSave;
+    }
+
+    public Address update(Long id, Address address) {
+        Optional<Address> addressOptional = addressRepository.findById(id);
+        if (addressOptional.isPresent()) {
+            Address addressUpdated = addressOptional.get();
+            addressUpdated.setAddresType(address.getAddresType());
+            addressUpdated.setCity(address.getCity());
+            addressUpdated.setCustomer(address.getCustomer());
+            addressUpdated.setDevice(address.getDevice());
+            addressUpdated.setApartmentNumber(address.getApartmentNumber());
+            addressUpdated.setHouseNumber(address.getHouseNumber());
+            addressUpdated.setPostCode(address.getPostCode());
+            addressUpdated.setStreet(address.getStreet());
+            addressUpdated.setProvince(address.getProvince());
+            return addressUpdated;
+        } else {
+            return new Address();
+        }
+    }
+
+    public Address findById(Long id) {
+        Optional<Address> addressOptional = addressRepository.findById(id);
+        return addressOptional.orElse(new Address());
+    }
+
+    public List<Address> findAll() {
+        List<Address> addresses = addressRepository.findAll();
+        return addresses;
+    }
+
+    public boolean delete(Long id) {
+        Optional<Address> addressOptional = addressRepository.findById(id);
+        if (addressOptional.isPresent()) {
+            addressRepository.delete(addressOptional.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

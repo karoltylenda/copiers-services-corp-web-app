@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,8 @@ public class ModelService {
     private final ManufacturerService manufacturerService;
 
     public List<Model> findAll() {
-        return modelRepository.findAll();
+        List<Model> models = modelRepository.findAll();
+        return models;
     }
 
     public Model save(Model model) {

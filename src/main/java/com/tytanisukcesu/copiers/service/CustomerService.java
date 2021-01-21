@@ -20,7 +20,8 @@ public class CustomerService {
     }
 
     public Customer findById(Long id) {
-        return customerRepository.findById(id).orElse(new Customer());
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+        return customerOptional.orElse(new Customer());
     }
 
     public Customer save(Customer customer) {
