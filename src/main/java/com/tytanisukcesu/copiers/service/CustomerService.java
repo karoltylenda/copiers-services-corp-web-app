@@ -5,6 +5,7 @@ import com.tytanisukcesu.copiers.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,21 +43,23 @@ public class CustomerService {
         }
     }
 
+
+    @Transactional
     public Customer update(Long id, Customer customer) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
         if (customerOptional.isPresent()) {
-            Customer customerUpdated = customerOptional.get();
-            customerUpdated.setCompanyName(customer.getCompanyName());
-            customerUpdated.setEmail(customer.getEmail());
-            customerUpdated.setCompanySiteUrl(customer.getCompanySiteUrl());
-            customerUpdated.setRegon(customer.getRegon());
-            customerUpdated.setTelephoneNumber(customer.getTelephoneNumber());
-            customerUpdated.setAddress(customer.getAddress());
-            customerUpdated.setContract(customer.getContract());
-            customerUpdated.setDevices(customer.getDevices());
-            customerUpdated.setEmail(customer.getEmail());
-            customerUpdated.setTaxId(customer.getTaxId());
-            return customerUpdated;
+            Customer customerToUpdate = customerOptional.get();
+            customerToUpdate.setCompanyName(customer.getCompanyName());
+            customerToUpdate.setEmail(customer.getEmail());
+            customerToUpdate.setCompanySiteUrl(customer.getCompanySiteUrl());
+            customerToUpdate.setRegon(customer.getRegon());
+            customerToUpdate.setTelephoneNumber(customer.getTelephoneNumber());
+            customerToUpdate.setAddress(customer.getAddress());
+            customerToUpdate.setContract(customer.getContract());
+            customerToUpdate.setDevices(customer.getDevices());
+            customerToUpdate.setEmail(customer.getEmail());
+            customerToUpdate.setTaxId(customer.getTaxId());
+            return customerToUpdate;
         } else {
             return new Customer();
         }

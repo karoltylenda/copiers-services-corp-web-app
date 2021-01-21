@@ -19,7 +19,7 @@ public class CustomerDto {
 
     private String companyName;
 
-    private String nip;
+    private String taxId;
 
     private String regon;
 

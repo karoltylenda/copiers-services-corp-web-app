@@ -1,10 +1,10 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.dto.ModelDto;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -34,15 +34,31 @@ public class ModelService {
         return modelRepository.findById(id).orElse(new Model());
     }
 
-    public List<ModelDto> getAllByParameters(String manufacturer, String model, boolean printsInColor) {
-        return null;
-    }
 
     public boolean delete(Long id) {
-        return true;
+        Optional<Model> model = modelRepository.findById(id);
+        if (model.isPresent()) {
+            modelRepository.delete(model.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public ModelDto update(Long id, ModelDto modelDto) {
-        return null;
+    public Model update(Long id, Model model) {
+        Optional<Model> modelOptional = modelRepository.findById(id);
+        if (modelOptional.isPresent()) {
+            Model modelUpdated = modelOptional.get();
+            modelUpdated.setManufacturer(model.getManufacturer());
+            modelUpdated.setName(model.getName());
+            modelUpdated.setConsumables(model.getConsumables());
+            modelUpdated.setPrintingFormat(model.getPrintingFormat());
+            modelUpdated.setPrintingSpeed(model.getPrintingSpeed());
+            modelUpdated.setPrintsInColor(model.isPrintsInColor());
+            modelUpdated.setProductionYear(model.getProductionYear());
+            return modelUpdated;
+        } else {
+            return new Model();
+        }
     }
 }

@@ -2,9 +2,11 @@ package com.tytanisukcesu.copiers.controller;
 
 import com.tytanisukcesu.copiers.dto.DeviceDto;
 import com.tytanisukcesu.copiers.entity.Device;
+import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,19 +41,21 @@ public class DeviceController {
         return convertToDto(deviceSaved);
     }
 
-//    @DeleteMapping(value = "/{id}")
-//    public ResponseEntity delete(@PathVariable("id") Long id){
-//        if(deviceService.delete(id)){
-//            return ResponseEntity.accepted().build();
-//        }else{
-//            return ResponseEntity.status(404).build();
-//        }
-//    }
-//
-//    @PutMapping(value = "/{id}")
-//    public DeviceDto update(@PathVariable("id") Long id, @RequestBody DeviceDto deviceDto){
-//        return deviceService.update(id,deviceDto);
-//    }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id){
+        if(deviceService.delete(id)){
+            return ResponseEntity.accepted().build();
+        }else{
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PutMapping(value = "/{id}")
+    public DeviceDto update(@PathVariable("id") Long id, @RequestBody DeviceDto deviceDto){
+        Device device = convertToEntity(deviceDto);
+        Device deviceUpdated = deviceService.update(id,device);
+        return convertToDto(deviceUpdated);
+    }
 
     private DeviceDto convertToDto(Device device){
         DeviceDto deviceDto = modelMapper.map(device, DeviceDto.class);
@@ -62,4 +66,5 @@ public class DeviceController {
         Device device = modelMapper.map(deviceDto, Device.class);
         return device;
     }
+
 }

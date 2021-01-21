@@ -4,6 +4,8 @@ import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.repository.ManufacturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,13 +43,18 @@ public class ManufacturerService {
         }
     }
 
+    @Transactional
     public Manufacturer update(Long id, Manufacturer manufacturer) {
-        Manufacturer manufacturerToUpdate = manufacturerRepository.findById(id).orElse(new Manufacturer());
-        manufacturerToUpdate.setName(manufacturer.getName());
-        manufacturerToUpdate.setArticles(manufacturer.getArticles());
-        manufacturerToUpdate.setModels(manufacturer.getModels());
-        Manufacturer manufacturerUpdated = manufacturerRepository.save(manufacturerToUpdate);
-        return manufacturerUpdated;
+        Optional<Manufacturer> manufacturerOptional = manufacturerRepository.findById(id);
+        if(manufacturerOptional.isPresent()){
+            Manufacturer manufacturerUpdated = manufacturerOptional.get();
+            manufacturerUpdated.setName(manufacturer.getName());
+            manufacturerUpdated.setArticles(manufacturer.getArticles());
+            manufacturerUpdated.setModels(manufacturer.getModels());
+            return manufacturerUpdated;
+        }else{
+            return new Manufacturer();
+        }
     }
 
     public List<Manufacturer> findAllByName(String name) {
