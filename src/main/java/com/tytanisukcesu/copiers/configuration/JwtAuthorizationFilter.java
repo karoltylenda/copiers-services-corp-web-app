@@ -33,7 +33,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws IOException, ServletException {
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request); 
+        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
         if (authentication == null) {
             filterChain.doFilter(request, response);
             return;
