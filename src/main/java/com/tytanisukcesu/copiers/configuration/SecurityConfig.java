@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,7 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+    }
 
+    public JsonObjectAuthenticationFilter authenticationFilter() throws Exception{
+        JsonObjectAuthenticationFilter authenticationFilter = new JsonObjectAuthenticationFilter(objectMapper);
+        authenticationFilter.setAuthenticationSuccessHandler(successHandler);
+        authenticationFilter.setAuthenticationFailureHandler(failureHandler);
+        authenticationFilter.setAuthenticationManager(super.authenticationManager()); //ustawiamy domyslny manager
+        return authenticationFilter;
     }
 
 
