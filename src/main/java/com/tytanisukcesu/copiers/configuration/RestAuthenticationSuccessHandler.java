@@ -30,16 +30,17 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        UserDetails principal = (UserDetails) authentication.getPrincipal(); //pobieramy nasze user details
 
+        //przekazujemy je pozniej do tokena
         String token = JWT.create()
-                .withSubject(principal.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime))
-                .sign(Algorithm.HMAC256(secret));
+                .withSubject(principal.getUsername()) //nasz token bedzie zawieral nasz username
+                .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime)) //date wygasniecia
+                .sign(Algorithm.HMAC256(secret)); //oraz nasz secret do zrobienia sygnatury
         response.addHeader("Authorization", "Bearer " + token);
     }
+    
 }
 
