@@ -4,6 +4,7 @@ import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,13 @@ public class DeviceService {
     private final DeviceRepository deviceRepository;
     private final ModelService modelService;
 
+    @Cacheable(cacheNames = "DevicesWithModels")
     public List<Device> findAll() {
         List<Device> devices = deviceRepository.findAll();
         return devices;
     }
 
+    @Cacheable(cacheNames = "SingleDevice",key = "#id")
     public Device findById(Long id) {
         Optional<Device> deviceOptional = deviceRepository.findById(id);
         return deviceOptional.orElse(new Device());
