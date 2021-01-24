@@ -19,6 +19,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final DataSource dataSource;
     private final ObjectMapper objectMapper;
+    private final RestAuthenticationFailureHandler failureHandler;
+    private final RestAuthenticationSuccessHandler successHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -34,14 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); //wylaczenie csrfa
         http
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html").permitAll() //swagger aby byl publicznie
+                .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
-                .and()
+                .addFilter(authenticationFilter())
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
@@ -50,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JsonObjectAuthenticationFilter authenticationFilter = new JsonObjectAuthenticationFilter(objectMapper);
         authenticationFilter.setAuthenticationSuccessHandler(successHandler);
         authenticationFilter.setAuthenticationFailureHandler(failureHandler);
-        authenticationFilter.setAuthenticationManager(super.authenticationManager()); //ustawiamy domyslny manager
+        authenticationFilter.setAuthenticationManager(super.authenticationManager());
         return authenticationFilter;
     }
 
