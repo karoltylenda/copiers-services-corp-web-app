@@ -4,6 +4,7 @@ import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,7 @@ public class DeviceService {
         }
     }
 
+    @CacheEvict(cacheNames = "SingleDevice")
     public boolean delete(Long id) {
         Optional<Device> deviceOptional = deviceRepository.findById(id);
         if (deviceOptional.isPresent()) {
