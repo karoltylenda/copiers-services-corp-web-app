@@ -106,6 +106,12 @@
             <artifactId>cache-api</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>4.2.2</version>
+        </dependency>
+
 
 
 
