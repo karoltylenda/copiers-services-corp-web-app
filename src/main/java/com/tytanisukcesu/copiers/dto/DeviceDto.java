@@ -1,7 +1,10 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.copiers.entity.*;
 import lombok.*;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -17,16 +20,16 @@ public class DeviceDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
-    private ModelDto model;
+    private Model model;
 
     private String serialNumber;
 
-    private CustomerDto customer;
+    private Customer customer;
 
-    private BigDecimal monoPagePrice;
+    private Set<Counter> counters;
 
-    private BigDecimal colorPagePrice;
+    private Address address;
 
-    private Set<CounterDto> counters;
+    private Contract contract;
 
 }

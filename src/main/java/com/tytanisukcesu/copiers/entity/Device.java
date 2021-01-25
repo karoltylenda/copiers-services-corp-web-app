@@ -34,12 +34,6 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Customer customer;
 
-    private BigDecimal monoPagePrice;
-
-    private BigDecimal colorPagePrice;
-
-    private BigDecimal leasePrice;
-
     @OneToMany(mappedBy = "device")
     @EqualsAndHashCode.Exclude
     private Set<Counter> counters;
@@ -51,4 +45,6 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
+    @OneToOne
+    private Contract contract;
 }

@@ -57,7 +57,7 @@ public class CustomerService {
             customerToUpdate.setRegon(customer.getRegon());
             customerToUpdate.setTelephoneNumber(customer.getTelephoneNumber());
             customerToUpdate.setAddress(customer.getAddress());
-            customerToUpdate.setContract(customer.getContract());
+//            customerToUpdate.setContract(customer.getContract());
             customerToUpdate.setDevices(customer.getDevices());
             customerToUpdate.setEmail(customer.getEmail());
             customerToUpdate.setTaxId(customer.getTaxId());

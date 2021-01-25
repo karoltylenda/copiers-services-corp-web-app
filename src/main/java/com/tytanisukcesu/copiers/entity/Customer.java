@@ -37,10 +37,6 @@ public class Customer {
 
     private String companySiteUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "id")
-    private Contract contract;
-
     @OneToMany(
             mappedBy = "customer",
             cascade = CascadeType.ALL

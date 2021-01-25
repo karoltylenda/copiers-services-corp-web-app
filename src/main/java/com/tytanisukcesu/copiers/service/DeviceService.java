@@ -56,9 +56,9 @@ public class DeviceService {
             deviceUpdated.setAddress(device.getAddress());
             deviceUpdated.setCounters(device.getCounters());
             deviceUpdated.setCustomer(device.getCustomer());
-            deviceUpdated.setColorPagePrice(device.getColorPagePrice());
-            deviceUpdated.setLeasePrice(device.getLeasePrice());
-            deviceUpdated.setMonoPagePrice(device.getMonoPagePrice());
+//            deviceUpdated.setColorPagePrice(device.getColorPagePrice());
+//            deviceUpdated.setLeasePrice(device.getLeasePrice());
+//            deviceUpdated.setMonoPagePrice(device.getMonoPagePrice());
             return deviceUpdated;
         } else {
             return new Device();

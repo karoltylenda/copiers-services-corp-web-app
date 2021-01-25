@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset mstopyra:2
-
+-- liquibase formatted sql
+-- changeset mstopyra:2
+--
 -- create table copiers.models
 -- (
 --     id              bigint auto_increment

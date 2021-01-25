@@ -6,4 +6,3 @@ insert into manufacturers(name) value('Konica Minolta');
 insert into manufacturers(name) value('Utax');
 
 
-

@@ -57,7 +57,7 @@ class ManufacturerControllerTest {
         assertThat(manufacturer).isNotNull();
         assertThat(manufacturer.getId()).isEqualTo(newManufacturer.getId());
         assertThat(manufacturer.getName()).isEqualTo(newManufacturer.getName());
-        assertThat(manufacturer.getName()).isEqualTo("asdasdasd");
+        assertThat(manufacturer.getName()).isEqualTo("Test123");
 
 
 

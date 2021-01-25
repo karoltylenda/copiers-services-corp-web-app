@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset mstopyra:3
-
+-- liquibase formatted sql
+-- changeset mstopyra:3
+--
 -- create table copiers.devices
 -- (
 --     id               bigint auto_increment

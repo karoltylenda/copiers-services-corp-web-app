@@ -1,8 +1,11 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.copiers.entity.Address;
+import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.Set;
 
 @Getter
@@ -23,7 +26,7 @@ public class CustomerDto {
 
     private String regon;
 
-    private AddressDto address;
+    private Address address;
 
     private Long telephoneNumber;
 
@@ -31,8 +34,6 @@ public class CustomerDto {
 
     private String companySiteUrl;
 
-    private ContractDto contract;
-
-    private Set<DeviceDto> devices;
+    private Set<Device> devices;
 
 }

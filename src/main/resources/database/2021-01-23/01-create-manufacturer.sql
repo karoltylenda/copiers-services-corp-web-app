@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset mstopyra:1
-
+-- liquibase formatted sql
+-- changeset mstopyra:1
+--
 -- create table copiers.manufacturers
 -- (
 --     id   bigint auto_increment
