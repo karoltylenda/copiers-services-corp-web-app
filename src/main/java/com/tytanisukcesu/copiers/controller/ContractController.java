@@ -6,12 +6,11 @@ import com.tytanisukcesu.copiers.service.ContractService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping(path = "/contracts")
 @RequiredArgsConstructor
 public class ContractController {

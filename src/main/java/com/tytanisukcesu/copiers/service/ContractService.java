@@ -26,13 +26,16 @@ public class ContractService {
         return contractOptional.orElse(new Contract());
     }
 
+    @Transactional
     public Contract save(Contract contract){
         Optional<Contract> contractOptional = contractRespository.findContractByDevice(contract.getDevice());
         if (contractOptional.isPresent()){
             return contractOptional.get();
         } else {
-            Contract contractSaved = contractRespository.save(contract);
-            return contractSaved;
+            Contract contractSaved = new Contract();
+            contractSaved.setContractNumber(contract.getContractNumber());
+            contractSaved.setDevice(contract.getDevice());
+            return contractRespository.save(contractSaved);
         }
     }
 

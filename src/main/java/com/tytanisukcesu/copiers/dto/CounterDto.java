@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 import java.time.LocalDate;
 
@@ -26,6 +27,6 @@ public class CounterDto {
 
     private boolean isUsedToBilling;
 
-    private DeviceDto device;
+    private Device device;
 
 }

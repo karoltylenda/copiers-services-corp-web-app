@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.copiers.entity.Customer;
 import lombok.*;
 
 @Getter
@@ -27,6 +28,6 @@ public class AddressDto {
 
     private String apartmentNumber;
 
-    private CustomerDto customer;
+    private Customer customer;
 
 }

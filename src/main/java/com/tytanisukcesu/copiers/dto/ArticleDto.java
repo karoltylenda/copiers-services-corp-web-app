@@ -1,6 +1,8 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.copiers.entity.Manufacturer;
+import com.tytanisukcesu.copiers.entity.Model;
 import lombok.*;
 
 import java.util.Set;
@@ -23,8 +25,8 @@ public class ArticleDto {
 
     private boolean isConsumable;
 
-    private ManufacturerDto manufacturer;
+    private Manufacturer manufacturer;
 
-    private Set<ModelDto> models;
+    private Set<Model> models;
 
 }
