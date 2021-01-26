@@ -20,7 +20,7 @@ public class Contract {
 
     private String contractNumber;
 
-    @OneToOne
+    @OneToOne(mappedBy = "contract")
     private Device device;
 
     private LocalDate startDate;

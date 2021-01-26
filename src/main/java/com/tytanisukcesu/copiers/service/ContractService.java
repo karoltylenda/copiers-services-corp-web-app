@@ -1,9 +1,9 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Contract;
-import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.ContractRespository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.support.ScopeNotActiveException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +15,7 @@ import java.util.Optional;
 public class ContractService {
 
     private final ContractRespository contractRespository;
+    private final DeviceService deviceService;
 
     public List<Contract> findAll(){
         List<Contract> contracts = contractRespository.findAll();
@@ -32,10 +33,11 @@ public class ContractService {
         if (contractOptional.isPresent()){
             return contractOptional.get();
         } else {
-            Contract contractSaved = new Contract();
-            contractSaved.setContractNumber(contract.getContractNumber());
-            contractSaved.setDevice(contract.getDevice());
-            return contractRespository.save(contractSaved);
+            Contract contractToSave = new Contract();
+            contractToSave.setContractNumber(contract.getContractNumber());
+            contractToSave.setDevice(deviceService.save(contract.getDevice()));
+            return contractRespository.save(contractToSave);
+
         }
     }
 

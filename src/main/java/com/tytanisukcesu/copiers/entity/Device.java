@@ -45,6 +45,8 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
-    @OneToOne
+    @OneToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     private Contract contract;
 }
