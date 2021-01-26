@@ -18,6 +18,7 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String contractNumber;
 
     @OneToOne(mappedBy = "contract")

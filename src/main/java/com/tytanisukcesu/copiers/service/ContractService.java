@@ -18,20 +18,20 @@ public class ContractService {
     private final ContractRespository contractRespository;
     private final DeviceService deviceService;
 
-    public List<Contract> findAll(){
+    public List<Contract> findAll() {
         List<Contract> contracts = contractRespository.findAll();
         return contracts;
     }
 
-    public Contract findById(Long id){
+    public Contract findById(Long id) {
         Optional<Contract> contractOptional = contractRespository.findById(id);
         return contractOptional.orElse(new Contract());
     }
 
     @Transactional
-    public Contract save(Contract contract){
-        Optional<Contract> contractOptional = contractRespository.findContractByDevice(contract.getDevice());
-        if (contractOptional.isPresent()){
+    public Contract save(Contract contract) {
+        Optional<Contract> contractOptional = contractRespository.getContractByDevice_SerialNumber(contract.getDevice().getSerialNumber());
+        if (contractOptional.isPresent()) {
             return contractOptional.get();
         } else {
             Contract contractToSave = new Contract();
@@ -40,8 +40,6 @@ public class ContractService {
             Device device = deviceService.save(contract.getDevice());
             device.setContract(contractSaved);
             return contractSaved;
-
-
         }
     }
 
@@ -56,9 +54,9 @@ public class ContractService {
     }
 
     @Transactional
-    public Contract update(Long id, Contract contract){
+    public Contract update(Long id, Contract contract) {
         Optional<Contract> contractOptional = contractRespository.findById(id);
-        if(contractOptional.isPresent()){
+        if (contractOptional.isPresent()) {
             Contract contractUpdated = contractOptional.get();
             contractUpdated.setContractNumber(contract.getContractNumber());
             contractUpdated.setColorPagePrice(contract.getColorPagePrice());

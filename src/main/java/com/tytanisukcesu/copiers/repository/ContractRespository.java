@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface ContractRespository extends JpaRepository<Contract, Long> {
 
-    Optional<Contract> findContractByDevice(Device device);
+//    Optional<Contract> findContractByDevice_SerialNumber(String serialNumber);
+
+    Optional<Contract> getContractByDevice_SerialNumber(String serialNumber);
 
 }

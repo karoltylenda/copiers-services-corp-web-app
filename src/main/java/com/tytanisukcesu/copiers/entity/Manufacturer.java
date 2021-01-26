@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,12 +26,14 @@ public class Manufacturer {
             mappedBy = "manufacturer",
             cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Model> models;
 
     @OneToMany(
             mappedBy = "manufacturer",
             cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Article> articles;
 
 }
