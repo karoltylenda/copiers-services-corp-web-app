@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.*;
 import lombok.*;
@@ -30,6 +31,7 @@ public class DeviceDto {
 
     private Address address;
 
+    @JsonIgnore
     private Contract contract;
 
 }

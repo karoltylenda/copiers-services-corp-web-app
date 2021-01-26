@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Contract;
+import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.ContractRespository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.support.ScopeNotActiveException;
@@ -35,8 +36,11 @@ public class ContractService {
         } else {
             Contract contractToSave = new Contract();
             contractToSave.setContractNumber(contract.getContractNumber());
-            contractToSave.setDevice(deviceService.save(contract.getDevice()));
-            return contractRespository.save(contractToSave);
+            Contract contractSaved = contractRespository.save(contractToSave);
+            Device device = deviceService.save(contract.getDevice());
+            device.setContract(contractSaved);
+            return contractSaved;
+
 
         }
     }
