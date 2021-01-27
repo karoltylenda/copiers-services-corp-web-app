@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Contract {
     private String contractNumber;
 
     @OneToOne(mappedBy = "contract")
+    @JsonIgnore
     private Device device;
 
     private LocalDate startDate;

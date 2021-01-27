@@ -47,7 +47,7 @@ public class Device {
 
     @OneToOne(
             fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+            cascade = CascadeType.MERGE)
     @JoinColumn(referencedColumnName = "id")
     private Contract contract;
 
