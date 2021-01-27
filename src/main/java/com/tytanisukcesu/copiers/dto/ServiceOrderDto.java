@@ -1,26 +1,26 @@
-package com.tytanisukcesu.copiers.entity;
+package com.tytanisukcesu.copiers.dto;
 
+import com.tytanisukcesu.copiers.entity.ArticleOrdered;
+import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
 import com.tytanisukcesu.copiers.types.ServiceOrderType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Entity
-@Table(name = "service_orders")
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceOrder {
+@ToString
+@EqualsAndHashCode
+public class ServiceOrderDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String serviceOrderNumber;
 
     private ServiceOrderType orderType;
@@ -37,13 +37,8 @@ public class ServiceOrder {
 
     private String descriptionOfTheFault;
 
-    @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-    )
-    @JoinColumn(referencedColumnName = "id")
     private Device device;
 
-    @OneToMany
     private Set<ArticleOrdered> articleOrderedSet;
+
 }
