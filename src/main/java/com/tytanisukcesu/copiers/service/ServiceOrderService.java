@@ -1,9 +1,7 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.repository.ServiceOrderRepository;
-import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +14,23 @@ import java.util.Optional;
 public class ServiceOrderService {
 
     private final ServiceOrderRepository serviceOrderRepository;
+    private final DeviceService deviceService;
 
+    //TODO asd
     public ServiceOrder save(ServiceOrder serviceOrder) {
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getServiceOrderByServiceOrderNumber(serviceOrder.getServiceOrderNumber());
         if (serviceOrderOptional.isPresent()) {
             return serviceOrderOptional.get();
         } else {
-            ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrder);
+            ServiceOrder serviceOrderToSave = new ServiceOrder();
+            serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
+            serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
+            serviceOrderToSave.setOrderStatus(serviceOrder.getOrderStatus());
+            serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
+            serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
+            serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
+            serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
+            ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrderToSave);
             return serviceOrderSaved;
         }
     }
