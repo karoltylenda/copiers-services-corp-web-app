@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Article;
+import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final ManufacturerService manufacturerService;
 
     public List<Article> findAll() {
         List<Article> articles = articleRepository.findAll();
@@ -30,7 +32,12 @@ public class ArticleService {
         if (articleOptional.isPresent()) {
             return articleOptional.get();
         } else {
-            Article articleSaved = articleRepository.save(article);
+            Article articleToSave = new Article();
+            articleToSave.setName(article.getName());
+            articleToSave.setManufacturer(manufacturerService.save(article.getManufacturer()));
+            articleToSave.setConsumable(article.isConsumable());
+            articleToSave.setCatalogueNumber(article.getCatalogueNumber());
+            Article articleSaved = articleRepository.save(articleToSave);
             return articleSaved;
         }
     }
