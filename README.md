@@ -1,5 +1,10 @@
 # Copiers-Services-Corp-webApp
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/64745872/106138076-f5502f80-616b-11eb-8fd5-ebdf60ed2d92.png" width="400" height="400"  />
+  </p>
+
+
 #### WebApp to manage copiers in service.
 With this application we can manage with history of serviced devices(service visits, replacement of consumables etc.).
 
