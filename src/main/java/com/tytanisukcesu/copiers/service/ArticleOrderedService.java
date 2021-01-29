@@ -17,11 +17,12 @@ import java.util.Optional;
 public class ArticleOrderedService {
 
     private final ArticleOrderedRepository articleOrderedRepository;
+    private final ArticleService articleService;
 
     public ArticleOrdered save(ArticleOrdered articleOrdered){
         ArticleOrdered articleOrderedToSave = new ArticleOrdered();
         articleOrderedToSave.setTotalPrice(articleOrdered.getPrice().multiply(BigDecimal.valueOf(articleOrdered.getQuantity())));
-        articleOrderedToSave.setArticle(articleOrdered.getArticle());
+        articleOrderedToSave.setArticle(articleService.save(articleOrdered.getArticle()));
         articleOrderedToSave.setQuantity(articleOrdered.getQuantity());
         articleOrderedToSave.setPrice(articleOrdered.getPrice());
         return articleOrderedRepository.save(articleOrderedToSave);
