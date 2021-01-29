@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class ArticleOrdered {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer quantity;
+    private Long quantity;
 
     private BigDecimal price;
 

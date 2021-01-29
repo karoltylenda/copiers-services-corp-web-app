@@ -24,4 +24,5 @@ public class Counter {
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private Device device;
+
 }
