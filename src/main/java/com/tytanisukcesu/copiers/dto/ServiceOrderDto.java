@@ -37,7 +37,7 @@ public class ServiceOrderDto {
 
     private String descriptionOfTheFault;
 
-    private Device device;
+    private DeviceDto device;
 
     private Set<ArticleOrdered> articleOrderedSet;
 

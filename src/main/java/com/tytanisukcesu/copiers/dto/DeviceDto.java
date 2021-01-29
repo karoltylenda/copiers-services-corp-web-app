@@ -9,11 +9,11 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 public class DeviceDto {

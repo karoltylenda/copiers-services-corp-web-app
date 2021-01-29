@@ -6,7 +6,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "articles")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class Article {

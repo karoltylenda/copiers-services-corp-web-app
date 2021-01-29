@@ -1,9 +1,11 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.repository.ServiceOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,13 +19,15 @@ public class ServiceOrderService {
     private final DeviceService deviceService;
 
     //TODO asd
+    @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getServiceOrderByServiceOrderNumber(serviceOrder.getServiceOrderNumber());
         if (serviceOrderOptional.isPresent()) {
             return serviceOrderOptional.get();
         } else {
             ServiceOrder serviceOrderToSave = new ServiceOrder();
-            serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
+            Device device = deviceService.save(serviceOrder.getDevice());
+            serviceOrderToSave.setDevice(device);
             serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
             serviceOrderToSave.setOrderStatus(serviceOrder.getOrderStatus());
             serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());

@@ -1,14 +1,15 @@
 package com.tytanisukcesu.copiers.entity;
 
 import com.tytanisukcesu.copiers.types.AddresType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "addresses")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {

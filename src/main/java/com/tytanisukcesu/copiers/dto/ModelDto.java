@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.Article;
+import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.types.PrintingFormat;
 import lombok.*;
 
@@ -28,7 +29,7 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
-    private ManufacturerDto manufacturer;
+    private Manufacturer manufacturer;
 
     private PrintingFormat printingFormat;
 

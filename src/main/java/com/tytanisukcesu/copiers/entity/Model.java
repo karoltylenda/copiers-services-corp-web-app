@@ -7,7 +7,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "models")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 public class Model {

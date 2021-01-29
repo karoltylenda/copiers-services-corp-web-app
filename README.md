@@ -18,4 +18,4 @@ This section will be updated with the application growth.
 - Spring Boot
 - Hibernate
 - Thymeleaf
-- Boostrap
+- Bootstrap
