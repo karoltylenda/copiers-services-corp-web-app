@@ -18,7 +18,6 @@ public class ServiceOrderService {
     private final ServiceOrderRepository serviceOrderRepository;
     private final DeviceService deviceService;
 
-    //TODO asd
     @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getServiceOrderByServiceOrderNumber(serviceOrder.getServiceOrderNumber());
@@ -31,6 +30,9 @@ public class ServiceOrderService {
             serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
             serviceOrderToSave.setOrderStatus(serviceOrder.getOrderStatus());
             serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
+            serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
+            serviceOrderToSave.setOrderCreationDate(serviceOrder.getOrderCreationDate());
+            serviceOrderToSave.setServiceOrderNumber(serviceOrder.getServiceOrderNumber());
             serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
             serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
             serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
