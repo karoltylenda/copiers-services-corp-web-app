@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.entity.Model;
@@ -27,6 +28,7 @@ public class ArticleDto {
 
     private ManufacturerDto manufacturer;
 
+    @JsonIgnore
     private Set<ModelDto> models;
 
 }

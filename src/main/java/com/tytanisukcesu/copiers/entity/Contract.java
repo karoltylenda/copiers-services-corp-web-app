@@ -24,7 +24,6 @@ public class Contract {
     private String contractNumber;
 
     @OneToOne(mappedBy = "contract")
-    @JsonIgnore
     private Device device;
 
     private LocalDate startDate;

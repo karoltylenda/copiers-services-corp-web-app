@@ -34,6 +34,7 @@ public class ModelDto {
     private PrintingFormat printingFormat;
 
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<ArticleDto> consumables;
 
 }
