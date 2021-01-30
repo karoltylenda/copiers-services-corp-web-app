@@ -1,8 +1,14 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.Customer;
+import com.tytanisukcesu.copiers.entity.Device;
+import com.tytanisukcesu.copiers.types.AddresType;
 import lombok.*;
+
+import javax.persistence.Column;
+import javax.persistence.OneToOne;
 
 @Getter
 @Setter
@@ -28,6 +34,13 @@ public class AddressDto {
 
     private String apartmentNumber;
 
-    private Customer customer;
+    @JsonIgnore
+    private CustomerDto customer;
+
+    @JsonIgnore
+    private DeviceDto device;
+
+    @JsonIgnore
+    private AddresType addresType;
 
 }

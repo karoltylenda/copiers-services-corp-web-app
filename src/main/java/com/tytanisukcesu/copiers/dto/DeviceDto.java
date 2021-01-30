@@ -21,17 +21,16 @@ public class DeviceDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
-    private Model model;
+    private ModelDto model;
 
     private String serialNumber;
 
-    private Customer customer;
+    private CustomerDto customer;
 
-    private Set<Counter> counters;
+    private Set<CounterDto> counters;
 
-    private Address address;
+    private AddressDto address;
 
-    @JsonIgnore
-    private Contract contract;
+    private ContractDto contract;
 
 }

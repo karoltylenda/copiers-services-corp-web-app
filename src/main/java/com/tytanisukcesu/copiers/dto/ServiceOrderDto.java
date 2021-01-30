@@ -39,6 +39,6 @@ public class ServiceOrderDto {
 
     private DeviceDto device;
 
-    private Set<ArticleOrdered> articleOrderedSet;
+    private Set<ArticleOrderedDto> articleOrderedSet;
 
 }

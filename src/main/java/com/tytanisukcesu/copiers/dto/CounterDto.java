@@ -27,6 +27,6 @@ public class CounterDto {
 
     private boolean isUsedToBilling;
 
-    private Device device;
+    private DeviceDto device;
 
 }

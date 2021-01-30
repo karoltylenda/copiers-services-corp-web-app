@@ -23,9 +23,11 @@ public class ManufacturerDto {
     private String name;
 
     @JsonIgnore
-    private Set<Model> models;
+    @EqualsAndHashCode.Exclude
+    private Set<ModelDto> models;
 
     @JsonIgnore
-    private Set<Article> articles;
+    @EqualsAndHashCode.Exclude
+    private Set<ArticleDto> articles;
 
 }

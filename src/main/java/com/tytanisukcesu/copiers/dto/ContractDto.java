@@ -18,7 +18,7 @@ public class ContractDto {
 
     private String contractNumber;
 
-    private Device device;
+    private DeviceDto device;
 
     private LocalDate startDate;
 

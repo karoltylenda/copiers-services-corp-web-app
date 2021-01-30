@@ -29,11 +29,11 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
-    private Manufacturer manufacturer;
+    private ManufacturerDto manufacturer;
 
     private PrintingFormat printingFormat;
 
     @JsonIgnore
-    private Set<Article> consumables;
+    private Set<ArticleDto> consumables;
 
 }

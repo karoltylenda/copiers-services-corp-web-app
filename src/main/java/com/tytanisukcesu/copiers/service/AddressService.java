@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AddressService {
 
-    private AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
 
     public Address save(Address address) {
         Address addressToSave = addressRepository.save(address);

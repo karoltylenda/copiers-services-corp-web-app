@@ -25,8 +25,8 @@ public class ArticleDto {
 
     private boolean isConsumable;
 
-    private Manufacturer manufacturer;
+    private ManufacturerDto manufacturer;
 
-    private Set<Model> models;
+    private Set<ModelDto> models;
 
 }

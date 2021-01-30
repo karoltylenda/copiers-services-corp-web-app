@@ -26,7 +26,7 @@ public class CustomerDto {
 
     private String regon;
 
-    private Address address;
+    private AddressDto address;
 
     private Long telephoneNumber;
 
@@ -34,6 +34,6 @@ public class CustomerDto {
 
     private String companySiteUrl;
 
-    private Set<Device> devices;
+    private Set<DeviceDto> devices;
 
 }

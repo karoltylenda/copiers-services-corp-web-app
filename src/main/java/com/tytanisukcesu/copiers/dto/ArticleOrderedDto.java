@@ -23,8 +23,8 @@ public class ArticleOrderedDto {
 
     private BigDecimal totalPrice;
 
-    private Article article;
+    private ArticleDto article;
 
-    private ServiceOrder serviceOrder;
+    private ServiceOrderDto serviceOrder;
 
 }
