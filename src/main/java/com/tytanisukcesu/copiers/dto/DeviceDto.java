@@ -27,6 +27,7 @@ public class DeviceDto {
 
     private CustomerDto customer;
 
+    @EqualsAndHashCode.Exclude
     private Set<CounterDto> counters;
 
     private AddressDto address;

@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
@@ -24,8 +25,6 @@ public class CounterDto {
     private Integer colorCounter;
 
     private Integer totalCounter;
-
-    private boolean isUsedToBilling;
 
     private DeviceDto device;
 

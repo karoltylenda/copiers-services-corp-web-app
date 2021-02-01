@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.tytanisukcesu</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>copiers</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>Copiers-Services-Corp-webApp</name>
+    <description>WebApp to manage copiers in service.</description>
 
     <properties>
         <java.version>11</java.version>
