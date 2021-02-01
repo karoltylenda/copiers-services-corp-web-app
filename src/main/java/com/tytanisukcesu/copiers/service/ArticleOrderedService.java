@@ -1,10 +1,7 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.entity.Article;
 import com.tytanisukcesu.copiers.entity.ArticleOrdered;
-import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.repository.ArticleOrderedRepository;
-import liquibase.pro.packaged.B;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
