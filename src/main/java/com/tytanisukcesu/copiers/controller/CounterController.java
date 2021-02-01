@@ -2,10 +2,16 @@ package com.tytanisukcesu.copiers.controller;
 
 import com.tytanisukcesu.copiers.dto.CounterDto;
 import com.tytanisukcesu.copiers.entity.Counter;
+import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.service.CounterService;
+import com.tytanisukcesu.copiers.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/counters")
@@ -15,9 +21,12 @@ public class CounterController {
     private final CounterService counterService;
     private final ModelMapper modelMapper;
 
-    @GetMapping(value = "/{serialNumber}")
-    public Counter getAll(@PathVariable("serialNumber") String serialNumber){
-        return counterService.findLastCounterByDeviceSerialNumber(serialNumber);
+    @GetMapping(path = "/searchBy")
+    public List<CounterDto> getAllBySerialNumber(@RequestParam String serialNumber){
+        List<Counter> counterList = counterService.findAllByDeviceSerialNumber(serialNumber);
+        return counterList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping

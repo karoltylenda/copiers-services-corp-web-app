@@ -11,10 +11,6 @@ import java.util.Optional;
 @Repository
 public interface CounterRepository extends JpaRepository<Counter, Long> {
 
-
     Optional<Counter> getFirstByDevice_SerialNumberOrderByCounterDateDesc(String serialNumber);
-
-
-
-
+    List<Counter> findAllByDeviceSerialNumberOrderByCounterDateDesc(String serialNumber);
 }

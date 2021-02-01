@@ -18,7 +18,6 @@ import java.util.Set;
 @EqualsAndHashCode
 public class DeviceDto {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private ModelDto model;

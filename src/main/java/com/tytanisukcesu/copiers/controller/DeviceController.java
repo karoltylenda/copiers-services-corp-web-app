@@ -7,8 +7,12 @@ import com.tytanisukcesu.copiers.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.header.Header;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +25,7 @@ public class DeviceController {
     private final ModelMapper modelMapper;
 
     @GetMapping
-    public List<DeviceDto> getAll(){
+    public List<DeviceDto> getAll(HttpServletRequest request, HttpServletResponse response){
         List<Device> devices = deviceService.findAll();
         return devices.stream()
                 .map(this::convertToDto)

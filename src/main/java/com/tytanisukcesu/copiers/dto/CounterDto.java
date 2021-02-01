@@ -1,7 +1,9 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 import java.time.LocalDate;
@@ -26,6 +28,7 @@ public class CounterDto {
 
     private Integer totalCounter;
 
+    @JsonTypeId
     private DeviceDto device;
 
 }

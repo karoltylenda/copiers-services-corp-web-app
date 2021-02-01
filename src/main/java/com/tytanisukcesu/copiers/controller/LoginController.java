@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 public class LoginController {
 
@@ -13,10 +16,9 @@ public class LoginController {
     public void login(@RequestBody LoginCredentials loginCredentials){
     }
 
-    @GetMapping("/secured")
-    public String secured() {
-        return "secured";
-    }
-
+//    @GetMapping("/secured")
+//    public String secured() {
+//        return "secured";
+//    }
 
 }

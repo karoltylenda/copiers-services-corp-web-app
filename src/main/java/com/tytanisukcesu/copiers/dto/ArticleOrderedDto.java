@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tytanisukcesu.copiers.entity.Article;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import lombok.*;
@@ -25,6 +26,7 @@ public class ArticleOrderedDto {
 
     private ArticleDto article;
 
+    @JsonIgnore
     private ServiceOrderDto serviceOrder;
 
 }

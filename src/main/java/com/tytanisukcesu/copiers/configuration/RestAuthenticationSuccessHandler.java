@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTime)) //date wygasniecia
                 .sign(Algorithm.HMAC256(secret)); //oraz nasz secret do zrobienia sygnatury
         response.addHeader("Authorization", "Bearer " + token);
+        response.getOutputStream().print("{\"token\": \"" + token + "\"}");
     }
 
 }
