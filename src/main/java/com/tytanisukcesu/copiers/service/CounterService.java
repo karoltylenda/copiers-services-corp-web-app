@@ -51,6 +51,37 @@ public class CounterService {
         }
     }
 
+    public Counter counterBefore(Counter counter){
+        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        return counterOptional.orElse(new Counter());
+    }
+
+    public Counter counterAfter(Counter counter){
+        Optional<Counter> counterOptional = counterRepository.getFirstByCounterDateIsAfterAndDeviceSerialNumberOrderByCounterDateAsc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        return counterOptional.orElse(new Counter());
+    }
+
+//    private boolean isCounterGreaterThenLastOne(Counter counter){
+//        List<Counter> counters = counterRepository.findAllByDeviceSerialNumberOrderByCounterDateDesc(counter.getDevice().getSerialNumber());
+//        Counter lastCounter = counters.get(counters.size()-1);
+//
+//        if (counter.getCounterDate().isAfter(lastCounter.getCounterDate())
+//                && counter.getColorCounter()>=lastCounter.getColorCounter()
+//                && counter.getMonoCounter()>=lastCounter.getMonoCounter()
+//                && counter.getTotalCounter()>=lastCounter.getTotalCounter()){
+//            return true;
+//        } else {
+//            for (int i = 0; i < counters.size(); i++) {
+//                Counter
+//                if (counter.getCounterDate().isAfter(counters.get(i).getCounterDate()) && counter.getCounterDate().isBefore(counters.get(i+1).getCounterDate())
+//                        && ){
+//
+//                }
+//            }
+//        }
+//
+//    }
+
     public List<Counter> findAllByDeviceSerialNumber(String serialNumber){
         return counterRepository.findAllByDeviceSerialNumberOrderByCounterDateDesc(serialNumber);
     }
