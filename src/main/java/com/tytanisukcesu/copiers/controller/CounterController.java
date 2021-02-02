@@ -29,20 +29,6 @@ public class CounterController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping(path = "/dateAfter")
-    public CounterDto dateAfter(@RequestBody CounterDto counterDto){
-        Counter counter = convertToEntity(counterDto);
-        CounterDto counterDtoToReturn = convertToDto(counterService.counterAfter(counter));
-        return counterDtoToReturn;
-    }
-
-    @PostMapping(path = "/dateBefore")
-    public CounterDto dateBefore(@RequestBody CounterDto counterDto){
-        Counter counter = convertToEntity(counterDto);
-        CounterDto counterDtoToReturn = convertToDto(counterService.counterBefore(counter));
-        return counterDtoToReturn;
-    }
-
     @PostMapping
     public CounterDto save(@RequestBody CounterDto counterDto){
         Counter counter = convertToEntity(counterDto);

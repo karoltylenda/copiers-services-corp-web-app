@@ -42,23 +42,64 @@ public class CounterService {
      * Metoda musi rowniez sprawdzic nastepny counter = check
      * */
 
+    private boolean isCounterPresent(Counter counter){
+        Optional<Counter> optionalCounter = counterRepository.findCounterByCounterDateAndDeviceSerialNumber(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        if (optionalCounter.isPresent()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Counter save(Counter counter){
-        Optional<Device> deviceOptional = deviceRepository.findById(counter.getDevice().getId());
-        if (deviceOptional.isPresent()) {
-            return counterRepository.save(counter);
+        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(counter.getDevice().getSerialNumber());
+        if (deviceOptional.isPresent() && isCounterPossible(counter)){
+            Counter counterSaved = counterRepository.save(counter);
+            return counterSaved;
         } else {
             return new Counter();
         }
     }
 
-    public Counter counterBefore(Counter counter){
-        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
-        return counterOptional.orElse(new Counter());
+    private boolean isCounterPossible(Counter counter){
+        Optional<Counter> counterBeforeOptional = counterBefore(counter);
+        Optional<Counter> counterAfterOptional = counterAfter(counter);
+        if (isCounterPresent(counter)){
+            return false;
+        } else if (counterAfterOptional.isEmpty() && counterBeforeOptional.isEmpty()){
+            return true;
+        } else if (counterBeforeOptional.isEmpty() && counterAfterOptional.isPresent()){
+            if (counter.getMonoCounter()<=counterAfterOptional.get().getMonoCounter() && counter.getColorCounter()<=counterAfterOptional.get().getColorCounter()){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (counterBeforeOptional.isPresent() && counterAfterOptional.isPresent()){
+            if (counter.getMonoCounter()>=counterBeforeOptional.get().getMonoCounter() && counter.getMonoCounter()<=counterAfterOptional.get().getMonoCounter()
+                && counter.getColorCounter()>=counterBeforeOptional.get().getColorCounter() && counter.getColorCounter()<=counterAfterOptional.get().getColorCounter()){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (counterBeforeOptional.isPresent() && counterAfterOptional.isEmpty()){
+            if (counter.getMonoCounter()>=counterBeforeOptional.get().getMonoCounter() && counter.getColorCounter()>=counterBeforeOptional.get().getColorCounter()){
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
-    public Counter counterAfter(Counter counter){
+    private Optional<Counter> counterBefore(Counter counter){
+        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        return counterOptional;
+    }
+
+    private Optional<Counter> counterAfter(Counter counter){
         Optional<Counter> counterOptional = counterRepository.getFirstByCounterDateIsAfterAndDeviceSerialNumberOrderByCounterDateAsc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
-        return counterOptional.orElse(new Counter());
+        return counterOptional;
     }
 
 //    private boolean isCounterGreaterThenLastOne(Counter counter){
