@@ -5,7 +5,6 @@ import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
-import liquibase.pro.packaged.M;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,10 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

@@ -53,7 +53,7 @@ public class Device {
     private Contract contract;
 
     @OneToMany(
-            mappedBy = "customer",
+            mappedBy = "device",
             cascade = CascadeType.ALL
     )
     private Set<CopierSettlement> copierSettlements;

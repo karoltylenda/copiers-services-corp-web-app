@@ -1,29 +1,22 @@
-package com.tytanisukcesu.copiers.entity;
+package com.tytanisukcesu.copiers.dto;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "copiersSettlement")
 @Getter
 @Setter
-@EqualsAndHashCode
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CopierSettlement {
+@ToString
+@EqualsAndHashCode
+public class CopiersSettlementDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(referencedColumnName = "id")
-    private Device device;
+    private DeviceDto device;
 
     private LocalDate dateOfSettlement;
 
@@ -40,6 +33,5 @@ public class CopierSettlement {
     private BigDecimal colourAmount;
 
     private BigDecimal totalAmount;
-
 
 }
