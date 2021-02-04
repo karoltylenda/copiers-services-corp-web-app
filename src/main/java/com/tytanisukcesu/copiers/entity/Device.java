@@ -52,4 +52,10 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Contract contract;
 
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL
+    )
+    private Set<CopierSettlement> copierSettlements;
+
 }

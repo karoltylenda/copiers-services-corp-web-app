@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.service;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.repository.ServiceOrderRepository;
+import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,8 @@ public class ServiceOrderService {
 
     private final ServiceOrderRepository serviceOrderRepository;
     private final DeviceService deviceService;
+    private static final Logger LOGGER = Logger.getLogger(CounterService.class.getName());
+
 
     @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
@@ -28,7 +32,7 @@ public class ServiceOrderService {
             Device device = deviceService.save(serviceOrder.getDevice());
             serviceOrderToSave.setDevice(device);
             serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
-            serviceOrderToSave.setOrderStatus(serviceOrder.getOrderStatus());
+            serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
             serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
             serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
             serviceOrderToSave.setOrderCreationDate(serviceOrder.getOrderCreationDate());
@@ -60,9 +64,10 @@ public class ServiceOrderService {
         }
     }
 
+    //TODO - loggery
     public ServiceOrder update(Long id,ServiceOrder serviceOrder){
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.findById(id);
-        if(serviceOrderOptional.isPresent()){
+        if(serviceOrderOptional.isPresent() && serviceOrderOptional.get().getOrderStatus()!=ServiceOrderStatus.COMPLETED){
             ServiceOrder serviceOrderUpdated = serviceOrderOptional.get();
             serviceOrderUpdated.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
             serviceOrderUpdated.setOrderStatus(serviceOrder.getOrderStatus());
