@@ -47,20 +47,20 @@ public class CounterService {
         } else if (counterAfterOptional.isEmpty() && counterBeforeOptional.isEmpty()) {
             return true;
         } else if (counterBeforeOptional.isEmpty() && counterAfterOptional.isPresent()) {
-            if (counter.getMonoCounter() <= counterAfterOptional.get().getMonoCounter() && counter.getColorCounter() <= counterAfterOptional.get().getColorCounter()) {
+            if (counter.getMonoCounter() <= counterAfterOptional.get().getMonoCounter() && counter.getColourCounter() <= counterAfterOptional.get().getColourCounter()) {
                 return true;
             } else {
                 return false;
             }
         } else if (counterBeforeOptional.isPresent() && counterAfterOptional.isPresent()) {
             if (counter.getMonoCounter() >= counterBeforeOptional.get().getMonoCounter() && counter.getMonoCounter() <= counterAfterOptional.get().getMonoCounter()
-                    && counter.getColorCounter() >= counterBeforeOptional.get().getColorCounter() && counter.getColorCounter() <= counterAfterOptional.get().getColorCounter()) {
+                    && counter.getColourCounter() >= counterBeforeOptional.get().getColourCounter() && counter.getColourCounter() <= counterAfterOptional.get().getColourCounter()) {
                 return true;
             } else {
                 return false;
             }
         } else if (counterBeforeOptional.isPresent() && counterAfterOptional.isEmpty()) {
-            if (counter.getMonoCounter() >= counterBeforeOptional.get().getMonoCounter() && counter.getColorCounter() >= counterBeforeOptional.get().getColorCounter()) {
+            if (counter.getMonoCounter() >= counterBeforeOptional.get().getMonoCounter() && counter.getColourCounter() >= counterBeforeOptional.get().getColourCounter()) {
                 return true;
             } else {
                 return false;

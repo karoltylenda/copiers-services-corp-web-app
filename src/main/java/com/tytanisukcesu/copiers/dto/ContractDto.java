@@ -29,4 +29,9 @@ public class ContractDto {
     private BigDecimal colorPagePrice;
 
     private BigDecimal leasePrice;
+
+    private Integer initialMonoCounter;
+
+    private Integer initialColourCounter;
+
 }

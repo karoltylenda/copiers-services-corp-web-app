@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,17 +22,25 @@ class CopierSettlementServiceTest {
     private DeviceService deviceService;
 
     @Test
-    void check() {
+    void getMonoAmountTest() {
 
-        Integer intCheck = 5;
+        BigDecimal colourAmount = copierSettlementService.getMonoAmount(BigDecimal.valueOf(2.0), 10, 20);
+        BigDecimal check = new BigDecimal("20.0");
+        boolean bool = colourAmount.equals(check);
 
-        Device device = deviceService.findById(1L);
+        assertThat(bool).isTrue();
+        assertThat(colourAmount).isGreaterThanOrEqualTo(new BigDecimal("20.0"));
 
-//        Integer asd = copierSettlementService.getLastCounterMonoCounter(device);
+    }
 
-//        assertThat(intCheck).isEqualTo(asd);
+    @Test
+    void getColourAmountTest(){
+        BigDecimal colourAmount = copierSettlementService.getColourAmount(new BigDecimal("2.0"), 10, 20);
+        BigDecimal check = new BigDecimal("19.0");
+        boolean bool = colourAmount.equals(check);
 
-
+        assertThat(bool).isTrue();
+        assertThat(colourAmount).isGreaterThanOrEqualTo(new BigDecimal("20.0"));
 
     }
 

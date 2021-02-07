@@ -34,10 +34,9 @@ public class ContractService {
         if (contractOptional.isPresent()) {
             return contractOptional.get();
         } else {
-            Contract contractToSave = new Contract();
-            contractToSave.setContractNumber(contract.getContractNumber());
-            Contract contractSaved = contractRespository.save(contractToSave);
             Device device = deviceService.save(contract.getDevice());
+            contract.setDevice(null);
+            Contract contractSaved = contractRespository.save(contract);
             device.setContract(contractSaved);
             return contractSaved;
         }

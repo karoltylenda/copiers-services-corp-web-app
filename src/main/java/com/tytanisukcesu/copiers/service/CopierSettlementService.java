@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Contract;
 import com.tytanisukcesu.copiers.entity.CopierSettlement;
 import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -19,22 +21,35 @@ import java.util.stream.Collectors;
 public class CopierSettlementService {
 
     private final CopierSettlementRepository copierSettlementRepository;
-    private final CounterService counterService;
-    private final DeviceService deviceService;
     private final CounterRepository counterRepository;
 
     /***
-     *jezeli nie ma licznika to sprawdz na 4 dni do przodu lud do tylu, jesli jest to pobierz z bazy i skopiuj
+     * ASSUMPTIONS
+     *provide last day of the previous month and if exits - assign, if not - find and get latest counters (mono and colour)
+     * convert set to map as faster tool to get
+     * set starting counter as closing on previous settlement
      */
 
     public CopierSettlement save(CopierSettlement copierSettlement) {
         Device device = copierSettlement.getDevice();
+        copierSettlement.setDateOfSettlement(LocalDate.now());
         copierSettlement.setStartingColourCounter(getLastSettlementColourCounter(device));
         copierSettlement.setStartingMonoCounter(getLastSettlementMonoCounter(device));
         copierSettlement.setClosingColourCounter(getLastCounterColourCounter(device));
         copierSettlement.setClosingMonoCounter(getLastCounterMonoCounter(device));
+        copierSettlement.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(),copierSettlement.getStartingMonoCounter(),copierSettlement.getClosingMonoCounter()));
+        copierSettlement.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(),copierSettlement.getStartingColourCounter(),copierSettlement.getClosingColourCounter()));
         return null;
     }
+
+    public BigDecimal getMonoAmount(BigDecimal monoPagePrice, Integer startingMonoCounter, Integer closingMonoCounter) {
+        return monoPagePrice.multiply(new BigDecimal(closingMonoCounter - startingMonoCounter));
+    }
+
+    public BigDecimal getColourAmount(BigDecimal colourPagePrice, Integer startingColourCounter, Integer closingColourCounter){
+        return colourPagePrice.multiply(BigDecimal.valueOf(closingColourCounter - startingColourCounter));
+    }
+
 
     public Integer getLastCounterMonoCounter(Device device) {
         LocalDate lastDay = getLastDayOfPreviousMonth();

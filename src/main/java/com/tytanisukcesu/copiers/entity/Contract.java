@@ -36,4 +36,8 @@ public class Contract {
 
     private BigDecimal leasePrice;
 
+    private Integer initialMonoCounter;
+
+    private Integer initialColourCounter;
+
 }
