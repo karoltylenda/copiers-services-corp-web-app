@@ -4,16 +4,17 @@ import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.repository.ManufacturerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class ManufacturerService {
 
     private final ManufacturerRepository manufacturerRepository;
+    private static final Logger LOGGER = Logger.getLogger(ManufacturerService.class.getName());
 
     public List<Manufacturer> findAll() {
         List<Manufacturer> manufacturers = manufacturerRepository.findAll();

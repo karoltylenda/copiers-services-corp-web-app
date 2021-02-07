@@ -1,14 +1,13 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Article;
-import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +15,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ManufacturerService manufacturerService;
+    private static final Logger LOGGER = Logger.getLogger(ArticleService.class.getName());
 
     public List<Article> findAll() {
         List<Article> articles = articleRepository.findAll();

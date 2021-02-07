@@ -4,16 +4,17 @@ import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private static final Logger LOGGER = Logger.getLogger(CustomerService.class.getName());
 
     public List<Customer> findAll() {
         List<Customer> customers = customerRepository.findAll();
@@ -44,7 +45,6 @@ public class CustomerService {
             return false;
         }
     }
-
 
     @Transactional
     public Customer update(Long id, Customer customer) {

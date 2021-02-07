@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class AddressService {
 
     private final AddressRepository addressRepository;
+    private static final Logger LOGGER = Logger.getLogger(AddressService.class.getName());
 
     public Address save(Address address) {
         Address addressToSave = addressRepository.save(address);

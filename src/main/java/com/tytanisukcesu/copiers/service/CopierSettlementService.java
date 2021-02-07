@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,7 @@ public class CopierSettlementService {
 
     private final CopierSettlementRepository copierSettlementRepository;
     private final CounterRepository counterRepository;
+    private static final Logger LOGGER = Logger.getLogger(CopierSettlementService.class.getName());
 
     /***
      * ASSUMPTIONS
@@ -40,7 +42,7 @@ public class CopierSettlementService {
         copierSettlement.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(), copierSettlement.getStartingMonoCounter(), copierSettlement.getClosingMonoCounter()));
         copierSettlement.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(), copierSettlement.getStartingColourCounter(), copierSettlement.getClosingColourCounter()));
         copierSettlement.setTotalAmount(getTotalAmount(device.getContract().getLeasePrice(), copierSettlement.getMonoAmount(), copierSettlement.getColourAmount()));
-        return null;
+        return copierSettlementRepository.save(copierSettlement);
     }
 
     private BigDecimal getTotalAmount(BigDecimal leasePrice, BigDecimal monoAmount, BigDecimal colourAmount) {
@@ -121,6 +123,4 @@ public class CopierSettlementService {
     public LocalDate getLastDayOfPreviousMonth() {
         return LocalDate.now().minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
     }
-
-
 }

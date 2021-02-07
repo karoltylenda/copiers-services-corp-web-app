@@ -1,13 +1,12 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +14,7 @@ public class ModelService {
 
     private final ModelRepository modelRepository;
     private final ManufacturerService manufacturerService;
+    private static final Logger LOGGER = Logger.getLogger(ModelService.class.getName());
 
     public List<Model> findAll() {
         List<Model> models = modelRepository.findAll();

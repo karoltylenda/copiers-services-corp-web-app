@@ -4,12 +4,11 @@ import com.tytanisukcesu.copiers.entity.Contract;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.ContractRespository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.support.ScopeNotActiveException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +16,7 @@ public class ContractService {
 
     private final ContractRespository contractRespository;
     private final DeviceService deviceService;
+    private static final Logger LOGGER = Logger.getLogger(ContractService.class.getName());
 
     public List<Contract> findAll() {
         List<Contract> contracts = contractRespository.findAll();

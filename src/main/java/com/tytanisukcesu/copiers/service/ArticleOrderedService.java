@@ -4,10 +4,10 @@ import com.tytanisukcesu.copiers.entity.ArticleOrdered;
 import com.tytanisukcesu.copiers.repository.ArticleOrderedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +15,7 @@ public class ArticleOrderedService {
 
     private final ArticleOrderedRepository articleOrderedRepository;
     private final ArticleService articleService;
+    private static final Logger LOGGER = Logger.getLogger(ArticleOrderedService.class.getName());
 
     public ArticleOrdered save(ArticleOrdered articleOrdered){
         ArticleOrdered articleOrderedToSave = new ArticleOrdered();
@@ -44,12 +45,4 @@ public class ArticleOrderedService {
         List<ArticleOrdered> articleOrderedList = articleOrderedRepository.findAll();
         return articleOrderedList;
     }
-
-
-
-
-
-
-
-
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final ModelService modelService;
+    private static final Logger LOGGER = Logger.getLogger(DeviceService.class.getName());
 
     @Cacheable(cacheNames = "AllDevices")
     public List<Device> findAll() {

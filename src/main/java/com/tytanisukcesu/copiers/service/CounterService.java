@@ -5,7 +5,6 @@ import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
