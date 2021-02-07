@@ -31,46 +31,44 @@ public class CopierSettlementService {
         Device device = copierSettlement.getDevice();
         copierSettlement.setStartingColourCounter(getLastSettlementColourCounter(device));
         copierSettlement.setStartingMonoCounter(getLastSettlementMonoCounter(device));
-//        copierSettlement.setClosingColourCounter(getLastCounterColourCounter(device));
+        copierSettlement.setClosingColourCounter(getLastCounterColourCounter(device));
         copierSettlement.setClosingMonoCounter(getLastCounterMonoCounter(device));
         return null;
-
     }
 
     public Integer getLastCounterMonoCounter(Device device) {
-        Set<Counter> counterSet = device.getCounters();
         LocalDate lastDay = getLastDayOfPreviousMonth();
-
-        Map<LocalDate,Integer> map = counterSet.stream()
-                .collect(Collectors.toMap(Counter::getCounterDate,Counter::getMonoCounter));
-
-        Integer lastCounter = map.get(lastDay);
-        if(lastCounter != null){
+        Integer lastCounter = counterMapProvider(device.getCounters(),false).get(lastDay);
+        if (lastCounter != null) {
             return lastCounter;
-        }else{
-            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(lastDay,device.getSerialNumber());
+        } else {
+            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
             lastCounter = counterOptional.get().getMonoCounter();
         }
         return lastCounter;
     }
 
-//    //1
-//    public LocalDate getClosest(){
-//        LocalDate lastDay = getLastDayOfPreviousMonth();
-//        List<LocalDate> localDates = new ArrayList<>();
-//        LocalDate localDate = null;
-//        localDates.add(LocalDate.of(2021,01,19));
-//        localDates.add(LocalDate.of(2021,01,20));
-//        localDates.add(LocalDate.of(2021,01,15));
-//        for(LocalDate date:localDates){
-//            if(date.compareTo(lastDay) <= 4){
-//                localDate = date;
-//                break;
-//            }
-//        }
-//        return localDate;
-//    }
+    public Integer getLastCounterColourCounter(Device device) {
+        LocalDate lastDay = getLastDayOfPreviousMonth();
+        Integer lastCounter = counterMapProvider(device.getCounters(),true).get(lastDay);
+        if (lastCounter != null) {
+            return lastCounter;
+        } else {
+            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
+            lastCounter = counterOptional.get().getColourCounter();
+        }
+        return lastCounter;
+    }
 
+    private Map<LocalDate, Integer> counterMapProvider(Set<Counter> counters, boolean isColourCounter) {
+        if (isColourCounter) {
+            return counters.stream()
+                    .collect(Collectors.toMap(Counter::getCounterDate, Counter::getColourCounter));
+        } else {
+            return counters.stream()
+                    .collect(Collectors.toMap(Counter::getCounterDate, Counter::getMonoCounter));
+        }
+    }
 
 
     public List<CopierSettlement> findAll() {

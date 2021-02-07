@@ -19,7 +19,7 @@ public class Counter {
     private Long id;
     private LocalDate counterDate;
     private Integer monoCounter;
-    private Integer colorCounter;
+    private Integer colourCounter;
     private Integer totalCounter;
 
     @ManyToOne

@@ -27,9 +27,9 @@ class CopierSettlementServiceTest {
 
         Device device = deviceService.findById(1L);
 
-        Integer asd = copierSettlementService.getLastCounterMonoCounter(device);
+//        Integer asd = copierSettlementService.getLastCounterMonoCounter(device);
 
-        assertThat(intCheck).isEqualTo(asd);
+//        assertThat(intCheck).isEqualTo(asd);
 
 
 
