@@ -17,4 +17,6 @@ public interface CounterRepository extends JpaRepository<Counter, Long> {
     Optional<Counter> getFirstByCounterDateIsAfterAndDeviceSerialNumberOrderByCounterDateAsc(LocalDate localDate, String serialNumber);
 
     Optional<Counter> findCounterByCounterDateAndDeviceSerialNumber(LocalDate date, String serialNumber);
+
+
 }

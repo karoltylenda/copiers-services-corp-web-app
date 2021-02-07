@@ -27,13 +27,13 @@ public class CopierSettlement {
 
     private LocalDate dateOfSettlement;
 
-    private int startingMonoCounter;
+    private Integer startingMonoCounter;
 
-    private int closingMonoCounter;
+    private Integer closingMonoCounter;
 
-    private int startingColourCounter;
+    private Integer startingColourCounter;
 
-    private int closingColourCounter;
+    private Integer closingColourCounter;
 
     private BigDecimal monoAmount;
 

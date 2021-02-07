@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Device;
 import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,23 @@ class CopierSettlementServiceTest {
     @Autowired
     private CopierSettlementService copierSettlementService;
 
-    @Test
-    void mati() {
-        LocalDate localDate = LocalDate.of(2021,01,30);
-        LocalDate mati = copierSettlementService.mati();
+    @Autowired
+    private DeviceService deviceService;
 
-        assertThat(localDate).isEqualTo(mati);
+    @Test
+    void check() {
+
+        Integer intCheck = 5;
+
+        Device device = deviceService.findById(1L);
+
+        Integer asd = copierSettlementService.getLastCounterMonoCounter(device);
+
+        assertThat(intCheck).isEqualTo(asd);
+
 
 
     }
 
-    @Test
-    void Karol(){
-        LocalDate localDate = LocalDate.of(2021,01,31);
-        LocalDate karol = copierSettlementService.getLastDay();
 
-        assertThat(localDate).isEqualTo(karol);
-
-    }
 }

@@ -35,7 +35,7 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "device")
+    @OneToMany(mappedBy = "device",fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private Set<Counter> counters;
 
