@@ -101,7 +101,7 @@ public class CopierSettlementService {
         if (copierSettlementOptional.isPresent()) {
             return copierSettlementOptional.get().getClosingMonoCounter();
         } else {
-            return 0;
+            return device.getContract().getInitialMonoCounter();
         }
     }
 
@@ -110,7 +110,7 @@ public class CopierSettlementService {
         if (copierSettlementOptional.isPresent()) {
             return copierSettlementOptional.get().getClosingColourCounter();
         } else {
-            return 0;
+            return device.getContract().getInitialColourCounter();
         }
     }
 
