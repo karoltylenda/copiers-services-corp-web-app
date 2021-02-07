@@ -1,19 +1,19 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.entity.Contract;
 import com.tytanisukcesu.copiers.entity.CopierSettlement;
 import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.CopierSettlementRepository;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,23 +37,27 @@ public class CopierSettlementService {
         copierSettlement.setStartingMonoCounter(getLastSettlementMonoCounter(device));
         copierSettlement.setClosingColourCounter(getLastCounterColourCounter(device));
         copierSettlement.setClosingMonoCounter(getLastCounterMonoCounter(device));
-        copierSettlement.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(),copierSettlement.getStartingMonoCounter(),copierSettlement.getClosingMonoCounter()));
-        copierSettlement.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(),copierSettlement.getStartingColourCounter(),copierSettlement.getClosingColourCounter()));
+        copierSettlement.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(), copierSettlement.getStartingMonoCounter(), copierSettlement.getClosingMonoCounter()));
+        copierSettlement.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(), copierSettlement.getStartingColourCounter(), copierSettlement.getClosingColourCounter()));
+        copierSettlement.setTotalAmount(getTotalAmount(device.getContract().getLeasePrice(), copierSettlement.getMonoAmount(), copierSettlement.getColourAmount()));
         return null;
+    }
+
+    private BigDecimal getTotalAmount(BigDecimal leasePrice, BigDecimal monoAmount, BigDecimal colourAmount) {
+        return leasePrice.add(monoAmount).add(colourAmount);
     }
 
     public BigDecimal getMonoAmount(BigDecimal monoPagePrice, Integer startingMonoCounter, Integer closingMonoCounter) {
         return monoPagePrice.multiply(new BigDecimal(closingMonoCounter - startingMonoCounter));
     }
 
-    public BigDecimal getColourAmount(BigDecimal colourPagePrice, Integer startingColourCounter, Integer closingColourCounter){
+    public BigDecimal getColourAmount(BigDecimal colourPagePrice, Integer startingColourCounter, Integer closingColourCounter) {
         return colourPagePrice.multiply(BigDecimal.valueOf(closingColourCounter - startingColourCounter));
     }
 
-
     public Integer getLastCounterMonoCounter(Device device) {
         LocalDate lastDay = getLastDayOfPreviousMonth();
-        Integer lastCounter = counterMapProvider(device.getCounters(),false).get(lastDay);
+        Integer lastCounter = counterMapProvider(device.getCounters(), false).get(lastDay);
         if (lastCounter != null) {
             return lastCounter;
         } else {
@@ -65,7 +69,7 @@ public class CopierSettlementService {
 
     public Integer getLastCounterColourCounter(Device device) {
         LocalDate lastDay = getLastDayOfPreviousMonth();
-        Integer lastCounter = counterMapProvider(device.getCounters(),true).get(lastDay);
+        Integer lastCounter = counterMapProvider(device.getCounters(), true).get(lastDay);
         if (lastCounter != null) {
             return lastCounter;
         } else {
