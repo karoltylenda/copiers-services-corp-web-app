@@ -1,7 +1,15 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -12,21 +20,25 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class CopiersSettlementDto {
 
-    private long id;
+    private Long id;
 
     private DeviceDto device;
 
     private LocalDate dateOfSettlement;
 
-    private int startingMonoCounter;
+    private Integer startingMonoCounter;
 
-    private int closingMonoCounter;
+    private Integer closingMonoCounter;
 
-    private int startingColourCounter;
+    private Integer startingColourCounter;
 
-    private int closingColourCounter;
+    private Integer closingColourCounter;
 
     private BigDecimal monoAmount;
 

@@ -52,6 +52,7 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Contract contract;
 
+    @EqualsAndHashCode.Exclude
     @OneToMany(
             mappedBy = "device",
             cascade = CascadeType.ALL

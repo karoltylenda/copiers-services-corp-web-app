@@ -41,5 +41,4 @@ public class CopierSettlement {
 
     private BigDecimal totalAmount;
 
-
 }

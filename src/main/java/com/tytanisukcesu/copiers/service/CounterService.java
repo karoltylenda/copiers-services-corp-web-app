@@ -6,6 +6,8 @@ import com.tytanisukcesu.copiers.repository.CounterRepository;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -27,10 +29,11 @@ public class CounterService {
         }
     }
 
-    //TODO - czy ma zwracać obiekt, który istnieje z taką datą w bazie.
+    @Transactional
     public Counter save(Counter counter) {
         Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(counter.getDevice().getSerialNumber());
         if (deviceOptional.isPresent() && isCounterPossible(counter)) {
+            counter.setDevice(deviceOptional.get());
             Counter counterSaved = counterRepository.save(counter);
             return counterSaved;
         } else {

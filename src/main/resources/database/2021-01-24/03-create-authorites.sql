@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 -- changeset mstopyra:2
-
+--
 -- create table copiers.authorities
 -- (
 --     username  varchar(50) not null,

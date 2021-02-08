@@ -25,6 +25,12 @@ public class CounterController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(path = "/{id}")
+    public CounterDto getById(@PathVariable("id") Long id){
+        Counter counter = counterService.findById(id);
+        return convertToDto(counter);
+    }
+
     @PostMapping
     public CounterDto save(@RequestBody CounterDto counterDto){
         Counter counter = convertToEntity(counterDto);

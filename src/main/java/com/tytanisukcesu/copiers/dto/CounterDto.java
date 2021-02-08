@@ -24,7 +24,7 @@ public class CounterDto {
 
     private Integer monoCounter;
 
-    private Integer colorCounter;
+    private Integer colourCounter;
 
     private Integer totalCounter;
 

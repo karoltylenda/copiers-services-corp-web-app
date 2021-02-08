@@ -20,6 +20,7 @@ public class ServiceOrderService {
     private final DeviceService deviceService;
     private static final Logger LOGGER = Logger.getLogger(CounterService.class.getName());
 
+    //TODO co ma być logowane
 
     @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
@@ -63,7 +64,6 @@ public class ServiceOrderService {
         }
     }
 
-    //TODO - loggery
     public ServiceOrder update(Long id,ServiceOrder serviceOrder){
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.findById(id);
         if(serviceOrderOptional.isPresent() && serviceOrderOptional.get().getOrderStatus()!=ServiceOrderStatus.COMPLETED){

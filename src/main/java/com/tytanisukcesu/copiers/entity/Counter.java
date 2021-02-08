@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeId;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,7 +25,7 @@ public class Counter {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
-    @JsonIgnore
+    @JsonTypeId
     private Device device;
 
 }
