@@ -35,28 +35,21 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "device",fetch = FetchType.EAGER)
+    @OneToMany(
+            mappedBy = "device",
+            fetch = FetchType.EAGER
+    )
     @EqualsAndHashCode.Exclude
     private Set<Counter> counters;
 
     @OneToOne(
-            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
-    @OneToOne(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.MERGE)
-    @JoinColumn(referencedColumnName = "id")
-    private Contract contract;
-
     @EqualsAndHashCode.Exclude
-    @OneToMany(
-            mappedBy = "device",
-            cascade = CascadeType.ALL
-    )
-    private Set<CopierSettlement> copierSettlements;
+    @OneToOne(mappedBy = "device")
+    private Contract contract;
 
 }

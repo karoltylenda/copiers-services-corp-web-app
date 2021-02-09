@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.dto;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.tytanisukcesu.copiers.entity.Contract;
 import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 
@@ -20,15 +21,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 public class CopiersSettlementDto {
 
     private Long id;
-
-    private DeviceDto device;
 
     private LocalDate dateOfSettlement;
 
@@ -45,5 +40,7 @@ public class CopiersSettlementDto {
     private BigDecimal colourAmount;
 
     private BigDecimal totalAmount;
+
+    private ContractDto contract;
 
 }

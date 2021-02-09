@@ -41,6 +41,7 @@ public class DeviceService {
             Device deviceToSave = new Device();
             deviceToSave.setSerialNumber(device.getSerialNumber());
             deviceToSave.setModel(modelService.save(device.getModel()));
+            deviceToSave.setContract(device.getContract());
             return deviceRepository.save(deviceToSave);
         }
     }

@@ -25,7 +25,7 @@ public class Counter {
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
-    @JsonTypeId
+    @JsonIgnore
     private Device device;
 
 }

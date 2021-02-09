@@ -41,6 +41,7 @@ public class Customer {
             mappedBy = "customer",
             cascade = CascadeType.ALL
     )
+    @EqualsAndHashCode.Exclude
     private Set<Device> devices;
 
 }

@@ -100,4 +100,8 @@ public class CounterService {
             return false;
         }
     }
+
+    public List<Counter> findAll() {
+        return counterRepository.findAll();
+    }
 }

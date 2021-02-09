@@ -1,11 +1,11 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.tytanisukcesu.copiers.entity.*;
 import lombok.*;
 
-import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Set;
 
 @Builder
@@ -15,11 +15,6 @@ import java.util.Set;
 @Setter
 @ToString
 @EqualsAndHashCode
-
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id"
-//)
 public class DeviceDto {
 
     private Long id;
@@ -30,14 +25,11 @@ public class DeviceDto {
 
     private CustomerDto customer;
 
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
     private Set<CounterDto> counters;
 
     private AddressDto address;
 
-    @JsonIgnore
     private ContractDto contract;
-
-    @EqualsAndHashCode.Exclude
-    private Set<CopiersSettlementDto> copierSettlements;
 }

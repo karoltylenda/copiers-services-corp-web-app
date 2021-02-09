@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Contract;
 import com.tytanisukcesu.copiers.entity.CopierSettlement;
 import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class CopierSettlementService {
 
     private final CopierSettlementRepository copierSettlementRepository;
-    private final DeviceService deviceService;
+    private final ContractService contractService;
     private final CounterRepository counterRepository;
     private static final Logger LOGGER = Logger.getLogger(CopierSettlementService.class.getName());
 
@@ -39,7 +40,9 @@ public class CopierSettlementService {
     @Transactional
     public CopierSettlement save(CopierSettlement copierSettlement) {
 
-        Device device = deviceService.save(copierSettlement.getDevice());
+        Contract contract = contractService.save(copierSettlement.getContract());
+
+        Device device = contract.getDevice();
 
         CopierSettlement copierSettlementToSave = new CopierSettlement();
 
@@ -51,7 +54,7 @@ public class CopierSettlementService {
         copierSettlementToSave.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(), copierSettlementToSave.getStartingMonoCounter(), copierSettlementToSave.getClosingMonoCounter()));
         copierSettlementToSave.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(), copierSettlementToSave.getStartingColourCounter(), copierSettlementToSave.getClosingColourCounter()));
         copierSettlementToSave.setTotalAmount(getTotalAmount(device.getContract().getLeasePrice(), copierSettlementToSave.getMonoAmount(), copierSettlementToSave.getColourAmount()));
-        copierSettlementToSave.setDevice(deviceService.save(device));
+        copierSettlementToSave.setContract(contract);
 
         CopierSettlement copierSettlementSaved = copierSettlementRepository.save(copierSettlementToSave);
         return copierSettlementSaved;
@@ -115,7 +118,7 @@ public class CopierSettlementService {
     }
 
     private Integer getLastSettlementMonoCounter(Device device) {
-        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByDeviceOrderByDateOfSettlementDesc(device);
+        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device);
         if (copierSettlementOptional.isPresent()) {
             return copierSettlementOptional.get().getClosingMonoCounter();
         } else {
@@ -124,7 +127,7 @@ public class CopierSettlementService {
     }
 
     private Integer getLastSettlementColourCounter(Device device) {
-        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByDeviceOrderByDateOfSettlementDesc(device);
+        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device);
         if (copierSettlementOptional.isPresent()) {
             return copierSettlementOptional.get().getClosingColourCounter();
         } else {

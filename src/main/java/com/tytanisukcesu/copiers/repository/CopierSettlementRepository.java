@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CopierSettlementRepository extends JpaRepository<CopierSettlement, Long> {
 
-    Optional<CopierSettlement> getTopByDeviceOrderByDateOfSettlementDesc(Device device);
+//    Optional<CopierSettlement> getTopByDeviceOrderByDateOfSettlementDesc(Device device);
 
-
+    Optional<CopierSettlement> getTopByContract_DeviceOrderByDateOfSettlementDesc(Device device);
 }
