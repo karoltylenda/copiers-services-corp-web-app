@@ -18,14 +18,18 @@ public class Counter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDate counterDate;
+
     private Integer monoCounter;
+
     private Integer colourCounter;
+
     private Integer totalCounter;
 
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
-    @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Device device;
 
 }

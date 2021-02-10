@@ -43,6 +43,7 @@ public class Contract {
     private Integer initialColourCounter;
 
     @OneToMany(mappedBy = "contract")
+    @EqualsAndHashCode.Exclude
     private Set<CopierSettlement> copierSettlementSet;
 
 }

@@ -12,8 +12,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class CounterDto {
 
+    @JsonProperty("id")
     private Long id;
 
     private LocalDate counterDate;
@@ -24,5 +29,7 @@ public class CounterDto {
 
     private Integer totalCounter;
 
+    @EqualsAndHashCode.Exclude
+    @JsonTypeId
     private DeviceDto device;
 }

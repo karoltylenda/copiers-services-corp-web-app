@@ -40,6 +40,7 @@ public class Device {
             fetch = FetchType.EAGER
     )
     @EqualsAndHashCode.Exclude
+    //todo - sortowanie po dacie malejąco przy wyswietlaniu w json
     private Set<Counter> counters;
 
     @OneToOne(
@@ -48,7 +49,6 @@ public class Device {
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
-    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "device")
     private Contract contract;
 
