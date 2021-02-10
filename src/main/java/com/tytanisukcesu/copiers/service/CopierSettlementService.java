@@ -78,7 +78,7 @@ public class CopierSettlementService {
         if (lastCounter != null) {
             return lastCounter;
         } else {
-            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
+            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDevice_SerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
             lastCounter = counterOptional.get().getMonoCounter();
             return lastCounter;
         }
@@ -90,7 +90,7 @@ public class CopierSettlementService {
         if (lastCounter != null) {
             return lastCounter;
         } else {
-            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
+            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDevice_SerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
             lastCounter = counterOptional.get().getColourCounter();
             return lastCounter;
         }

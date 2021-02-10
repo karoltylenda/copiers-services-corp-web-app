@@ -73,12 +73,12 @@ public class CounterService {
     }
 
     private Optional<Counter> counterBefore(Counter counter) {
-        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDevice_SerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
         return counterOptional;
     }
 
     private Optional<Counter> counterAfter(Counter counter) {
-        Optional<Counter> counterOptional = counterRepository.getFirstByCounterDateIsAfterAndDeviceSerialNumberOrderByCounterDateAsc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        Optional<Counter> counterOptional = counterRepository.getFirstByCounterDateIsAfterAndDevice_SerialNumberOrderByCounterDateAsc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
         return counterOptional;
     }
 
