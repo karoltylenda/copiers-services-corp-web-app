@@ -2,17 +2,14 @@ package com.tytanisukcesu.copiers.controller;
 
 import com.tytanisukcesu.copiers.dto.DeviceDto;
 import com.tytanisukcesu.copiers.entity.Device;
-import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.header.Header;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
