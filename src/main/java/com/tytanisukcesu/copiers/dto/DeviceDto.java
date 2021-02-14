@@ -1,9 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.tytanisukcesu.copiers.entity.*;
 import lombok.*;
 
@@ -27,8 +24,11 @@ public class DeviceDto {
 
     private ModelDto model;
 
+    @JsonView(ContractDto.class)
     private String serialNumber;
 
+    @EqualsAndHashCode.Exclude
+    @JsonBackReference
     private CustomerDto customer;
 
     private Set<CounterDto> counters;

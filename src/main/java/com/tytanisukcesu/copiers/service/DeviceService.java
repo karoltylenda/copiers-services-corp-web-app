@@ -18,6 +18,7 @@ public class DeviceService {
 
     private final DeviceRepository deviceRepository;
     private final ModelService modelService;
+    private final CustomerService customerService;
     private static final Logger LOGGER = Logger.getLogger(DeviceService.class.getName());
 
     @Cacheable(cacheNames = "AllDevices")
@@ -41,6 +42,7 @@ public class DeviceService {
             Device deviceToSave = new Device();
             deviceToSave.setSerialNumber(device.getSerialNumber());
             deviceToSave.setModel(modelService.save(device.getModel()));
+            deviceToSave.setCustomer(customerService.save(device.getCustomer()));
             deviceToSave.setContract(device.getContract());
             return deviceRepository.save(deviceToSave);
         }
