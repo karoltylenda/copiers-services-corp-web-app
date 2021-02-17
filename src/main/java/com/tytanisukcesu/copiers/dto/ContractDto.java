@@ -25,6 +25,7 @@ public class ContractDto {
 
     private String contractNumber;
 
+    @EqualsAndHashCode.Exclude
     private DeviceDto device;
 
     private LocalDate startDate;

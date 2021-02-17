@@ -35,5 +35,6 @@ public class DeviceDto {
 
     private AddressDto address;
 
+    @EqualsAndHashCode.Exclude
     private ContractDto contract;
 }

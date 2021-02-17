@@ -14,5 +14,7 @@ public interface CopierSettlementRepository extends JpaRepository<CopierSettleme
 
     Optional<CopierSettlement> getTopByContract_DeviceOrderByDateOfSettlementDesc(Device device);
 
-    Optional<CopierSettlement> getTopByDateOfSettlementBeforeAndContract_Device_SerialNumberOrderByDateOfSettlementDesc(LocalDate localDate, String serialNumber);
+    Optional<CopierSettlement> getDistinctFirstByContract_Device(Device device);
+
+
 }

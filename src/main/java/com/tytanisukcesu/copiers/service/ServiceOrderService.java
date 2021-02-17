@@ -89,7 +89,5 @@ public class ServiceOrderService {
         }
     }
 
-    public ServiceOrder getTop(){
-        return serviceOrderRepository.getTopByServiceOrderNumberOrderByServiceOrderNumberDesc().orElse(new ServiceOrder());
-    }
+
 }

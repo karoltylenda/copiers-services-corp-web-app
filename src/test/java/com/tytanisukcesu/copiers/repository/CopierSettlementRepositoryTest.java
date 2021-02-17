@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.repository;
 
 import com.tytanisukcesu.copiers.entity.CopierSettlement;
 import com.tytanisukcesu.copiers.entity.Device;
+import com.tytanisukcesu.copiers.service.DeviceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,19 +17,27 @@ class CopierSettlementRepositoryTest {
     private CopierSettlementRepository copierSettlementRepository;
 
     @Autowired
-    private DeviceRepository deviceRepository;
+    private DeviceService deviceService;
 
     @Test
-    void getTopByDateOfSettlementAndContractDeviceSerialNumberOrderByDateOfSettlementDesc(){
+    void findLatestSettlementForDeviceTest(){
 
-        Device device = deviceRepository.findById(1L).get();
+        Device device = deviceService.findById(1L);
 
-        LocalDate localDate = LocalDate.of(2021, 3, 28);
+        CopierSettlement copierSettlement = copierSettlementRepository.getDistinctFirstByContract_Device(device).get();
 
-        Optional<CopierSettlement> optionalCopierSettlement = copierSettlementRepository.getTopByDateOfSettlementBeforeAndContract_Device_SerialNumberOrderByDateOfSettlementDesc(localDate, device.getSerialNumber());
+        assertThat(copierSettlement).isNotNull();
 
-        assertThat(optionalCopierSettlement.isPresent());
+        assertThat(copierSettlement.getContract().getDevice()).isEqualTo(device);
 
-        assertThat(optionalCopierSettlement.get().getDateOfSettlement().getMonth().getValue()).isEqualTo(2);
+        assertThat(copierSettlement.getDateOfSettlement()).isEqualTo("2021-02-01");
+
+
+
+
+
+
+
     }
+
 }

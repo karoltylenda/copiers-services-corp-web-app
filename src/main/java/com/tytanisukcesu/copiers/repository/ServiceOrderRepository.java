@@ -16,5 +16,4 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder,Long>
 
     Optional<ServiceOrder> getServiceOrderByServiceOrderNumber(String serviceOrderNumber);
 
-    Optional<ServiceOrder> getTopByServiceOrderNumberOrderByServiceOrderNumberDesc();
 }

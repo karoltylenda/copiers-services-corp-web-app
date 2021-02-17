@@ -8,9 +8,11 @@ import com.tytanisukcesu.copiers.repository.CopierSettlementRepository;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -40,15 +42,14 @@ public class CopierSettlementService {
     @Transactional
     public CopierSettlement save(CopierSettlement copierSettlement) {
 
-        if (isSettlementInThisMonth(copierSettlement)) {
-            return new CopierSettlement();
-        } else {
-            Contract contract = contractService.save(copierSettlement.getContract());
+        Contract contract = contractService.save(copierSettlement.getContract());
 
-            Device device = contract.getDevice();
+        Device device = contract.getDevice();
+        if (!isExists(device)) {
 
             CopierSettlement copierSettlementToSave = new CopierSettlement();
 
+            //FIXME - zmien aby pobieral ostatni settlment pobieral date i ustawial miesiac do przodu
             copierSettlementToSave.setDateOfSettlement(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1));
             copierSettlementToSave.setStartingColourCounter(getLastSettlementColourCounter(device));
             copierSettlementToSave.setStartingMonoCounter(getLastSettlementMonoCounter(device));
@@ -61,22 +62,11 @@ public class CopierSettlementService {
 
             CopierSettlement copierSettlementSaved = copierSettlementRepository.save(copierSettlementToSave);
             return copierSettlementSaved;
+        } else {
+            return new CopierSettlement();
         }
     }
 
-    private boolean isSettlementInThisMonth(CopierSettlement copierSettlement) {
-        Optional<CopierSettlement> optionalLastSettlement = copierSettlementRepository.getTopByDateOfSettlementBeforeAndContract_Device_SerialNumberOrderByDateOfSettlementDesc(LocalDate.now().plusDays(1), copierSettlement.getContract().getDevice().getSerialNumber());
-        if (optionalLastSettlement.isEmpty()) {
-            return false;
-        } else {
-            CopierSettlement lastSettlement = optionalLastSettlement.get();
-            if (lastSettlement.getDateOfSettlement().getMonth().getValue() == LocalDate.now().getMonth().getValue()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
 
     private BigDecimal getTotalAmount(BigDecimal leasePrice, BigDecimal monoAmount, BigDecimal colourAmount) {
         return leasePrice.add(monoAmount).add(colourAmount);
@@ -91,7 +81,8 @@ public class CopierSettlementService {
     }
 
     public Integer getLastCounterMonoCounter(Device device) {
-        LocalDate lastDay = getLastDayOfPreviousMonth();
+//        LocalDate lastDay = getLastDayOfPreviousMonth();
+        LocalDate lastDay = getLastDayOfLastSettlement(device);
         Integer lastCounter = counterMapProvider(device.getCounters(), false).get(lastDay);
         if (lastCounter != null) {
             return lastCounter;
@@ -103,7 +94,8 @@ public class CopierSettlementService {
     }
 
     public Integer getLastCounterColourCounter(Device device) {
-        LocalDate lastDay = getLastDayOfPreviousMonth();
+//        LocalDate lastDay = getLastDayOfPreviousMonth();
+        LocalDate lastDay = getLastDayOfLastSettlement(device);
         Integer lastCounter = counterMapProvider(device.getCounters(), true).get(lastDay);
         if (lastCounter != null) {
             return lastCounter;
@@ -113,6 +105,8 @@ public class CopierSettlementService {
             return lastCounter;
         }
     }
+
+
 
     private Map<LocalDate, Integer> counterMapProvider(Set<Counter> counters, boolean isColourCounter) {
         if (isColourCounter) {
@@ -157,6 +151,12 @@ public class CopierSettlementService {
         return LocalDate.now().minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
     }
 
+    //FIXME - zmien nazwe
+    public LocalDate getLastDayOfLastSettlement(Device device){
+        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device);
+        return copierSettlementOptional.get().getDateOfSettlement().with(TemporalAdjusters.lastDayOfMonth());
+    }
+
     public boolean delete(Long id) {
         Optional<CopierSettlement> optionalCopierSettlement = copierSettlementRepository.findById(id);
         if (optionalCopierSettlement.isPresent()) {
@@ -165,4 +165,14 @@ public class CopierSettlementService {
             return false;
     }
 
+    public boolean isExists(Device device) {
+        boolean exists = false;
+        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device);
+        if (copierSettlementOptional.isPresent()) {
+            if (copierSettlementOptional.get().getDateOfSettlement().getMonth().equals(LocalDate.now().getMonth())) {
+                exists = true;
+            }
+        }
+        return exists;
+    }
 }

@@ -26,6 +26,7 @@ public class Contract {
 
     @OneToOne
     @JoinColumn(referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
     private Device device;
 
     private LocalDate startDate;
