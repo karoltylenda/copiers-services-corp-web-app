@@ -1,0 +1,35 @@
+package com.tytanisukcesu.copiers.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeId;
+import lombok.*;
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "counters")
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+public class Counter {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private LocalDate counterDate;
+
+    private Integer monoCounter;
+
+    private Integer colourCounter;
+
+    private Integer totalCounter;
+
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
+    private Device device;
+
+}
