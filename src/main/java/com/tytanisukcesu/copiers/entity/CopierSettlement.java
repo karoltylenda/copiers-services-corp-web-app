@@ -19,12 +19,6 @@ public class CopierSettlement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(referencedColumnName = "id")
-    private Device device;
-
     private LocalDate dateOfSettlement;
 
     private Integer startingMonoCounter;
@@ -40,5 +34,13 @@ public class CopierSettlement {
     private BigDecimal colourAmount;
 
     private BigDecimal totalAmount;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+    )
+    @JoinColumn(referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
+    private Contract contract;
 
 }

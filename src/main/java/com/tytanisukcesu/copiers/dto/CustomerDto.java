@@ -1,6 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.tytanisukcesu.copiers.entity.Address;
 import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
@@ -17,7 +17,6 @@ import java.util.Set;
 @EqualsAndHashCode
 public class CustomerDto {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private String companyName;
@@ -34,6 +33,7 @@ public class CustomerDto {
 
     private String companySiteUrl;
 
+    @JsonManagedReference
     private Set<DeviceDto> devices;
 
 }

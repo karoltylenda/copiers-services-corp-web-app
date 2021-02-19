@@ -46,5 +46,6 @@ public class ServiceOrder {
     private Device device;
 
     @OneToMany
+    @EqualsAndHashCode.Exclude
     private Set<ArticleOrdered> articleOrderedSet;
 }

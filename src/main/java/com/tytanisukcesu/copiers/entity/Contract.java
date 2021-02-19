@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "contracts")
@@ -23,7 +24,9 @@ public class Contract {
     @Column(unique = true)
     private String contractNumber;
 
-    @OneToOne(mappedBy = "contract")
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
     private Device device;
 
     private LocalDate startDate;
@@ -39,5 +42,9 @@ public class Contract {
     private Integer initialMonoCounter;
 
     private Integer initialColourCounter;
+
+    @OneToMany(mappedBy = "contract")
+    @EqualsAndHashCode.Exclude
+    private Set<CopierSettlement> copierSettlementSet;
 
 }

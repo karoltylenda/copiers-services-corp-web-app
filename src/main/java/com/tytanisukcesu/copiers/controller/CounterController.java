@@ -17,6 +17,14 @@ public class CounterController {
     private final CounterService counterService;
     private final ModelMapper modelMapper;
 
+    @GetMapping
+    public List<CounterDto> getAll(){
+        List<Counter> counterList = counterService.findAll();
+        return counterList.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping(path = "/searchBy")
     public List<CounterDto> getAllBySerialNumber(@RequestParam String serialNumber){
         List<Counter> counterList = counterService.findAllByDeviceSerialNumber(serialNumber);

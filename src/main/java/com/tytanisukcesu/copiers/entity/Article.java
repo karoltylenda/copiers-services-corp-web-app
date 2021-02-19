@@ -32,7 +32,7 @@ public class Article {
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "articles_and_models_connection",
             joinColumns = @JoinColumn(name = "article_id"),

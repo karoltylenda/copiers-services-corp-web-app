@@ -1,12 +1,11 @@
 package com.tytanisukcesu.copiers.dto;
+
 import com.fasterxml.jackson.annotation.*;
-import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,17 +14,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id"
-//)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class ContractDto {
 
+    @JsonProperty("id")
     private Long id;
 
     private String contractNumber;
 
+    @EqualsAndHashCode.Exclude
     private DeviceDto device;
 
     private LocalDate startDate;
@@ -42,4 +42,5 @@ public class ContractDto {
 
     private Integer initialColourCounter;
 
+    private Set<CopiersSettlementDto> copierSettlementSet;
 }

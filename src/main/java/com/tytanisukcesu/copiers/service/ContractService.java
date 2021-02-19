@@ -35,9 +35,8 @@ public class ContractService {
             return contractOptional.get();
         } else {
             Device device = deviceService.save(contract.getDevice());
-            contract.setDevice(null);
+            contract.setDevice(device);
             Contract contractSaved = contractRespository.save(contract);
-            device.setContract(contractSaved);
             return contractSaved;
         }
     }

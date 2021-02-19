@@ -1,9 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeId;
+import com.fasterxml.jackson.annotation.*;
 import com.tytanisukcesu.copiers.entity.Device;
 import lombok.*;
 import java.time.LocalDate;
@@ -15,9 +12,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class CounterDto {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty("id")
     private Long id;
 
     private LocalDate counterDate;
@@ -28,7 +29,7 @@ public class CounterDto {
 
     private Integer totalCounter;
 
+    @EqualsAndHashCode.Exclude
     @JsonTypeId
     private DeviceDto device;
-
 }

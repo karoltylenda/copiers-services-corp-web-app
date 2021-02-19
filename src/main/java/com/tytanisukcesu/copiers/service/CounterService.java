@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -73,12 +74,12 @@ public class CounterService {
     }
 
     private Optional<Counter> counterBefore(Counter counter) {
-        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDeviceSerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateBeforeAndDevice_SerialNumberOrderByCounterDateDesc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
         return counterOptional;
     }
 
     private Optional<Counter> counterAfter(Counter counter) {
-        Optional<Counter> counterOptional = counterRepository.getFirstByCounterDateIsAfterAndDeviceSerialNumberOrderByCounterDateAsc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
+        Optional<Counter> counterOptional = counterRepository.getFirstByCounterDateAfterAndDevice_SerialNumberOrderByCounterDateAsc(counter.getCounterDate(), counter.getDevice().getSerialNumber());
         return counterOptional;
     }
 
@@ -100,4 +101,9 @@ public class CounterService {
             return false;
         }
     }
+
+    public List<Counter> findAll() {
+        return counterRepository.findAll();
+    }
+
 }
