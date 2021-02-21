@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +20,11 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder,Long>
 
     Optional<ServiceOrder> getServiceOrderByServiceOrderNumber(String serviceOrderNumber);
 
-    Optional<ServiceOrder> getFirstByDevice_SerialNumberAndOrderStatusAndOrderTypeNotContaining(String serialNumber, ServiceOrderStatus serviceOrderStatus, ServiceOrderType serviceOrderType);
-
-    Optional<ServiceOrder> findTopByOrderByOrderCreationDateDesc();
+    Optional<ServiceOrder> getFirstByDevice_SerialNumberAndOrderStatusNotContaining(String serialNumber, ServiceOrderStatus serviceOrderStatus);
 
     Optional<ServiceOrder> getTopByOrderByOrderCreationDateDesc();
+
+    List<ServiceOrder> findByOrderCreationDateBetweenOrderByOrderCreationDateDesc(LocalDateTime firstDay, LocalDateTime lastDay);
 
 
 }

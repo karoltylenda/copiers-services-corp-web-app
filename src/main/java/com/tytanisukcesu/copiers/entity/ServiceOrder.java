@@ -24,8 +24,12 @@ public class ServiceOrder {
     @Column(unique = true)
     private String serviceOrderNumber;
 
+//    @Column(columnDefinition = "enum('REPAIR', 'CONSUMABLEDELIVERY','TECHNICALREVIEW')")
+//    @Enumerated(EnumType.STRING)
     private ServiceOrderType orderType;
 
+//    @Column(columnDefinition = "enum('NEW','IN_PROGRESS','COMPLETED')")
+//    @Enumerated(EnumType.STRING)
     private ServiceOrderStatus orderStatus;
 
     private LocalDateTime orderCreationDate;

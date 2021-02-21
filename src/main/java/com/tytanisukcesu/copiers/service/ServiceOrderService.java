@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -27,19 +29,16 @@ public class ServiceOrderService {
 
     @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
-        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getServiceOrderByServiceOrderNumber(serviceOrder.getServiceOrderNumber());
-        if (serviceOrderOptional.isPresent()) {
-            return serviceOrderOptional.get();
-        } else {
-            if (!checkIfServiceOrderExists(serviceOrder.getDevice())) {
+        //FIXME
+            if (true) {
                 ServiceOrder serviceOrderToSave = new ServiceOrder();
                 serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
                 serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
                 serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
                 serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
                 serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
-                serviceOrderToSave.setOrderCreationDate(serviceOrder.getOrderCreationDate());
-                serviceOrderToSave.setServiceOrderNumber(generateOrderNumber());
+                serviceOrderToSave.setOrderCreationDate(LocalDateTime.now());
+                serviceOrderToSave.setServiceOrderNumber(generateOrderNumber(serviceOrderToSave.getOrderCreationDate()));
                 serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
                 serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
                 serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
@@ -49,14 +48,28 @@ public class ServiceOrderService {
                 return new ServiceOrder();
             }
         }
-    }
+
 
     //TODO
-    private String generateOrderNumber() {
+    private String generateOrderNumber(LocalDateTime localDateTime) {
         String year = String.valueOf(LocalDate.now().getYear());
         String month = String.valueOf(LocalDate.now().getMonth().getValue());
-        String generatedValue = null;
+        String generatedValue = generatedValue(localDateTime);
         return year+"/"+month+"/"+generatedValue;
+    }
+
+    //znajdz wszystkie ordery w danym miesiaciu - od 1 do 30
+    public List<ServiceOrder> getOrderForRequestedMonth(LocalDateTime localDateTime){
+        return serviceOrderRepository.findByOrderCreationDateBetweenOrderByOrderCreationDateDesc(localDateTime.with(TemporalAdjusters.firstDayOfMonth()),localDateTime.with(TemporalAdjusters.lastDayOfMonth()));
+    }
+
+    public String generatedValue(LocalDateTime localDateTime){
+        List<ServiceOrder> serviceOrders = getOrderForRequestedMonth(localDateTime);
+        if(serviceOrders.isEmpty()){
+            return "1";
+        }else{
+            return String.valueOf(serviceOrders.size()+1);
+        }
     }
 
 
@@ -96,8 +109,10 @@ public class ServiceOrderService {
         }
     }
 
+    //FIXME - popraw enumy
+    //sprawdz czy zlecenie jest otwarte, tak aby nie wystawiac nowego - tylko NOWE, i tylko TECHNIVAL REVIEW LUB REPAIR
     public boolean checkIfServiceOrderExists(Device device) {
-        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getFirstByDevice_SerialNumberAndOrderStatusAndOrderTypeNotContaining(device.getSerialNumber(), ServiceOrderStatus.NEW, ServiceOrderType.CONSUMABLE_DELIVERY);
+        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getFirstByDevice_SerialNumberAndOrderStatusNotContaining(device.getSerialNumber(), ServiceOrderStatus.NEW);
         return serviceOrderOptional.isPresent();
     }
 
