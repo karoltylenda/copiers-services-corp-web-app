@@ -29,8 +29,7 @@ public class ServiceOrderService {
 
     @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
-        //FIXME
-            if (true) {
+            if (!checkIfServiceOrderExists(serviceOrder.getDevice().getSerialNumber())) {
                 ServiceOrder serviceOrderToSave = new ServiceOrder();
                 serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
                 serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
@@ -98,7 +97,7 @@ public class ServiceOrderService {
             ServiceOrder serviceOrderUpdated = serviceOrderOptional.get();
             serviceOrderUpdated.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
             serviceOrderUpdated.setOrderStatus(serviceOrder.getOrderStatus());
-            serviceOrderUpdated.setLastUpdateDate(LocalDateTime.now()); //*
+            serviceOrderUpdated.setLastUpdateDate(LocalDateTime.now());
             serviceOrderUpdated.setDevice(serviceOrder.getDevice());
             serviceOrderUpdated.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
             serviceOrderUpdated.setOrderStartDate(serviceOrder.getOrderStartDate());
@@ -109,10 +108,9 @@ public class ServiceOrderService {
         }
     }
 
-    //FIXME - popraw enumy
-    //sprawdz czy zlecenie jest otwarte, tak aby nie wystawiac nowego - tylko NOWE, i tylko TECHNIVAL REVIEW LUB REPAIR
-    public boolean checkIfServiceOrderExists(Device device) {
-        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getFirstByDevice_SerialNumberAndOrderStatusNotContaining(device.getSerialNumber(), ServiceOrderStatus.NEW);
+    //tylko nowe i tylko technical review + repair
+    public boolean checkIfServiceOrderExists(String serialNumber) {
+        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getFirstByDeviceSerialNumberAndOrderStatusAndOrderTypeNot(serialNumber, ServiceOrderStatus.NEW,ServiceOrderType.CONSUMABLE_DELIVERY);
         return serviceOrderOptional.isPresent();
     }
 

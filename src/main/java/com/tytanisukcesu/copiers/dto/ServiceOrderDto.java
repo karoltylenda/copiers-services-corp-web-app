@@ -23,10 +23,8 @@ public class ServiceOrderDto {
 
     private String serviceOrderNumber;
 
-//    @Enumerated(EnumType.STRING)
     private ServiceOrderType orderType;
 
-//    @Enumerated(EnumType.STRING)
     private ServiceOrderStatus orderStatus;
 
     private LocalDateTime orderCreationDate;

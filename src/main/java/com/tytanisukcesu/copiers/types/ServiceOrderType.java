@@ -2,6 +2,6 @@ package com.tytanisukcesu.copiers.types;
 
 public enum ServiceOrderType {
     REPAIR,
-    CONSUMABLEDELIVERY,
-    TECHNICALREVIEW
+    CONSUMABLE_DELIVERY,
+    TECHNICAL_REVIEW
 }
