@@ -29,24 +29,24 @@ public class ServiceOrderService {
 
     @Transactional
     public ServiceOrder save(ServiceOrder serviceOrder) {
-            if (!checkIfServiceOrderExists(serviceOrder.getDevice().getSerialNumber())) {
-                ServiceOrder serviceOrderToSave = new ServiceOrder();
-                serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
-                serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
-                serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
-                serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
-                serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
-                serviceOrderToSave.setOrderCreationDate(LocalDateTime.now());
-                serviceOrderToSave.setServiceOrderNumber(generateOrderNumber(serviceOrderToSave.getOrderCreationDate()));
-                serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
-                serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
-                serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
-                ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrderToSave);
-                return serviceOrderSaved;
-            } else {
-                return new ServiceOrder();
-            }
+        if (!checkIfServiceOrderExists(serviceOrder.getDevice().getSerialNumber()) || serviceOrder.getOrderType().equals(ServiceOrderType.CONSUMABLE_DELIVERY)) {
+            ServiceOrder serviceOrderToSave = new ServiceOrder();
+            serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
+            serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
+            serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
+            serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
+            serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
+            serviceOrderToSave.setOrderCreationDate(LocalDateTime.now());
+            serviceOrderToSave.setServiceOrderNumber(generateOrderNumber(serviceOrderToSave.getOrderCreationDate()));
+            serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
+            serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
+            serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
+            ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrderToSave);
+            return serviceOrderSaved;
+        } else {
+            return new ServiceOrder();
         }
+    }
 
 
     //TODO
@@ -54,20 +54,20 @@ public class ServiceOrderService {
         String year = String.valueOf(LocalDate.now().getYear());
         String month = String.valueOf(LocalDate.now().getMonth().getValue());
         String generatedValue = generatedValue(localDateTime);
-        return year+"/"+month+"/"+generatedValue;
+        return year + "/" + month + "/" + generatedValue;
     }
 
     //znajdz wszystkie ordery w danym miesiaciu - od 1 do 30
-    public List<ServiceOrder> getOrderForRequestedMonth(LocalDateTime localDateTime){
-        return serviceOrderRepository.findByOrderCreationDateBetweenOrderByOrderCreationDateDesc(localDateTime.with(TemporalAdjusters.firstDayOfMonth()),localDateTime.with(TemporalAdjusters.lastDayOfMonth()));
+    public List<ServiceOrder> getOrderForRequestedMonth(LocalDateTime localDateTime) {
+        return serviceOrderRepository.findByOrderCreationDateBetweenOrderByOrderCreationDateDesc(localDateTime.with(TemporalAdjusters.firstDayOfMonth()), localDateTime.with(TemporalAdjusters.lastDayOfMonth()));
     }
 
-    public String generatedValue(LocalDateTime localDateTime){
+    public String generatedValue(LocalDateTime localDateTime) {
         List<ServiceOrder> serviceOrders = getOrderForRequestedMonth(localDateTime);
-        if(serviceOrders.isEmpty()){
+        if (serviceOrders.isEmpty()) {
             return "1";
-        }else{
-            return String.valueOf(serviceOrders.size()+1);
+        } else {
+            return String.valueOf(serviceOrders.size() + 1);
         }
     }
 
@@ -110,7 +110,8 @@ public class ServiceOrderService {
 
     //tylko nowe i tylko technical review + repair
     public boolean checkIfServiceOrderExists(String serialNumber) {
-        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getFirstByDeviceSerialNumberAndOrderStatusAndOrderTypeNot(serialNumber, ServiceOrderStatus.NEW,ServiceOrderType.CONSUMABLE_DELIVERY);
+        Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.getFirstByDeviceSerialNumberAndOrderStatusAndOrderTypeNot(serialNumber, ServiceOrderStatus.NEW, ServiceOrderType.CONSUMABLE_DELIVERY);
+
         return serviceOrderOptional.isPresent();
     }
 
