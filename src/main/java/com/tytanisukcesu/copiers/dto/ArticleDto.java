@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import java.util.Set;
@@ -29,6 +30,10 @@ public class ArticleDto {
     })
     private ManufacturerDto manufacturer;
 
+    @JsonIgnoreProperties({
+            "manufacturer",
+            "consumables"
+    })
     private Set<ModelDto> models;
 
 }

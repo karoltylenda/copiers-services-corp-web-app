@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping(path = "/articles")
 @RequiredArgsConstructor
@@ -26,6 +29,14 @@ public class ArticleController {
 //                                             @RequestParam(required = false, defaultValue = "") String manufacturerName){
 //        return articleService.getAllByParameters(name,catalogueNumber,isConsumable,isAlternative,manufacturerName);
 //    }
+
+    @GetMapping
+    public List<ArticleDto> findAll(){
+        List<Article> articles = articleService.findAll();
+        return articles.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
     @PostMapping
     public ArticleDto save(@RequestBody ArticleDto articleDto){

@@ -1,12 +1,15 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Article;
+import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
@@ -15,6 +18,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ManufacturerService manufacturerService;
+    private final ModelService modelService;
     private static final Logger LOGGER = Logger.getLogger(ArticleService.class.getName());
 
     public List<Article> findAll() {
@@ -37,6 +41,11 @@ public class ArticleService {
             articleToSave.setManufacturer(manufacturerService.save(article.getManufacturer()));
             articleToSave.setConsumable(article.isConsumable());
             articleToSave.setCatalogueNumber(article.getCatalogueNumber());
+            Set<Model> modelsList = new HashSet<>();
+            for (Model model: article.getModels()) {
+                modelsList.add(modelService.save(model));
+            }
+            articleToSave.setModels(modelsList);
             Article articleSaved = articleRepository.save(articleToSave);
             return articleSaved;
         }
