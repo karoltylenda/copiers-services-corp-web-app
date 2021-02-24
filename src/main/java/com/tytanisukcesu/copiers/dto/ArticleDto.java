@@ -34,6 +34,7 @@ public class ArticleDto {
             "manufacturer",
             "consumables"
     })
+    @EqualsAndHashCode.Exclude
     private Set<ModelDto> models;
 
 }

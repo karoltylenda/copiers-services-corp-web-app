@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.ArticleOrdered;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.repository.ServiceOrderRepository;
@@ -13,8 +14,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.temporal.TemporalAdjusters;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
@@ -23,6 +26,7 @@ public class ServiceOrderService {
 
     private final ServiceOrderRepository serviceOrderRepository;
     private final DeviceService deviceService;
+    private final ArticleOrderedService articleOrderedService;
     private static final Logger LOGGER = Logger.getLogger(CounterService.class.getName());
 
     //TODO co ma być logowane
@@ -32,7 +36,11 @@ public class ServiceOrderService {
         if (!checkIfServiceOrderExists(serviceOrder.getDevice().getSerialNumber()) || serviceOrder.getOrderType().equals(ServiceOrderType.CONSUMABLE_DELIVERY)) {
             ServiceOrder serviceOrderToSave = new ServiceOrder();
             serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
-            serviceOrderToSave.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
+            Set<ArticleOrdered> articleOrderedSet = new HashSet<>();
+            for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
+                articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+            }
+            serviceOrderToSave.setArticleOrderedSet(articleOrderedSet);
             serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
             serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
             serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
@@ -42,6 +50,9 @@ public class ServiceOrderService {
             serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
             serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
             ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrderToSave);
+            articleOrderedSet.forEach(articleOrdered -> {
+                articleOrdered.setServiceOrder(serviceOrderSaved);
+            });
             return serviceOrderSaved;
         } else {
             return new ServiceOrder();

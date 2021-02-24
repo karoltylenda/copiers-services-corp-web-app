@@ -32,8 +32,9 @@ public class ServiceOrderDto {
 
     private LocalDateTime orderCreationDate;
 
+    //TODO Pola tylko edytowalne
     private LocalDateTime orderStartDate;
-
+    //TODO Pola tylko edytowalne
     private LocalDateTime orderEndDate;
 
     private LocalDateTime lastUpdateDate;
@@ -48,8 +49,11 @@ public class ServiceOrderDto {
             "address",
             "contract"
     })
+    @EqualsAndHashCode.Exclude
     private DeviceDto device;
 
+    @JsonIgnoreProperties
+    @EqualsAndHashCode.Exclude
     private Set<ArticleOrderedDto> articleOrderedSet;
 
 }
