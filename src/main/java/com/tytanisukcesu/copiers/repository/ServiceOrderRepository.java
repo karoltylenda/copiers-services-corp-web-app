@@ -22,7 +22,4 @@ public interface ServiceOrderRepository extends JpaRepository<ServiceOrder,Long>
 
     Optional<ServiceOrder> getFirstByDeviceSerialNumberAndOrderStatusAndOrderTypeNot(String serial, ServiceOrderStatus serviceOrderStatus, ServiceOrderType serviceOrderType);
 
-
-
-
 }

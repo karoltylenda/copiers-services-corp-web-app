@@ -2,7 +2,6 @@ package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
@@ -14,18 +13,22 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 public class ContractDto {
 
-    @JsonProperty("id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private String contractNumber;
 
     @EqualsAndHashCode.Exclude
+    @JsonIgnoreProperties({
+            "id",
+            "model",
+            "customer",
+            "counters",
+            "address",
+            "contract"
+    })
     private DeviceDto device;
 
     private LocalDate startDate;

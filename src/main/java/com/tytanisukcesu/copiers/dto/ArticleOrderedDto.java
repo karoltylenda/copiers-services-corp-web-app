@@ -1,10 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tytanisukcesu.copiers.entity.Article;
-import com.tytanisukcesu.copiers.entity.ServiceOrder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
 import java.math.BigDecimal;
 
 @Getter
@@ -16,6 +13,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 public class ArticleOrderedDto {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private Long quantity;
@@ -26,7 +24,6 @@ public class ArticleOrderedDto {
 
     private ArticleDto article;
 
-    @JsonIgnore
     private ServiceOrderDto serviceOrder;
 
 }

@@ -1,9 +1,10 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.*;
-import com.tytanisukcesu.copiers.entity.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
-
 import java.util.Set;
 
 @Builder
@@ -13,15 +14,14 @@ import java.util.Set;
 @Setter
 @ToString
 @EqualsAndHashCode
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 public class DeviceDto {
 
-    @JsonProperty("id")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
+    @JsonIgnoreProperties({
+            "consumables"
+    })
     private ModelDto model;
 
     @JsonView(ContractDto.class)
@@ -36,5 +36,9 @@ public class DeviceDto {
     private AddressDto address;
 
     @EqualsAndHashCode.Exclude
+    @JsonIgnoreProperties({
+            "device",
+            "copierSettlementSet"
+    })
     private ContractDto contract;
 }

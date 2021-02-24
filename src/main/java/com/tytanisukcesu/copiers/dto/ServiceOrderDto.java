@@ -1,5 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.ArticleOrdered;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
@@ -19,6 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class ServiceOrderDto {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private String serviceOrderNumber;
@@ -37,6 +40,14 @@ public class ServiceOrderDto {
 
     private String descriptionOfTheFault;
 
+    @JsonIgnoreProperties({
+            "id",
+            "model",
+            "customer",
+            "counters",
+            "address",
+            "contract"
+    })
     private DeviceDto device;
 
     private Set<ArticleOrderedDto> articleOrderedSet;
