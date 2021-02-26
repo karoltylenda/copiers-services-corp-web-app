@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @EnableCaching
-public class Config {
+public class SwaggerConfig {
 
 
     //    dokumentacja swaggera - exclude errors
