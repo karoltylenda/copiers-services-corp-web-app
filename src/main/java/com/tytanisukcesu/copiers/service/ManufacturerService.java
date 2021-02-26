@@ -2,8 +2,11 @@ package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.repository.ManufacturerRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +24,8 @@ public class ManufacturerService {
         return manufacturers;
     }
 
-    public Manufacturer findById(Long id) {
-        return manufacturerRepository.findById(id).orElse(new Manufacturer());
+    public Manufacturer findById(Long id) throws NotFoundException {
+        return manufacturerRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id));
     }
 
     public boolean deleteById(Long id) {
