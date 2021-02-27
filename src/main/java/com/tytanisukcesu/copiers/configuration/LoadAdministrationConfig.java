@@ -23,4 +23,5 @@ public class LoadAdministrationConfig {
             userRepository.save(user);
         }
     }
+
 }

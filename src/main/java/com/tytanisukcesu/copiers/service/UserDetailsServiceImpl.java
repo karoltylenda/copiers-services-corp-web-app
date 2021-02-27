@@ -19,7 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     * Based on received data - get all the details about the User.
     */
 
-
     private final UserRepository userRepository;
 
     @Override

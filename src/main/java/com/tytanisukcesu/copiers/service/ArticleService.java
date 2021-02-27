@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.service;
 import com.tytanisukcesu.copiers.entity.Article;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ArticleRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -27,8 +28,7 @@ public class ArticleService {
     }
 
     public Article findById(Long id) {
-        Optional<Article> articleOptional = articleRepository.findById(id);
-        return articleOptional.orElse(new Article());
+        return articleRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"article"));
     }
 
     public Article save(Article article) {

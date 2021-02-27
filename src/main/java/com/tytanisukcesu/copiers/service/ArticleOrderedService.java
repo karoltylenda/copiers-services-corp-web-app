@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.ArticleOrdered;
 import com.tytanisukcesu.copiers.repository.ArticleOrderedRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -27,8 +28,7 @@ public class ArticleOrderedService {
     }
 
     public ArticleOrdered findById(Long id){
-        Optional<ArticleOrdered> articleOrderedOptional = articleOrderedRepository.findById(id);
-        return articleOrderedOptional.orElse(new ArticleOrdered());
+        return articleOrderedRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"article ordered"));
     }
 
     public boolean delete(Long id) {

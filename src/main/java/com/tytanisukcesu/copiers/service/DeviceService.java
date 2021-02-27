@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -29,8 +30,7 @@ public class DeviceService {
 
     @Cacheable(cacheNames = "SingleDevice",key = "#id")
     public Device findById(Long id) {
-        Optional<Device> deviceOptional = deviceRepository.findById(id);
-        return deviceOptional.orElse(new Device());
+        return deviceRepository.findById(id).orElseThrow(()->new ModelNotFoundException(id,"device"));
     }
 
     @Transactional

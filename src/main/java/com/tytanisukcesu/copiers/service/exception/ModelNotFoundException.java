@@ -4,7 +4,7 @@ public class ModelNotFoundException extends RuntimeException{
 
     //ten blad jest przechwytywany przez wątek AOP
 
-    public ModelNotFoundException(Long id) {
-        super("Could not find for id: "+ id);
+    public ModelNotFoundException(Long id,String modelName) {
+        super("Could not find " + modelName + " for id: "+ id);
     }
 }

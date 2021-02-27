@@ -12,16 +12,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @EnableCaching
-public class SwaggerConfig {
+public class SwaggerModelConfig {
 
-
-    //    dokumentacja swaggera - exclude errors
     @Bean
     public Docket swaggerApi() {
-        return new Docket(DocumentationType. SWAGGER_2 )
+        return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors. regex ( "^(?!/(error).*$).*$"))
-                .paths(PathSelectors. regex ( "^(?!/(entity).*$).*$"))
+                .paths(PathSelectors.regex("^(?!/(error).*$).*$"))
+                .paths(PathSelectors.regex("^(?!/(entity).*$).*$"))
                 .build();
     }
 
@@ -29,10 +27,6 @@ public class SwaggerConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
-
-
-
 
 
 }

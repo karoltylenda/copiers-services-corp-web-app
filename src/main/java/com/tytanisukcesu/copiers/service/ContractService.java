@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.service;
 import com.tytanisukcesu.copiers.entity.Contract;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.ContractRespository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +25,7 @@ public class ContractService {
     }
 
     public Contract findById(Long id) {
-        Optional<Contract> contractOptional = contractRespository.findById(id);
-        return contractOptional.orElse(new Contract());
+        return contractRespository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"contract"));
     }
 
     @Transactional

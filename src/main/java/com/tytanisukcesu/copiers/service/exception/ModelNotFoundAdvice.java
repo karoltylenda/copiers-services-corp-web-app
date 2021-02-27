@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ModelNotFoundAdvice {
 
-    //jak tylko zostanie wywolana klasa ModelNotFoundException to od razu ten element zostanie przechwycony
-    //TO JEST TZW. AOP - aspekt
 
-    @ResponseBody //przemapowanie do jsona
+    @ResponseBody
     @ExceptionHandler(ModelNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String modelNotFoundHandler(ModelNotFoundException modelNotFoundException){

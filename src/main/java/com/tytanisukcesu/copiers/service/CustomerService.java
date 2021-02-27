@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.repository.CustomerRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -22,8 +23,7 @@ public class CustomerService {
     }
 
     public Customer findById(Long id) {
-        Optional<Customer> customerOptional = customerRepository.findById(id);
-        return customerOptional.orElse(new Customer());
+        return customerRepository.findById(id).orElseThrow(()->new ModelNotFoundException(id,"customer"));
     }
 
     public Customer save(Customer customer) {

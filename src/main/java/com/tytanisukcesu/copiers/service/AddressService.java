@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.service;
 import com.tytanisukcesu.copiers.entity.Address;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.AddressRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,7 @@ public class AddressService {
     }
 
     public Address findById(Long id) {
-        Optional<Address> addressOptional = addressRepository.findById(id);
-        return addressOptional.orElse(new Address());
+        return addressRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"address"));
     }
 
     public List<Address> findAll() {

@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ModelRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ModelService {
     }
 
     public Model findById(Long id) {
-        return modelRepository.findById(id).orElse(new Model());
+        return modelRepository.findById(id).orElseThrow(()-> new ModelNotFoundException(id,"model"));
     }
 
 

@@ -4,6 +4,7 @@ import com.tytanisukcesu.copiers.entity.ArticleOrdered;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.repository.ServiceOrderRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
 import com.tytanisukcesu.copiers.types.ServiceOrderType;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +90,7 @@ public class ServiceOrderService {
     }
 
     public ServiceOrder findById(Long id) {
-        return serviceOrderRepository.findById(id).orElse(new ServiceOrder());
+        return serviceOrderRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"service order"));
     }
 
     public boolean delete(Long id) {
