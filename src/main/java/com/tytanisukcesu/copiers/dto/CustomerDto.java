@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tytanisukcesu.copiers.entity.User;
 import lombok.*;
 import java.util.Set;
 
@@ -33,5 +34,9 @@ public class CustomerDto {
 
     @JsonManagedReference
     private Set<DeviceDto> devices;
+
+    @EqualsAndHashCode.Exclude
+    private Set<User> users;
+
 
 }

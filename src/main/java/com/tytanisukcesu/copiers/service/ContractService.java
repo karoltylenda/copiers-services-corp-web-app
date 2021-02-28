@@ -37,6 +37,7 @@ public class ContractService {
             Device device = deviceService.save(contract.getDevice());
             contract.setDevice(device);
             Contract contractSaved = contractRespository.save(contract);
+            LOGGER.info("A new row has been added.");
             return contractSaved;
         }
     }
@@ -45,8 +46,10 @@ public class ContractService {
         Optional<Contract> contractOptional = contractRespository.findById(id);
         if (contractOptional.isPresent()) {
             contractRespository.delete(contractOptional.get());
+            LOGGER.info("Contract for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Contract for id " + id + " has not been deleted");
             return false;
         }
     }
@@ -62,9 +65,10 @@ public class ContractService {
             contractUpdated.setLeasePrice(contract.getLeasePrice());
             contractUpdated.setStartDate(contract.getStartDate());
             contractUpdated.setEndDate(contract.getEndDate());
+            LOGGER.info("Contract with number "+ contractUpdated.getContractNumber() + " for id " + contractUpdated.getId() + " has been updated.");
             return contractUpdated;
         } else {
-            return new Contract();
-        }
+            LOGGER.warning("Contract for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"manufacturer");        }
     }
 }

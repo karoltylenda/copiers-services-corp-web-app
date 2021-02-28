@@ -6,6 +6,7 @@ import com.tytanisukcesu.copiers.repository.AddressRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +21,11 @@ public class AddressService {
 
     public Address save(Address address) {
         Address addressToSave = addressRepository.save(address);
+        LOGGER.info("A new row has been added.");
         return addressToSave;
     }
 
+    @Transactional
     public Address update(Long id, Address address) {
         Optional<Address> addressOptional = addressRepository.findById(id);
         if (addressOptional.isPresent()) {
@@ -36,9 +39,11 @@ public class AddressService {
             addressUpdated.setPostCode(address.getPostCode());
             addressUpdated.setStreet(address.getStreet());
             addressUpdated.setProvince(address.getProvince());
+            LOGGER.info("Address " + " for id " + addressUpdated.getId() + " has been updated.");
             return addressUpdated;
         } else {
-            return new Address();
+            LOGGER.warning("Address for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"address");
         }
     }
 
@@ -55,8 +60,10 @@ public class AddressService {
         Optional<Address> addressOptional = addressRepository.findById(id);
         if (addressOptional.isPresent()) {
             addressRepository.delete(addressOptional.get());
+            LOGGER.info("Address for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Address for id " + id + " has not been deleted");
             return false;
         }
     }

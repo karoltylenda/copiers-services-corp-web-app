@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -26,6 +29,15 @@ public class User implements UserDetails {
     private String password;
 
     private String role;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_and_customers_relation",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
+    )
+    @EqualsAndHashCode.Exclude
+    private Set<Customer> customers;
 
     public String getUsername() {
         return username;

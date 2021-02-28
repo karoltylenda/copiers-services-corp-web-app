@@ -44,6 +44,7 @@ public class DeviceService {
             deviceToSave.setModel(modelService.save(device.getModel()));
             deviceToSave.setCustomer(customerService.save(device.getCustomer()));
             deviceToSave.setContract(device.getContract());
+            LOGGER.info("A new row has been added.");
             return deviceRepository.save(deviceToSave);
         }
     }
@@ -59,13 +60,12 @@ public class DeviceService {
             deviceUpdated.setAddress(device.getAddress());
             deviceUpdated.setCounters(device.getCounters());
             deviceUpdated.setCustomer(device.getCustomer());
-//            deviceUpdated.setColorPagePrice(device.getColorPagePrice());
-//            deviceUpdated.setLeasePrice(device.getLeasePrice());
-//            deviceUpdated.setMonoPagePrice(device.getMonoPagePrice());
+            deviceUpdated.setContract(device.getContract());
+            LOGGER.info("Device with serial number " + deviceUpdated.getSerialNumber() + " for id " + deviceUpdated.getId() + " has been updated.");
             return deviceUpdated;
         } else {
-            return new Device();
-        }
+            LOGGER.warning("Device for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"device");        }
     }
 
     @CacheEvict(cacheNames = "SingleDevice")
@@ -73,8 +73,10 @@ public class DeviceService {
         Optional<Device> deviceOptional = deviceRepository.findById(id);
         if (deviceOptional.isPresent()) {
             deviceRepository.delete(deviceOptional.get());
+            LOGGER.info("Device for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Device for id " + id + " has not been deleted");
             return false;
         }
     }

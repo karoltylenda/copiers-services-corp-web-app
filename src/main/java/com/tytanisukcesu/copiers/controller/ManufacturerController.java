@@ -50,7 +50,7 @@ public class ManufacturerController {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
-        if (manufacturerService.deleteById(id)) {
+        if (manufacturerService.delete(id)) {
             return ResponseEntity.accepted().build();
         } else {
             return ResponseEntity.status(404).build();

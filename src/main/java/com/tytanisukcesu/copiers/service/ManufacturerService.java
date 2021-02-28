@@ -28,12 +28,14 @@ public class ManufacturerService {
         return manufacturerRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"manufacturer"));
     }
 
-    public boolean deleteById(Long id) {
+    public boolean delete(Long id) {
         Optional<Manufacturer> manufacturer = manufacturerRepository.findById(id);
         if (manufacturer.isPresent()){
             manufacturerRepository.delete(manufacturer.get());
+            LOGGER.info("Manufacturer for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Manufacturer for id " + id + " has not been deleted");
             return false;
         }
     }
@@ -44,6 +46,7 @@ public class ManufacturerService {
             return manufacturerOptional.get();
         } else {
             Manufacturer manufacturerSaved = manufacturerRepository.save(manufacturer);
+            LOGGER.info("A new row has been added.");
             return manufacturerSaved;
         }
     }
@@ -56,9 +59,11 @@ public class ManufacturerService {
             manufacturerUpdated.setName(manufacturer.getName());
             manufacturerUpdated.setArticles(manufacturer.getArticles());
             manufacturerUpdated.setModels(manufacturer.getModels());
+            LOGGER.info(manufacturer.getName() + " for id " + manufacturerUpdated.getId() + " has been updated.");
             return manufacturerUpdated;
         }else{
-            return new Manufacturer();
+            LOGGER.warning("Manufacturer for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"manufacturer");
         }
     }
 

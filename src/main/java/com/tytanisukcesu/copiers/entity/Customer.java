@@ -45,4 +45,8 @@ public class Customer {
     @EqualsAndHashCode.Exclude
     private Set<Device> devices;
 
+    @ManyToMany(mappedBy = "customers")
+    @EqualsAndHashCode.Exclude
+    private Set<User> users;
+
 }

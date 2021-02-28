@@ -47,6 +47,7 @@ public class ArticleService {
             }
             articleToSave.setModels(modelsList);
             Article articleSaved = articleRepository.save(articleToSave);
+            LOGGER.info("A new row has been added.");
             return articleSaved;
         }
     }
@@ -55,8 +56,10 @@ public class ArticleService {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
             articleRepository.delete(articleOptional.get());
+            LOGGER.info("Article for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Article for id " + id + " has not been deleted");
             return false;
         }
     }
@@ -65,16 +68,17 @@ public class ArticleService {
     public Article update(Long id, Article article) {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
-            Article articleToUpdate = articleOptional.get();
-            articleToUpdate.setManufacturer(article.getManufacturer());
-            articleToUpdate.setModels(article.getModels());
-            articleToUpdate.setName(article.getName());
-            articleToUpdate.setCatalogueNumber(article.getCatalogueNumber());
-            articleToUpdate.setConsumable(article.isConsumable());
-            return articleToUpdate;
+            Article articleUpdated = articleOptional.get();
+            articleUpdated.setManufacturer(article.getManufacturer());
+            articleUpdated.setModels(article.getModels());
+            articleUpdated.setName(article.getName());
+            articleUpdated.setCatalogueNumber(article.getCatalogueNumber());
+            articleUpdated.setConsumable(article.isConsumable());
+            LOGGER.info(articleUpdated.getName() + " for id " + articleUpdated.getId() + " has been updated.");
+            return articleUpdated;
         } else {
-            return new Article();
-        }
+            LOGGER.warning("Article for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"article");        }
     }
 
 }

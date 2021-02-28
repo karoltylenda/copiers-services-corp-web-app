@@ -32,6 +32,7 @@ public class CustomerService {
             return customerOptional.get();
         } else {
             Customer customerSaved = customerRepository.save(customer);
+            LOGGER.info("A new row has been added.");
             return customerSaved;
         }
     }
@@ -40,8 +41,10 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
         if (customer.isPresent()) {
             customerRepository.delete(customer.get());
+            LOGGER.info("Customer for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Customer for id " + id + " has not been deleted");
             return false;
         }
     }
@@ -57,14 +60,15 @@ public class CustomerService {
             customerToUpdate.setRegon(customer.getRegon());
             customerToUpdate.setTelephoneNumber(customer.getTelephoneNumber());
             customerToUpdate.setAddress(customer.getAddress());
-//            customerToUpdate.setContract(customer.getContract());
+            customerToUpdate.setUsers(customer.getUsers());
             customerToUpdate.setDevices(customer.getDevices());
             customerToUpdate.setEmail(customer.getEmail());
             customerToUpdate.setTaxId(customer.getTaxId());
+            LOGGER.info(customerToUpdate.getCompanyName() + " with TAX ID " +customerToUpdate.getTaxId() + " for id " + customerToUpdate.getId() + " has been updated.");
             return customerToUpdate;
         } else {
-            return new Customer();
-        }
+            LOGGER.warning("Customer for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"customer");        }
     }
 
 }

@@ -1,7 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.ArticleOrdered;
-import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.repository.ServiceOrderRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
 import java.util.List;
