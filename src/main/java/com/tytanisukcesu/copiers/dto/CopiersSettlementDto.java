@@ -41,6 +41,7 @@ public class CopiersSettlementDto {
 
     private BigDecimal totalAmount;
 
+    @EqualsAndHashCode.Exclude
     private ContractDto contract;
 
 }

@@ -23,21 +23,6 @@ class CopierSettlementServiceTest {
     @Autowired
     private DeviceService deviceService;
 
-    @Test
-    void lastColourCounterTest() {
-
-        Device device = deviceService.findById(1L);
-
-        LocalDate localDate = LocalDate.now();
-
-        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateAndDevice_SerialNumber(localDate, device.getSerialNumber());
-
-        assertThat(counterOptional).isPresent();
-
-        assertThat(counterOptional.get().getMonoCounter()).isEqualTo(10);
-
-
-    }
 
     @Test
     void lastColourCounterTest2() {
@@ -46,7 +31,7 @@ class CopierSettlementServiceTest {
 
         LocalDate localDate = LocalDate.of(2021, 1, 31);
 
-        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateBeforeAndDevice_SerialNumber(localDate, device.getSerialNumber());
+        Optional<Counter> counterOptional = counterRepository.getTopByCounterDateBeforeAndDevice_SerialNumberOrderByCounterDateDesc(localDate, device.getSerialNumber());
 
         assertThat(counterOptional).isPresent();
 
@@ -55,66 +40,5 @@ class CopierSettlementServiceTest {
 
 
     }
-
-    @Test
-    void lastColourCounterTest3() {
-        //znajdowanie dla id
-
-        Device device = deviceService.findById(1L);
-
-        LocalDate localDate = LocalDate.of(2021, 1, 31);
-
-        Optional<Counter> counterOptional = counterRepository.test(9L);
-
-        assertThat(counterOptional).isPresent();
-
-        assertThat(counterOptional.get().getMonoCounter()).isEqualTo(11);
-    }
-
-    @Test
-    void lastColourCounterTest4() {
-        //znajdowanie dla serialnumber i okreslonej daty
-
-        Device device = deviceService.findById(1L);
-
-        LocalDate localDate = LocalDate.of(2021, 1, 31);
-
-        Optional<Counter> counterOptional = counterRepository.test2(device.getSerialNumber(),localDate);
-
-        assertThat(counterOptional).isPresent();
-
-        assertThat(counterOptional.get().getMonoCounter()).isEqualTo(7);
-    }
-
-    @Test
-    void lastColourCounterTest5() {
-        //znajdowanie dla serialnumber i okreslonej daty lub mniejszej
-
-        Device device = deviceService.findById(1L);
-
-        LocalDate localDate = LocalDate.of(2021, 1, 31);
-
-        Optional<Counter> counterOptional = counterRepository.test3(device.getSerialNumber(),localDate);
-
-        assertThat(counterOptional).isPresent();
-
-        assertThat(counterOptional.get().getMonoCounter()).isEqualTo(10);
-    }
-
-    @Test
-    void lastColourCounterTest6() {
-        //znajdowanie max dla serialnumber i okreslonej daty lub mniejszej
-
-        Device device = deviceService.findById(1L);
-
-        LocalDate localDate = LocalDate.of(2021, 1, 31);
-
-        Optional<Counter> counterOptional = counterRepository.findFirstByCounterDateBeforeAndDevice_SerialNumberOrderByTotalCounterDesc(localDate,device.getSerialNumber());
-
-        assertThat(counterOptional).isPresent();
-
-        assertThat(counterOptional.get().getTotalCounter()).isEqualTo(9);
-    }
-
 
 }

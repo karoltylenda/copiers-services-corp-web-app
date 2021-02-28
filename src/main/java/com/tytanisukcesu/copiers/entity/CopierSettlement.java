@@ -40,6 +40,7 @@ public class CopierSettlement {
             cascade = {CascadeType.MERGE, CascadeType.PERSIST}
     )
     @JoinColumn(referencedColumnName = "id")
+    @EqualsAndHashCode.Exclude
     private Contract contract;
 
 }

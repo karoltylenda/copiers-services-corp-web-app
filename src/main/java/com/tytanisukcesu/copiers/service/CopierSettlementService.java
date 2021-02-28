@@ -40,24 +40,42 @@ public class CopierSettlementService {
     @Transactional
     public CopierSettlement save(CopierSettlement copierSettlement) {
 
-        Contract contract = contractService.save(copierSettlement.getContract());
+        if (isSettlementInThisMonth(copierSettlement)) {
+            return new CopierSettlement();
+        } else {
+            Contract contract = contractService.save(copierSettlement.getContract());
 
-        Device device = contract.getDevice();
+            Device device = contract.getDevice();
 
-        CopierSettlement copierSettlementToSave = new CopierSettlement();
+            CopierSettlement copierSettlementToSave = new CopierSettlement();
 
-        copierSettlementToSave.setDateOfSettlement(LocalDate.now());
-        copierSettlementToSave.setStartingColourCounter(getLastSettlementColourCounter(device));
-        copierSettlementToSave.setStartingMonoCounter(getLastSettlementMonoCounter(device));
-        copierSettlementToSave.setClosingColourCounter(getLastCounterColourCounter(device));
-        copierSettlementToSave.setClosingMonoCounter(getLastCounterMonoCounter(device));
-        copierSettlementToSave.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(), copierSettlementToSave.getStartingMonoCounter(), copierSettlementToSave.getClosingMonoCounter()));
-        copierSettlementToSave.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(), copierSettlementToSave.getStartingColourCounter(), copierSettlementToSave.getClosingColourCounter()));
-        copierSettlementToSave.setTotalAmount(getTotalAmount(device.getContract().getLeasePrice(), copierSettlementToSave.getMonoAmount(), copierSettlementToSave.getColourAmount()));
-        copierSettlementToSave.setContract(contract);
+            copierSettlementToSave.setDateOfSettlement(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1));
+            copierSettlementToSave.setStartingColourCounter(getLastSettlementColourCounter(device));
+            copierSettlementToSave.setStartingMonoCounter(getLastSettlementMonoCounter(device));
+            copierSettlementToSave.setClosingColourCounter(getLastCounterColourCounter(device));
+            copierSettlementToSave.setClosingMonoCounter(getLastCounterMonoCounter(device));
+            copierSettlementToSave.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(), copierSettlementToSave.getStartingMonoCounter(), copierSettlementToSave.getClosingMonoCounter()));
+            copierSettlementToSave.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(), copierSettlementToSave.getStartingColourCounter(), copierSettlementToSave.getClosingColourCounter()));
+            copierSettlementToSave.setTotalAmount(getTotalAmount(device.getContract().getLeasePrice(), copierSettlementToSave.getMonoAmount(), copierSettlementToSave.getColourAmount()));
+            copierSettlementToSave.setContract(contract);
 
-        CopierSettlement copierSettlementSaved = copierSettlementRepository.save(copierSettlementToSave);
-        return copierSettlementSaved;
+            CopierSettlement copierSettlementSaved = copierSettlementRepository.save(copierSettlementToSave);
+            return copierSettlementSaved;
+        }
+    }
+
+    private boolean isSettlementInThisMonth(CopierSettlement copierSettlement) {
+        Optional<CopierSettlement> optionalLastSettlement = copierSettlementRepository.getTopByDateOfSettlementBeforeAndContract_Device_SerialNumberOrderByDateOfSettlementDesc(LocalDate.now().plusDays(1), copierSettlement.getContract().getDevice().getSerialNumber());
+        if (optionalLastSettlement.isEmpty()) {
+            return false;
+        } else {
+            CopierSettlement lastSettlement = optionalLastSettlement.get();
+            if (lastSettlement.getDateOfSettlement().getMonth().getValue() == LocalDate.now().getMonth().getValue()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     private BigDecimal getTotalAmount(BigDecimal leasePrice, BigDecimal monoAmount, BigDecimal colourAmount) {
@@ -78,7 +96,7 @@ public class CopierSettlementService {
         if (lastCounter != null) {
             return lastCounter;
         } else {
-            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDevice_SerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
+            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateBeforeAndDevice_SerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
             lastCounter = counterOptional.get().getMonoCounter();
             return lastCounter;
         }
@@ -90,7 +108,7 @@ public class CopierSettlementService {
         if (lastCounter != null) {
             return lastCounter;
         } else {
-            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateIsBeforeAndDevice_SerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
+            Optional<Counter> counterOptional = counterRepository.getTopByCounterDateBeforeAndDevice_SerialNumberOrderByCounterDateDesc(lastDay, device.getSerialNumber());
             lastCounter = counterOptional.get().getColourCounter();
             return lastCounter;
         }
@@ -141,7 +159,7 @@ public class CopierSettlementService {
 
     public boolean delete(Long id) {
         Optional<CopierSettlement> optionalCopierSettlement = copierSettlementRepository.findById(id);
-        if (optionalCopierSettlement.isPresent()){
+        if (optionalCopierSettlement.isPresent()) {
             return true;
         } else
             return false;
