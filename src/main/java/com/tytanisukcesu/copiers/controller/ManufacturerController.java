@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.controller;
 import com.tytanisukcesu.copiers.dto.ManufacturerDto;
 import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.service.ManufacturerService;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +43,14 @@ public class ManufacturerController {
     }
 
     @GetMapping(value = "/{id}")
-    public ManufacturerDto getById(@PathVariable("id") Long id) {
+    public ManufacturerDto getById(@PathVariable("id") Long id) throws NotFoundException {
         Manufacturer manufacturer = manufacturerService.findById(id);
         return convertToDto(manufacturer);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
-        if (manufacturerService.deleteById(id)) {
+        if (manufacturerService.delete(id)) {
             return ResponseEntity.accepted().build();
         } else {
             return ResponseEntity.status(404).build();

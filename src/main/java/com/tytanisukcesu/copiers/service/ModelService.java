@@ -2,8 +2,11 @@ package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ModelRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -21,6 +24,7 @@ public class ModelService {
         return models;
     }
 
+    @Transactional
     public Model save(Model model) {
         Optional<Model> modelOptional = modelRepository.getModelByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
         if (modelOptional.isPresent()) {
@@ -28,12 +32,13 @@ public class ModelService {
         } else {
             model.setManufacturer(manufacturerService.save(model.getManufacturer()));
             Model modelSaved = modelRepository.save(model);
+            LOGGER.info("A new row has been added.");
             return modelSaved;
         }
     }
 
     public Model findById(Long id) {
-        return modelRepository.findById(id).orElse(new Model());
+        return modelRepository.findById(id).orElseThrow(()-> new ModelNotFoundException(id,"model"));
     }
 
 
@@ -41,12 +46,15 @@ public class ModelService {
         Optional<Model> model = modelRepository.findById(id);
         if (model.isPresent()) {
             modelRepository.delete(model.get());
+            LOGGER.info("Model for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Model for id " + id + " has not been deleted");
             return false;
         }
     }
 
+    @Transactional
     public Model update(Long id, Model model) {
         Optional<Model> modelOptional = modelRepository.findById(id);
         if (modelOptional.isPresent()) {
@@ -58,9 +66,11 @@ public class ModelService {
             modelUpdated.setPrintingSpeed(model.getPrintingSpeed());
             modelUpdated.setPrintsInColor(model.isPrintsInColor());
             modelUpdated.setProductionYear(model.getProductionYear());
+            LOGGER.info(modelUpdated.getName() + " for id " + modelUpdated.getId() + " has been updated.");
             return modelUpdated;
         } else {
-            return new Model();
+            LOGGER.warning("Model for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"model");
         }
     }
 }

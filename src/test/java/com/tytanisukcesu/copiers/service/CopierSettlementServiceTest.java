@@ -3,7 +3,6 @@ package com.tytanisukcesu.copiers.service;
 import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CopierSettlementServiceTest {

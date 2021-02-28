@@ -1,17 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.tytanisukcesu.copiers.entity.Contract;
-import com.tytanisukcesu.copiers.entity.Device;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -22,13 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 public class CopiersSettlementDto {
 
-    @JsonProperty("id")
     private Long id;
 
     private LocalDate dateOfSettlement;
@@ -48,6 +33,18 @@ public class CopiersSettlementDto {
     private BigDecimal totalAmount;
 
     @EqualsAndHashCode.Exclude
+    @JsonIgnoreProperties({
+            "contractNumber",
+            "device",
+            "startDate",
+            "endDate",
+            "monoPagePrice",
+            "colorPagePrice",
+            "leasePrice",
+            "initialMonoCounter",
+            "initialColourCounter",
+            "copierSettlementSet"
+    })
     private ContractDto contract;
 
 }

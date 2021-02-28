@@ -1,12 +1,16 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Article;
+import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ArticleRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
@@ -15,6 +19,7 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ManufacturerService manufacturerService;
+    private final ModelService modelService;
     private static final Logger LOGGER = Logger.getLogger(ArticleService.class.getName());
 
     public List<Article> findAll() {
@@ -23,8 +28,7 @@ public class ArticleService {
     }
 
     public Article findById(Long id) {
-        Optional<Article> articleOptional = articleRepository.findById(id);
-        return articleOptional.orElse(new Article());
+        return articleRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"article"));
     }
 
     public Article save(Article article) {
@@ -37,7 +41,13 @@ public class ArticleService {
             articleToSave.setManufacturer(manufacturerService.save(article.getManufacturer()));
             articleToSave.setConsumable(article.isConsumable());
             articleToSave.setCatalogueNumber(article.getCatalogueNumber());
+            Set<Model> modelsList = new HashSet<>();
+            for (Model model: article.getModels()) {
+                modelsList.add(modelService.save(model));
+            }
+            articleToSave.setModels(modelsList);
             Article articleSaved = articleRepository.save(articleToSave);
+            LOGGER.info("A new row has been added.");
             return articleSaved;
         }
     }
@@ -46,8 +56,10 @@ public class ArticleService {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
             articleRepository.delete(articleOptional.get());
+            LOGGER.info("Article for id " + id + " has been deleted");
             return true;
         } else {
+            LOGGER.warning("Article for id " + id + " has not been deleted");
             return false;
         }
     }
@@ -56,16 +68,17 @@ public class ArticleService {
     public Article update(Long id, Article article) {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
-            Article articleToUpdate = articleOptional.get();
-            articleToUpdate.setManufacturer(article.getManufacturer());
-            articleToUpdate.setModels(article.getModels());
-            articleToUpdate.setName(article.getName());
-            articleToUpdate.setCatalogueNumber(article.getCatalogueNumber());
-            articleToUpdate.setConsumable(article.isConsumable());
-            return articleToUpdate;
+            Article articleUpdated = articleOptional.get();
+            articleUpdated.setManufacturer(article.getManufacturer());
+            articleUpdated.setModels(article.getModels());
+            articleUpdated.setName(article.getName());
+            articleUpdated.setCatalogueNumber(article.getCatalogueNumber());
+            articleUpdated.setConsumable(article.isConsumable());
+            LOGGER.info(articleUpdated.getName() + " for id " + articleUpdated.getId() + " has been updated.");
+            return articleUpdated;
         } else {
-            return new Article();
-        }
+            LOGGER.warning("Article for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"article");        }
     }
 
 }

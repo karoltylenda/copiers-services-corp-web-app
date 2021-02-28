@@ -1,5 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.ArticleOrdered;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
@@ -19,6 +21,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class ServiceOrderDto {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private String serviceOrderNumber;
@@ -29,16 +32,28 @@ public class ServiceOrderDto {
 
     private LocalDateTime orderCreationDate;
 
+    //TODO Pola tylko edytowalne
     private LocalDateTime orderStartDate;
-
+    //TODO Pola tylko edytowalne
     private LocalDateTime orderEndDate;
 
     private LocalDateTime lastUpdateDate;
 
     private String descriptionOfTheFault;
 
+    @JsonIgnoreProperties({
+            "id",
+            "model",
+            "customer",
+            "counters",
+            "address",
+            "contract"
+    })
+    @EqualsAndHashCode.Exclude
     private DeviceDto device;
 
+    @JsonIgnoreProperties
+    @EqualsAndHashCode.Exclude
     private Set<ArticleOrderedDto> articleOrderedSet;
 
 }

@@ -6,13 +6,11 @@ import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.CopierSettlementRepository;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
-import com.tytanisukcesu.copiers.repository.DeviceRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -41,39 +39,32 @@ public class CopierSettlementService {
 
     @Transactional
     public CopierSettlement save(CopierSettlement copierSettlement) {
-
         Contract contract = contractService.save(copierSettlement.getContract());
-
         Device device = contract.getDevice();
         if (!isExists(device)) {
-
             CopierSettlement copierSettlementToSave = new CopierSettlement();
-
-            //FIXME - zmien aby pobieral ostatni settlment pobieral date i ustawial miesiac do przodu
-
-//            copierSettlementToSave.setDateOfSettlement(LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1));
-            LocalDate dateOfSettlement = null;
-            if(getDateLastSettlement(device)!=null){
+            LocalDate dateOfSettlement;
+            if (getDateLastSettlement(device) != null) {
                 dateOfSettlement = getDateLastSettlement(device).plusMonths(1);
                 copierSettlementToSave.setDateOfSettlement(dateOfSettlement);
-            }else{
+            } else {
                 dateOfSettlement = device.getContract().getStartDate().plusMonths(1).with(TemporalAdjusters.firstDayOfMonth());
                 copierSettlementToSave.setDateOfSettlement(dateOfSettlement);
             }
-
             copierSettlementToSave.setStartingColourCounter(getLastSettlementColourCounter(device));
             copierSettlementToSave.setStartingMonoCounter(getLastSettlementMonoCounter(device));
-            copierSettlementToSave.setClosingColourCounter(getLastCounterColourCounter(device,dateOfSettlement));
-            copierSettlementToSave.setClosingMonoCounter(getLastCounterMonoCounter(device,dateOfSettlement));
+            copierSettlementToSave.setClosingColourCounter(getLastCounterColourCounter(device, dateOfSettlement));
+            copierSettlementToSave.setClosingMonoCounter(getLastCounterMonoCounter(device, dateOfSettlement));
             copierSettlementToSave.setMonoAmount(getMonoAmount(device.getContract().getMonoPagePrice(), copierSettlementToSave.getStartingMonoCounter(), copierSettlementToSave.getClosingMonoCounter()));
             copierSettlementToSave.setColourAmount(getColourAmount(device.getContract().getColorPagePrice(), copierSettlementToSave.getStartingColourCounter(), copierSettlementToSave.getClosingColourCounter()));
             copierSettlementToSave.setTotalAmount(getTotalAmount(device.getContract().getLeasePrice(), copierSettlementToSave.getMonoAmount(), copierSettlementToSave.getColourAmount()));
             copierSettlementToSave.setContract(contract);
-
             CopierSettlement copierSettlementSaved = copierSettlementRepository.save(copierSettlementToSave);
+            LOGGER.info("A new row has been added.");
             return copierSettlementSaved;
         } else {
-            return new CopierSettlement();
+//            return new CopierSettlement();
+            return copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device).get();
         }
     }
 
@@ -114,7 +105,6 @@ public class CopierSettlementService {
     }
 
 
-
     private Map<LocalDate, Integer> counterMapProvider(Set<Counter> counters, boolean isColourCounter) {
         if (isColourCounter) {
             return counters.stream()
@@ -132,8 +122,7 @@ public class CopierSettlementService {
     }
 
     public CopierSettlement findById(Long id) {
-        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.findById(id);
-        return copierSettlementOptional.orElse(new CopierSettlement());
+        return copierSettlementRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"copier settlement"));
     }
 
     private Integer getLastSettlementMonoCounter(Device device) {
@@ -154,14 +143,7 @@ public class CopierSettlementService {
         }
     }
 
-
-    public LocalDate getLastDayOfLastSettlement(Device device){
-        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device);
-        return copierSettlementOptional.get().getDateOfSettlement().with(TemporalAdjusters.lastDayOfMonth());
-    }
-
-    //FIXME - karol zobacz CO TO
-    public LocalDate getDateLastSettlement(Device device){
+    public LocalDate getDateLastSettlement(Device device) {
         Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device);
         return copierSettlementOptional.map(CopierSettlement::getDateOfSettlement).orElse(null);
     }
@@ -169,9 +151,13 @@ public class CopierSettlementService {
     public boolean delete(Long id) {
         Optional<CopierSettlement> optionalCopierSettlement = copierSettlementRepository.findById(id);
         if (optionalCopierSettlement.isPresent()) {
+            copierSettlementRepository.delete(optionalCopierSettlement.get());
+            LOGGER.info("Copier Settlement for id " + id + " has been deleted");
             return true;
-        } else
+        } else{
+            LOGGER.warning("Copier Settlement for id " + id + " has not been deleted");
             return false;
+        }
     }
 
     public boolean isExists(Device device) {
@@ -184,4 +170,26 @@ public class CopierSettlementService {
         }
         return exists;
     }
+
+    @Transactional
+    public CopierSettlement update(Long id, CopierSettlement copierSettlement){
+        Optional<CopierSettlement> copierSettlementOptional = copierSettlementRepository.findById(id);
+        if(copierSettlementOptional.isPresent()){
+            CopierSettlement copierSettlementUpdated = copierSettlementOptional.get();
+            copierSettlementUpdated.setStartingColourCounter(copierSettlement.getStartingColourCounter());
+            copierSettlementUpdated.setStartingMonoCounter(copierSettlement.getStartingMonoCounter());
+            copierSettlementUpdated.setClosingColourCounter(copierSettlement.getClosingColourCounter());
+            copierSettlementUpdated.setClosingMonoCounter(copierSettlement.getClosingMonoCounter());
+            copierSettlementUpdated.setMonoAmount(copierSettlement.getMonoAmount());
+            copierSettlementUpdated.setColourAmount(copierSettlement.getColourAmount());
+            copierSettlementUpdated.setTotalAmount(copierSettlement.getTotalAmount());
+            copierSettlementUpdated.setContract(copierSettlement.getContract());
+            LOGGER.info("Copier Settlement" + " for id " + copierSettlementUpdated.getId() + " has been updated.");
+            return copierSettlementUpdated;
+        }else{
+            LOGGER.warning("Copier settlement for id " + id + " has not been found");
+            throw new ModelNotFoundException(id,"copier settlement");
+        }
+    }
+
 }

@@ -1,12 +1,11 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tytanisukcesu.copiers.entity.Article;
-import com.tytanisukcesu.copiers.entity.Manufacturer;
 import com.tytanisukcesu.copiers.types.PrintingFormat;
 import lombok.*;
-
 import java.util.Set;
 
 @Getter
@@ -29,12 +28,19 @@ public class ModelDto {
 
     private Integer printingSpeed;
 
+    @JsonIgnoreProperties({
+            "models",
+            "articles"
+    })
     private ManufacturerDto manufacturer;
 
     private PrintingFormat printingFormat;
 
-    @JsonIgnore
     @EqualsAndHashCode.Exclude
+    @JsonIgnoreProperties({
+            "models",
+            "manufacturer"
+    })
     private Set<ArticleDto> consumables;
 
 }

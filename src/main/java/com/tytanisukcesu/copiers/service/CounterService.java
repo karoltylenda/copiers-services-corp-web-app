@@ -4,11 +4,11 @@ import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
+import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -88,8 +88,7 @@ public class CounterService {
     }
 
     public Counter findById(Long id) {
-        Optional<Counter> counterOptional = counterRepository.findById(id);
-        return counterOptional.orElse(new Counter());
+        return counterRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"counter"));
     }
 
     public boolean delete(Long id) {

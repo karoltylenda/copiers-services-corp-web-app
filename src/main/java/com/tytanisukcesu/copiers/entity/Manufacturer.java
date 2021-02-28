@@ -26,14 +26,12 @@ public class Manufacturer {
             mappedBy = "manufacturer",
             cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
-    @JsonIgnore
     private Set<Model> models;
 
     @OneToMany(
             mappedBy = "manufacturer",
             cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
-    @JsonIgnore
     private Set<Article> articles;
 
 }
