@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
@@ -79,5 +80,9 @@ public class DeviceService {
             LOGGER.warning("Device for id " + id + " has not been deleted");
             return false;
         }
+    }
+
+    public List<Device> findByCustomer(Customer customer) {
+        return deviceRepository.getAllByCustomer(customer);
     }
 }

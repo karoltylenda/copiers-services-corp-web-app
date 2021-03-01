@@ -32,7 +32,9 @@ public class RegisterServlet {
 
     @GetMapping("/test123")
     public String test123(Model model, Principal principal){
+
         model.addAttribute("name",principal.getName());
+        System.out.println(principal.toString());
         return "test123";
     }
 

@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.service;
 
 import com.tytanisukcesu.copiers.entity.Customer;
+import com.tytanisukcesu.copiers.entity.User;
 import com.tytanisukcesu.copiers.repository.CustomerRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
