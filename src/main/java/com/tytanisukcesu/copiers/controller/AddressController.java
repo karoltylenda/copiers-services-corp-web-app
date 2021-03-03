@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/addresses")
+@RequestMapping(path = "/api/addresses")
 @RequiredArgsConstructor
 public class AddressController {
 

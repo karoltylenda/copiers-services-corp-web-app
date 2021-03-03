@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/CopierSettlement")
+@RequestMapping(path = "/api/copiersettlement")
 @RequiredArgsConstructor
 public class CopierSettlementController {
 

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/models")
+@RequestMapping(path = "/api/models")
 @RequiredArgsConstructor
 public class ModelController {
 

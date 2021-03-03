@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/devices")
+@RequestMapping(path = "/api/devices")
 @RequiredArgsConstructor
 public class DeviceController {
 

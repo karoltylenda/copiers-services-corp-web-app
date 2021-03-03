@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/counters")
+@RequestMapping(path = "/api/counters")
 @RequiredArgsConstructor
 public class CounterController {
 
