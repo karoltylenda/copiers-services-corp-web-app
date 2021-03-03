@@ -30,14 +30,10 @@ public class User implements UserDetails {
 
     private String role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_and_customers_relation",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "customer_id")
-    )
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     @EqualsAndHashCode.Exclude
-    private Set<Customer> customers;
+    private Customer customer;
 
     public String getUsername() {
         return username;

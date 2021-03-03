@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.entity.User;
@@ -33,10 +34,23 @@ public class CustomerDto {
     private String companySiteUrl;
 
     @JsonManagedReference
+    @JsonIgnoreProperties({
+            "model",
+            "counters",
+            "customer",
+            "contract",
+            "address",
+    })
     private Set<DeviceDto> devices;
 
     @EqualsAndHashCode.Exclude
-    private Set<User> users;
+    @JsonIgnoreProperties({
+            "username",
+            "password",
+            "role",
+            "customer"
+    })
+    private Set<UserDto> users;
 
 
 }

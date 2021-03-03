@@ -2,12 +2,15 @@ package com.tytanisukcesu.copiers.controller;
 
 import com.tytanisukcesu.copiers.dto.CustomerDto;
 import com.tytanisukcesu.copiers.entity.Customer;
+import com.tytanisukcesu.copiers.entity.User;
 import com.tytanisukcesu.copiers.service.CustomerService;
+import com.tytanisukcesu.copiers.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 //
 //    @GetMapping(value = "/search")
@@ -60,6 +64,12 @@ public class CustomerController {
         Customer customer = convertToEntity(customerDto);
         Customer customerUpdated = customerService.update(id,customer);
         return convertToDto(customerUpdated);
+    }
+
+    @GetMapping(value = "/username")
+    public CustomerDto getCustomerByUserName(Principal principal){
+        User user = userService.findUserByUsername(principal.getName());
+        return convertToDto(user.getCustomer());
     }
 
     private CustomerDto convertToDto(Customer customer){

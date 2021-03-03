@@ -7,4 +7,6 @@ public class ModelNotFoundException extends RuntimeException{
     public ModelNotFoundException(Long id,String modelName) {
         super("Could not find " + modelName + " for id: "+ id);
     }
+
+
 }

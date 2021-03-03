@@ -58,8 +58,6 @@ public class ServiceOrderService {
         }
     }
 
-
-    //TODO
     private String generateOrderNumber(LocalDateTime localDateTime) {
         String year = String.valueOf(LocalDate.now().getYear());
         String month = String.valueOf(LocalDate.now().getMonth().getValue());

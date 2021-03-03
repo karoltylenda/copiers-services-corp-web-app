@@ -25,7 +25,11 @@ public class ArticleOrderedDto {
     private BigDecimal totalPrice;
 
     @JsonIgnoreProperties({
-            "models"
+            "name",
+            "models",
+            "catalogueNumber",
+            "isConsumable",
+            "manufacturer",
     })
     private ArticleDto article;
 
