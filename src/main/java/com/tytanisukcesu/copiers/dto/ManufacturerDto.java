@@ -21,21 +21,13 @@ public class ManufacturerDto {
 
     @EqualsAndHashCode.Exclude
     @JsonIgnoreProperties({
-            "name",
-            "printsInColor",
-            "productionYear",
-            "printingSpeed",
             "manufacturer",
-            "printingFormat",
             "consumables"
     })
     private Set<ModelDto> models;
 
     @EqualsAndHashCode.Exclude
     @JsonIgnoreProperties({
-            "name",
-            "catalogueNumber",
-            "consumable",
             "manufacturer",
             "models"
     })
