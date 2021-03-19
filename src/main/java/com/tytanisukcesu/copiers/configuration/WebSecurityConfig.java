@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/home/**").authenticated()
                 .antMatchers("/api/**").hasAnyRole("ADMIN", "MODERATOR")
+                .antMatchers("/templates/pages/fragments/**").authenticated()
                 .antMatchers(HttpMethod.POST).hasAnyRole("MODERATOR", "ADMIN")
                 .antMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                 .and()
