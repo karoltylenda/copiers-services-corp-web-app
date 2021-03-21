@@ -2,7 +2,7 @@ package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tytanisukcesu.copiers.types.AddresType;
+import com.tytanisukcesu.copiers.types.AddressType;
 import lombok.*;
 
 @Getter
@@ -36,6 +36,6 @@ public class AddressDto {
     private DeviceDto device;
 
     @JsonIgnore
-    private AddresType addresType;
+    private AddressType addressType;
 
 }

@@ -30,7 +30,7 @@ public class AddressService {
         Optional<Address> addressOptional = addressRepository.findById(id);
         if (addressOptional.isPresent()) {
             Address addressUpdated = addressOptional.get();
-            addressUpdated.setAddresType(address.getAddresType());
+            addressUpdated.setAddressType(address.getAddressType());
             addressUpdated.setCity(address.getCity());
             addressUpdated.setCustomer(address.getCustomer());
             addressUpdated.setDevice(address.getDevice());

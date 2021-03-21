@@ -27,7 +27,6 @@ public class UserService {
         Optional<User> userOptional = userRepository.findByUsername(user.getUsername());
         if(userOptional.isEmpty()){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRole("ROLE_USER");
             userRepository.save(user);
         }
     }
