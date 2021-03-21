@@ -74,7 +74,6 @@ The code is tested on Ubuntu and macOS. Java>=11 and Maven are required to run t
 
 
 ------------
-At this moment we can add new manufacturers and models and edit them.
-This section will be updated with the application growth.
+KTMS Software Development Team 2021
 
 ------------
