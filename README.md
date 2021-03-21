@@ -1,4 +1,4 @@
-# Copiers-Services-Corp-webApp
+# copiers-services-corp-web-app
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/64745872/106356217-4d1ea000-62fe-11eb-80e8-225287b63824.png" width="400" height="400"  />
