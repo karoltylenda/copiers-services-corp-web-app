@@ -74,6 +74,7 @@ The code is tested on Ubuntu and macOS. Java>=11 and Maven are required to run t
 
 
 ------------
+<div align="center">
 KTMS Software Development Team 2021
-
+</div>
 ------------
