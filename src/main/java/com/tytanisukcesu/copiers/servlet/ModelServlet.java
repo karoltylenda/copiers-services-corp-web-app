@@ -21,7 +21,7 @@ public class ModelServlet {
 
     @GetMapping
     public String findAll(Model model) {
-        model.addAttribute("users", modelService.findAll());
+        model.addAttribute("models", modelService.findAll());
         return "pages/models";
     }
 

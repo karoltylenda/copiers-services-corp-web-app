@@ -31,7 +31,49 @@
     <!-- Topnav -->
     <th:block th:include="pages/fragments/topnav.html"></th:block>
 
+    <div class="container-fluid">
+        <h1>Models: </h1>
 
-
+        <div class="table-responsive">
+            <div class="container-fluid">
+                <table class="table align-items-center" id="modelsTable">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Prints in colour?</th>
+                        <th scope="col">Production Year</th>
+                        <th scope="col">Printing Speed</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Printing Format</th>
+                        <th class="text-right" scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="model:${models}">
+                        <td th:text="${model.name}"></td>
+                        <td th:text="${model.printsInColor}"></td>
+                        <td th:text="${model.productionYear}"></td>
+                        <td th:text="${model.printingSpeed}"></td>
+                        <td th:text="${model.manufacturer.name}"></td>
+                        <td th:text="${model.printingSpeed}"></td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="#">Remove</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </br>
+    </div>
 </body>
 </html>
