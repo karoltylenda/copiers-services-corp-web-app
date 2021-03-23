@@ -9,9 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-
 import java.security.Principal;
-import java.util.logging.Logger;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +30,15 @@ public class UserServlet {
     public RedirectView addNewUser(UserDto userDto){
         userService.save(convertToEntity(userDto));
         return new RedirectView("/users");
+    }
+
+    @GetMapping(value = "/delete")
+    public RedirectView deleteUser(@RequestParam Long id){
+        if (userService.delete(id)){
+            return new RedirectView("/users");
+        } else {
+            return new RedirectView("/404.html");
+        }
     }
 
     private UserDto convertToDto(User user) {

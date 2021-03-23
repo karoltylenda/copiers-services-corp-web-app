@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -54,4 +55,11 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(()-> new UserNotFoundException(username));
     }
 
+    public boolean delete(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()){
+            userRepository.delete(optionalUser.get());
+            return true;
+        } else return false;
+    }
 }

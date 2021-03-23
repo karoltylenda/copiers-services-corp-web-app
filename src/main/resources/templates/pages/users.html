@@ -63,10 +63,40 @@
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <a class="dropdown-item" href="#">Edit</a>
                                     <a class="dropdown-item" href="#">Reset password</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
+                                    <a class="dropdown-item" th:href="deleteModal+${user.getId()}" data-toggle="modal"
+                                       th:data-target="'#deleteModal'+${user.getId()}">Delete</a>
                                 </div>
                             </div>
                         </td>
+                        <!-- Delete modal -->
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                             th:id="deleteModal+${user.getId()}">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="get" action="/users/delete">
+                                        <div class="modal-body">
+                                            <p>Are you sure you want delete user: </p>
+                                            <p th:text="${user.getFirstName()}+' '+${user.getLastName()}+'?'"></p>
+                                            <p>This action cannot be undone and you will be unable to recover any
+                                                data.</p>
+                                            <input type="text" th:value="${user.getId()}" name="id" hidden="true">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                     </tbody>
                 </table>
