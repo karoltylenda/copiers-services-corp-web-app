@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset ktylenda:2
+--changeset mateuszstopyra:2
 
 insert into models(name, printing_format, printing_speed, prints_in_color, production_year, manufacturer_id) values ('C224e', 1, 22, true, 2012, 1);
 insert into models(name, printing_format, printing_speed, prints_in_color, production_year, manufacturer_id) values ('C258', 1, 25, true, 2017, 1);
