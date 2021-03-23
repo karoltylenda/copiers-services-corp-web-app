@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,6 +40,12 @@ public class UserServlet {
         } else {
             return new RedirectView("/404.html");
         }
+    }
+
+    @PostMapping(value = "/password_reset")
+    public RedirectView passwordReset(Long id, String password){
+        userService.passwordReset(id, password);
+        return new RedirectView("/users");
     }
 
     private UserDto convertToDto(User user) {

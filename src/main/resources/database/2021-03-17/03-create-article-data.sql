@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset mateuszstopyra:3
+--changeset ktylenda:3
 
 insert into articles(catalogue_number, is_consumable, name, manufacturer_id) values ('A33K150', true, 'Toner TN-321K', 1);
 insert into articles(catalogue_number, is_consumable, name, manufacturer_id) values ('A11G150', true, 'Toner TN-319K', 1);

@@ -18,9 +18,9 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <head>
-        <th:block th:include="pages/fragments/header.html"></th:block>
-    </head>
+
+    <th:block th:include="pages/fragments/header.html"></th:block>
+</head>
 <body>
 <!-- Sidenav -->
 <th:block th:include="pages/fragments/sidenav.html"></th:block>
@@ -49,10 +49,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="user:${users}">
-                        <td th:text="${user.getFirstName()}"></td>
-                        <td th:text="${user.getLastName()}"></td>
-                        <td th:text="${user.getUsername()}"></td>
-                        <td th:text="${user.getRole()}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.role}"></td>
                         <td></td>
                         <td class="text-right">
                             <div class="dropdown">
@@ -62,19 +62,62 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                     <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Reset password</a>
-                                    <a class="dropdown-item" th:href="deleteModal+${user.getId()}" data-toggle="modal"
-                                       th:data-target="'#deleteModal'+${user.getId()}">Delete</a>
+                                    <a class="dropdown-item" th:href="passwordResetModal+${user.id}" data-toggle="modal"
+                                       th:data-target="'#passwordResetModal'+${user.id}">Reset password</a>
+                                    <a class="dropdown-item" th:href="deleteModal+${user.id}" data-toggle="modal"
+                                       th:data-target="'#deleteModal'+${user.id}">Delete</a>
                                 </div>
                             </div>
                         </td>
-                        <!-- Delete modal -->
+                        <!-- Reset password modal -->
                         <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
-                             th:id="deleteModal+${user.getId()}">
+                             th:id="passwordResetModal+${user.id}">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                                        <h2>Password reset</h2>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form method="post" action="/users/password_reset">
+                                        <div class="modal-body">
+                                            <input type="text" th:value="${user.id}" name="id" hidden="true">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="passwordResetInput">Password: </label>
+                                                        <input type="password" class="form-control form-control-alternative" id="passwordResetInput"
+                                                               name="password" autocomplete="new-password" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="confirmPasswordResetInput">Confirm password: </label>
+                                                        <input type="password" class="form-control form-control-alternative"
+                                                               id="confirmPasswordResetInput" name="confirmPassword" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                            <button type="submit" class="btn btn-danger">Reset password</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete modal -->
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                             th:id="deleteModal+${user.id}">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2>Confirmation</h2>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -82,10 +125,10 @@
                                     <form method="get" action="/users/delete">
                                         <div class="modal-body">
                                             <p>Are you sure you want delete user: </p>
-                                            <p th:text="${user.getFirstName()}+' '+${user.getLastName()}+'?'"></p>
+                                            <h3 th:text="${user.firstName}+' '+${user.lastName}+' ?'"></h3>
                                             <p>This action cannot be undone and you will be unable to recover any
                                                 data.</p>
-                                            <input type="text" th:value="${user.getId()}" name="id" hidden="true">
+                                            <input type="text" th:value="${user.id}" name="id" hidden="true">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -102,7 +145,7 @@
                 </table>
             </div>
         </div>
-        </br>
+        <br>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addNewUserModal">
             Add new user
         </button>
@@ -111,95 +154,67 @@
 <!-- Modal for new user -->
 <div class="modal fade" id="addNewUserModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add new user: </h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+        <div class="modal-content p-4 bg-secondary">
             <form method="post" action="/users" autocomplete="off">
+                <div class="modal-header">
+                    <h2>Add new user: </h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">E-mail: </span>
+                        <label for="usernameInput">E-mail: </label>
+                        <input type="email" class="form-control form-control-alternative" id="usernameInput"
+                               name="username"
+                               placeholder="example@example.com" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="firstNameInput">First name: </label>
+                                <input type="text" class="form-control form-control-alternative" id="firstNameInput"
+                                       name="firstName" required>
                             </div>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="usernameInput"
-                                   name="username" required>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lastNameInput">Last name: </label>
+                                <input type="text" class="form-control form-control-alternative" id="lastNameInput"
+                                       name="lastName" required>
+                            </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">First name: </span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="firstNameInput"
-                                   name="firstName" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Last name: </span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="lastNameInput"
-                                   name="lastName" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Password: </span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="passwordInput"
-                                   name="password" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Confirm password: </span>
-                            </div>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="confirmPasswordInput"
-                                   name="confirmPassword" required>
-                        </div>
+                        <label for="selectRole">User type: </label>
+                        <select class="form-control" id="selectRole" name="role" required>
+                            <option class="list-group-item" value="ROLE_USER">User</option>
+                            <option class="list-group-item" value="ROLE_ADMIN">Administrator</option>
+                        </select>
                     </div>
 
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">User type: </span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="passwordInput">Password: </label>
+                                <input type="password" class="form-control form-control-alternative" id="passwordInput"
+                                       name="password" autocomplete="new-password" required>
                             </div>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="confirmPasswordInput123"
-                                   name="confirmPassword123" required>
-                            <input type="text" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-default" id="confirmPasswordInput1234"
-                                   name="confirmPassword1234" required>
-<!--                            <div class="form-group">-->
-<!--                                <div class="radio-inline">-->
-<!--                                    <input type="radio" id="customRadioInline1" name="role" value="ROLE_ADMIN"-->
-<!--                                           class="custom-control-input">-->
-<!--                                    <label class="custom-control-label" for="customRadioInline1">Admin</label>-->
-<!--                                    <input type="radio" id="customRadioInline2" name="role" value="ROLE_USER"-->
-<!--                                           class="custom-control-input">-->
-<!--                                    <label class="custom-control-label" for="customRadioInline2">User</label>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="confirmPasswordInput">Confirm password: </label>
+                                <input type="password" class="form-control form-control-alternative"
+                                       id="confirmPasswordInput" name="confirmPassword" required>
+                            </div>
                         </div>
                     </div>
-
                 </div>
+                <hr>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="saveChangesButton">Save changes</button>
+                    <button type="submit" class="btn btn-success" id="saveChangesButton">Add user</button>
                 </div>
             </form>
         </div>

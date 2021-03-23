@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset mateuszstopyra:4
+--changeset ktylenda:4
 
 insert into articles_and_models_connection(article_id, model_id) values (1,1);
 insert into articles_and_models_connection(article_id, model_id) values (2,4);

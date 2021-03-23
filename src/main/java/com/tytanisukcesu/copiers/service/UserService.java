@@ -62,4 +62,10 @@ public class UserService {
             return true;
         } else return false;
     }
+
+    public void passwordReset(Long id, String password) {
+        User user = findById(id);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 }

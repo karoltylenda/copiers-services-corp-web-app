@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset mateuszstopyra:1
+--changeset ktylenda:1
 
 insert into manufacturers(name) value('Konica Minolta');
 insert into manufacturers(name) value('Kyocera');
