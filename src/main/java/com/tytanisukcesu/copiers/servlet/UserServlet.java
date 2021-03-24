@@ -33,7 +33,7 @@ public class UserServlet {
         return new RedirectView("/users");
     }
 
-    @GetMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     public RedirectView deleteUser(@RequestParam Long id){
         if (userService.delete(id)){
             return new RedirectView("/users");
