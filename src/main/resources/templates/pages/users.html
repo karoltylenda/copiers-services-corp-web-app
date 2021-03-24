@@ -253,25 +253,29 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group is-invalid">
                                 <label for="passwordInput">Password: </label>
                                 <input type="password" class="form-control form-control-alternative" id="passwordInput"
                                        name="password" autocomplete="new-password" required>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group is-invalid">
                                 <label for="confirmPasswordInput">Confirm password: </label>
-                                <input type="password" class="form-control form-control-alternative"
-                                       id="confirmPasswordInput" name="confirmPassword" required>
+                                <input type="password" class="form-control form-control-alternative" id="confirmPasswordInput"
+                                       name="confirmPassword" required>
                             </div>
                         </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="messagePasswordControl"></span>
                     </div>
                 </div>
                 <hr>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success" id="saveChangesButton">Add user</button>
+                    <button type="submit" class="btn btn-success" id="addNewUserButton">Add user</button>
                 </div>
             </form>
         </div>
@@ -282,8 +286,21 @@
 <script>
     $(document).ready(function () {
         $('#usersTable').DataTable();
+        $('#messagePasswordControl').html('password doesn\'t match!').css('color', 'red');
+        document.getElementById("addNewUserButton").disabled = true;
     });
 
+    $('#passwordInput, #confirmPasswordInput').on('keyup', function () {
+        $('#messagePasswordControl').html('password doesn\'t match!').css('color', 'red');
+        if ($('#passwordInput').val().length === 0 || $('#confirmPasswordInput').val().length === 0) {
+            document.getElementById("addNewUserButton").disabled = true;
+        } else if ($('#passwordInput').val() === $('#confirmPasswordInput').val()) {
+            $('#messagePasswordControl').html('password matches!').css('color', 'green');
+            document.getElementById("addNewUserButton").disabled = false;
+        } else {
+            document.getElementById("addNewUserButton").disabled = true;
+        }
+    });
 </script>
 </body>
 </html>
