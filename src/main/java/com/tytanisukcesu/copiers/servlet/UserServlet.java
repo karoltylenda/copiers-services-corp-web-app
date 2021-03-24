@@ -48,6 +48,12 @@ public class UserServlet {
         return new RedirectView("/users");
     }
 
+    @PostMapping(value = "/update")
+    public RedirectView updateUser(UserDto userDto){
+        userService.update(convertToEntity(userDto));
+        return new RedirectView("/users");
+    }
+
     private UserDto convertToDto(User user) {
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;

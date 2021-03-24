@@ -68,4 +68,15 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
+
+    public User update(User user) {
+        User userToUpdate = findById(user.getId());
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setRole(user.getRole());
+        userToUpdate.setUsername(user.getUsername());
+        userToUpdate.setCustomer(user.getCustomer());
+        User userUpdated = userRepository.save(userToUpdate);
+        return userUpdated;
+    }
 }
