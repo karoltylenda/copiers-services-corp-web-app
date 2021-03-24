@@ -71,7 +71,8 @@
                             </div>
                         </td>
                         <!-- Edit modal -->
-                        <div class="modal fade" th:id="editUserModal+${user.id}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal fade" th:id="editUserModal+${user.id}" tabindex="-1" role="dialog"
+                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content p-4 bg-secondary">
                                     <form method="post" action="/users/update" autocomplete="off">
@@ -85,7 +86,8 @@
                                             <input type="text" th:value="${user.id}" name="id" hidden="true">
                                             <div class="form-group">
                                                 <label for="usernameEditInput">E-mail: </label>
-                                                <input type="email" class="form-control form-control-alternative" id="usernameEditInput"
+                                                <input type="email" class="form-control form-control-alternative"
+                                                       id="usernameEditInput"
                                                        name="username"
                                                        th:value="${user.username}" required>
                                             </div>
@@ -93,7 +95,8 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="firstNameEditInput">First name: </label>
-                                                        <input type="text" class="form-control form-control-alternative" id="firstNameEditInput"
+                                                        <input type="text" class="form-control form-control-alternative"
+                                                               id="firstNameEditInput"
                                                                name="firstName"
                                                                th:value="${user.firstName}" required>
                                                     </div>
@@ -101,7 +104,8 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="lastNameEditInput">Last name: </label>
-                                                        <input type="text" class="form-control form-control-alternative" id="lastNameEditInput"
+                                                        <input type="text" class="form-control form-control-alternative"
+                                                               id="lastNameEditInput"
                                                                name="lastName"
                                                                th:value="${user.lastName}" required>
                                                     </div>
@@ -112,13 +116,16 @@
                                                 <label for="selectRoleEdit">User type: </label>
                                                 <select class="form-control" id="selectRoleEdit" name="role" required>
                                                     <option class="list-group-item" value="ROLE_USER">User</option>
-                                                    <option class="list-group-item" value="ROLE_ADMIN">Administrator</option>
+                                                    <option class="list-group-item" value="ROLE_ADMIN">Administrator
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                Cancel
+                                            </button>
                                             <button type="submit" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </form>
@@ -143,15 +150,20 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="passwordResetInput">Password: </label>
-                                                        <input type="password" class="form-control form-control-alternative" id="passwordResetInput"
+                                                        <input type="password"
+                                                               class="form-control form-control-alternative"
+                                                               id="passwordResetInput"
                                                                name="password" autocomplete="new-password" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="confirmPasswordResetInput">Confirm password: </label>
-                                                        <input type="password" class="form-control form-control-alternative"
-                                                               id="confirmPasswordResetInput" name="confirmPassword" required>
+                                                        <label for="confirmPasswordResetInput">Confirm
+                                                            password: </label>
+                                                        <input type="password"
+                                                               class="form-control form-control-alternative"
+                                                               id="confirmPasswordResetInput" name="confirmPassword"
+                                                               required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,7 +274,8 @@
                         <div class="col-md-6">
                             <div class="form-group is-invalid">
                                 <label for="confirmPasswordInput">Confirm password: </label>
-                                <input type="password" class="form-control form-control-alternative" id="confirmPasswordInput"
+                                <input type="password" class="form-control form-control-alternative"
+                                       id="confirmPasswordInput"
                                        name="confirmPassword" required>
                             </div>
                         </div>
@@ -286,16 +299,36 @@
 <script>
     $(document).ready(function () {
         $('#usersTable').DataTable();
-        $('#messagePasswordControl').html('password doesn\'t match!').css('color', 'red');
-        document.getElementById("addNewUserButton").disabled = true;
+        $('#messagePasswordControl').html('Fields cannot be empty').css('color', 'red');
     });
 
-    $('#passwordInput, #confirmPasswordInput').on('keyup', function () {
-        $('#messagePasswordControl').html('password doesn\'t match!').css('color', 'red');
-        if ($('#passwordInput').val().length === 0 || $('#confirmPasswordInput').val().length === 0) {
-            document.getElementById("addNewUserButton").disabled = true;
-        } else if ($('#passwordInput').val() === $('#confirmPasswordInput').val()) {
+    function areFieldsEmpty() {
+        if ($('#usernameInput').val().length === 0 ||
+            $('#firstNameInput').val().length === 0 ||
+            $('#lastNameInput').val().length === 0 ||
+            $('#passwordInput').val().length === 0 ||
+            $('#confirmPasswordInput').val().length === 0) {
+            $('#messagePasswordControl').html('Fields cannot be empty').css('color', 'red');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function isPasswordMatch() {
+        if (areFieldsEmpty()) {
+            return false;
+        } else if ($('#passwordInput').val() !== $('#confirmPasswordInput').val()) {
+            $('#messagePasswordControl').html('password doesn\'t match!').css('color', 'red');
+            return false;
+        } else {
             $('#messagePasswordControl').html('password matches!').css('color', 'green');
+            return true;
+        }
+    }
+
+    $('#usernameInput, #firstNameInput, #lastNameInput, #passwordInput, #confirmPasswordInput').on('keyup', function () {
+        if (isPasswordMatch()) {
             document.getElementById("addNewUserButton").disabled = false;
         } else {
             document.getElementById("addNewUserButton").disabled = true;
