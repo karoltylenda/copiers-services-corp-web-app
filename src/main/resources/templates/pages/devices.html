@@ -41,7 +41,9 @@
                         <h3>Devices</h3>
                     </div>
                     <div class="col text-right">
-                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewDeviceModal">Add device</button>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewDeviceModal">Add
+                            device
+                        </button>
                     </div>
                 </div>
             </div>
@@ -102,20 +104,28 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-
-            <div class="modal-body text-sm">
-
-                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
-                    the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
-                    language ocean.</p>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
-                    paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-
-            </div>
-            <div class="modal-footer text-sm">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
-            </div>
+            <form>
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerSelectAddNewDeviceModal">Manufacturer:</label>
+                                <select class="form-control form-control-sm" id="manufacturerSelectAddNewDeviceModal"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modelSelectAddNewDeviceModal">Model:</label>
+                                <select class="form-control form-control-sm" id="modelSelectAddNewDeviceModal"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Add device</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
