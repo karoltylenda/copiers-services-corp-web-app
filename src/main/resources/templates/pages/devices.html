@@ -1,0 +1,132 @@
+<!--
+=========================================================
+* Argon Dashboard - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+
+
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+
+
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:include="pages/fragments/header.html"></th:block>
+</head>
+
+<body>
+<!-- Sidenav -->
+<th:block th:include="pages/fragments/sidenav.html"></th:block>
+
+<!-- Main content -->
+<div class="main-content" id="panel">
+
+    <!-- Topnav -->
+    <th:block th:include="pages/fragments/topnav.html"></th:block>
+
+    <!-- Page content -->
+
+    <div class="container-fluid mt--6">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row">
+                    <div class="col">
+                        <h3>Devices</h3>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewDeviceModal">Add device</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="container-fluid">
+                        <table class="table align-items-center" id="devicesTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Model</th>
+                                <th scope="col">Serial number</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="device:${devices}">
+                                <td th:text="${device.model.manufacturer}+' '+${device.model.name}"></td>
+                                <td th:text="${device.serialNumber}"></td>
+                                <td th:text="${device.customer.companyName}"></td>
+                                <td th:text="${device.address.getStreet()}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" href="editUserModal+${user.id}"
+                                               data-toggle="modal"
+                                               data-target="'#editUserModal'+${user.id}">Edit</a>
+                                            <a class="dropdown-item" href="deleteModal+${user.id}"
+                                               data-toggle="modal"
+                                               data-target="'#deleteModal'+${user.id}">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Add new device modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+     aria-hidden="true" id="addNewDeviceModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new device</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body text-sm">
+
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
+                    the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
+                    language ocean.</p>
+                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
+                    paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+
+            </div>
+            <div class="modal-footer text-sm">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Argon Scripts -->
+<th:block th:include="pages/fragments/scripts"></th:block>
+
+<script>
+    $(document).ready(function () {
+        $("#devicesTable").DataTable();
+    })
+</script>
+</body>
+
+</html>
