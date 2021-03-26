@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.servlet;
 
+import com.tytanisukcesu.copiers.service.CustomerService;
 import com.tytanisukcesu.copiers.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DeviceServlet {
 
     private final DeviceService deviceService;
+    private final CustomerService customerService;
     private final ModelMapper modelMapper;
 
     @GetMapping
     public String findAll(Model model){
         model.addAttribute("devices", deviceService.findAll());
+        model.addAttribute("cumstomers", customerService.findAll());
         return "pages/devices";
     }
 }

@@ -110,7 +110,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="manufacturerSelectAddNewDeviceModal">Manufacturer:</label>
-                                <select class="form-control form-control-sm" id="manufacturerSelectAddNewDeviceModal"></select>
+                                <select class="form-control form-control-sm"
+                                        id="manufacturerSelectAddNewDeviceModal"></select>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -118,6 +119,33 @@
                                 <label for="modelSelectAddNewDeviceModal">Model:</label>
                                 <select class="form-control form-control-sm" id="modelSelectAddNewDeviceModal"></select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="serialNumberAddNewDeviceModal">Serial number:</label>
+                        <input type="text" class="form-control form-control-sm" id="serialNumberAddNewDeviceModal" name="serialNumber"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="selectCustomerNewDeviceModal">Customer:</label>
+                        <select class="form-control form-control-sm" id="selectCustomerNewDeviceModal" name="customer">
+                            <option class="list-group-item" th:each="customer:${cumstomers}" th:text="${customer.companyName}" th:value="${customer.id}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group text-center text-lg">
+                        <p>Installation address</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Street:</label>
+                            <input type="text" class="form-control form-control-sm" name="address.street">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Nr</label>
+                            <input type="text" class="form-control form-control-sm" name="address.houseNumber">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Ap. nr</label>
+                            <input type="text" class="form-control form-control-sm" name="address.apartmentNumber">
                         </div>
                     </div>
                 </div>
@@ -135,7 +163,8 @@
 <script>
     $(document).ready(function () {
         $("#devicesTable").DataTable();
-    })
+    });
+
 </script>
 </body>
 
