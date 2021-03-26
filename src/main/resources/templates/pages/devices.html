@@ -104,7 +104,7 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form>
+            <form action="/devices" method="post" autocomplete="off">
                 <div class="modal-body text-sm">
                     <div class="row">
                         <div class="col-md-6">
@@ -148,11 +148,26 @@
                             <input type="text" class="form-control form-control-sm" name="address.apartmentNumber">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Post code:</label>
+                            <input type="text" class="form-control form-control-sm" name="address.postCode">
+                        </div>
+                        <div class="col-md-8">
+                            <label>City:</label>
+                            <input type="text" class="form-control form-control-sm" name="address.city">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Province:</label>
+                        <input type="text" class="form-control form-control-sm" name="address.province">
+                    </div>
                 </div>
                 <div class="modal-footer text-sm align-content-end">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-sm">Add device</button>
                 </div>
+                <input type="text" value="INSTALLATION_DEVICE" name="address.addressType" hidden>
             </form>
         </div>
     </div>

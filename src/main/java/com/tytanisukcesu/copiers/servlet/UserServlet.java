@@ -27,13 +27,13 @@ public class UserServlet {
     }
 
     @PostMapping
-    public RedirectView addNewUser(UserDto userDto){
+    public RedirectView save(UserDto userDto){
         userService.save(convertToEntity(userDto));
         return new RedirectView("/users");
     }
 
     @PostMapping(value = "/delete")
-    public RedirectView deleteUser(@RequestParam Long id){
+    public RedirectView delete(@RequestParam Long id){
         if (userService.delete(id)){
             return new RedirectView("/users");
         } else {
@@ -48,7 +48,7 @@ public class UserServlet {
     }
 
     @PostMapping(value = "/update")
-    public RedirectView updateUser(UserDto userDto){
+    public RedirectView update(UserDto userDto){
         userService.update(convertToEntity(userDto));
         return new RedirectView("/users");
     }
