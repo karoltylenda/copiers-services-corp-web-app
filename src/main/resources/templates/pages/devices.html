@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <label for="manufacturerSelect">Manufacturer:</label>
                                 <select class="form-control form-control-sm"
-                                        id="manufacturerSelect">
+                                        id="manufacturerSelect" onchange="updateModels(this.value)">
                                     <option value=""></option>
                                     <option th:each="manufacturer:${manufacturers}" th:text="${manufacturer.name}" th:value="${manufacturer.id}"></option>
                                 </select>
@@ -205,6 +205,29 @@
         placeholder: 'Select model',
         allowClear: true
     });
+
+    function updateModels(manufacturerId){
+        $('#modelSelect').empty();
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers/"+manufacturerId,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const modelsLength = result.models.length;
+                for (let i=0; i<modelsLength; i++){
+                    $('#modelSelect').append(
+                        $('<option>',{
+                            value: result.models[i].id,
+                            text: result.models[i].name
+                        })
+                    );
+                }
+            },
+            error: function (error){
+                console.log(error);
+            }
+        })
+    }
 </script>
 </body>
 
