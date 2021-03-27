@@ -179,10 +179,83 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
+<!-- Add new device modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+     aria-hidden="true" id="addNewModelModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new model</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/models" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control form-control-sm" name="name">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Production Year:</label>
+                                <input type="number" class="form-control form-control-sm" name="productionYear">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Printing Speed:</label>
+                                <input type="number" class="form-control form-control-sm" name="printingSpeed">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="selectPrintingFormatEdit">Printing Format: </label>
+                                    <select class="form-control form-control-sm"
+                                            name="printingFormat" required>
+                                        <option class="list-group-item" value="A4">
+                                            A4
+                                        </option>
+                                        <option class="list-group-item" value="A3">
+                                            A3
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="selectPrintsInColourEdit">Prints in Colour: </label>
+                                    <select class="form-control form-control-sm"
+                                            name="printingFormat" required>
+                                        <option class="list-group-item"
+                                                value=true>
+                                            YES
+                                        </option>
+                                        <option class="list-group-item"
+                                                value=false>
+                                            NO
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Add model</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <th:block th:include="pages/fragments/scripts.html"></th:block>
 

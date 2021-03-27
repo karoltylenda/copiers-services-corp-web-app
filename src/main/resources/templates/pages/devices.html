@@ -95,7 +95,7 @@
 
 <!-- Add new device modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
-     aria-hidden="true" id="addNewDeviceModal">
+     aria-hidden="true" id="addNewDeviceModal" onload="getManufacturers()">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,7 +113,8 @@
                                 <select class="form-control form-control-sm"
                                         id="manufacturerSelect" onchange="updateModels(this.value)">
                                     <option value=""></option>
-                                    <option th:each="manufacturer:${manufacturers}" th:text="${manufacturer.name}" th:value="${manufacturer.id}"></option>
+<!--                                    <option th:each="manufacturer:${manufacturers}" th:text="${manufacturer.name}" th:value="${manufacturer.id}"></option>-->
+
                                 </select>
                             </div>
                         </div>
@@ -182,8 +183,9 @@
 <script>
     $(document).ready(function () {
         $("#devicesTable").DataTable();
-
     });
+    
+    $("#manufacturerSelect").change(getManufacturers());
 
     $("#selectCustomer").select2({
         dropdownParent: $("#addNewDeviceModal"),
@@ -196,7 +198,8 @@
         dropdownParent: $("#addNewDeviceModal"),
         theme: "bootstrap",
         placeholder: 'Select manufacturer',
-        allowClear: true
+        allowClear: true,
+        getManufacturers
     });
 
     $('#modelSelect').select2({
@@ -205,6 +208,25 @@
         placeholder: 'Select model',
         allowClear: true
     });
+
+    function getManufacturers(){
+        $('#manufacturerSelect').empty();
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers",
+            type: "GET",
+            success: function (result){
+                const manufacturersLength = result.length;
+                for (let i = 0; i < manufacturersLength; i++) {
+                    $('#manufacturerSelect').append(
+                        $('<option>'),{
+                            value: result[i].id,
+                            text: result[i].name
+                        })
+                }
+                console.log(result);
+            }
+        })
+    }
 
     function updateModels(manufacturerId){
         $('#modelSelect').empty();

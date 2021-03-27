@@ -27,11 +27,11 @@ public class ModelServlet {
         return "pages/models";
     }
 
-//    @PostMapping
-//    public RedirectView save(ModelDto modelDto){
-//        modelService.save(convertToEntity(modelDto));
-//        return new RedirectView("/models");
-//    }
+    @PostMapping
+    public RedirectView save(ModelDto modelDto){
+        modelService.save(convertToEntity(modelDto));
+        return new RedirectView("/models");
+    }
 
     @PostMapping(value = "/update")
     public RedirectView update(Long id,ModelDto modelDto){
