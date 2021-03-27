@@ -31,49 +31,140 @@
     <!-- Topnav -->
     <th:block th:include="pages/fragments/topnav.html"></th:block>
 
-    <div class="container-fluid">
-        <h1>Models: </h1>
+    <!-- Page content -->
 
-        <div class="table-responsive">
-            <div class="container-fluid">
-                <table class="table align-items-center" id="modelsTable">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Prints in colour?</th>
-                        <th scope="col">Production Year</th>
-                        <th scope="col">Printing Speed</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col">Printing Format</th>
-                        <th class="text-right" scope="col">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="model:${models}">
-                        <td th:text="${model.name}"></td>
-                        <td th:text="${model.printsInColor}"></td>
-                        <td th:text="${model.productionYear}"></td>
-                        <td th:text="${model.printingSpeed}"></td>
-                        <td th:text="${model.manufacturer.name}"></td>
-                        <td th:text="${model.printingSpeed}"></td>
-                        <td class="text-right">
-                            <div class="dropdown">
-                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="#">Remove</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="container-fluid mt--6">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row">
+                    <div class="col">
+                        <h3>Models</h3>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewModelModal">
+                            Add new Model
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-        </br>
-    </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="container-fluid">
+                        <table class="table align-items-center" id="modelsTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Prints in colour?</th>
+                                <th scope="col">Production Year</th>
+                                <th scope="col">Printing Speed</th>
+                                <th scope="col">Manufacturer</th>
+                                <th scope="col">Printing Format</th>
+                                <th class="text-right" scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="model:${models}">
+                                <td th:text="${model.name}"></td>
+                                <td th:text="${model.printsInColor}"></td>
+                                <td th:text="${model.productionYear}"></td>
+                                <td th:text="${model.printingSpeed}"></td>
+                                <td th:text="${model.manufacturer.name}"></td>
+                                <td th:text="${model.printingSpeed}"></td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" th:href="editModelModal+${model.id}"
+                                               data-toggle="modal"
+                                               th:data-target="'#editModelModal+${model.id}">Edit</a>
+                                            <a class="dropdown-item" th:href="deleteModal+${model.id}"
+                                               data-toggle="modal"
+                                               th:data-target="'#deleteModal+${model.id}">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Edit modal -->
+                                <div class="modal fade" th:id="editModelModal+${model.id}" tabindex="-1" role="dialog"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content p-4 bg-secondary">
+                                            <form method="post" action="/models/update" autocomplete="off">
+                                                <div class="modal-header">
+                                                    <h2>Edit model: </h2>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-sm">
+                                                    <input type="text" th:value="${model.id}" name="id" hidden="true">
+                                                    <div class="form-group">
+                                                        <label for="nameEditInput">Name: </label>
+                                                        <input type="text"
+                                                               class="form-control form-control-alternative form-control-sm"
+                                                               id="nameEditInput"
+                                                               name="name"
+                                                               th:value="${model.name}" required>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="firstNameEditInput">First name: </label>
+                                                                <input type="text"
+                                                                       class="form-control form-control-alternative form-control-sm"
+                                                                       id="firstNameEditInput"
+                                                                       name="firstName"
+                                                                       th:value="${user.firstName}" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="lastNameEditInput">Last name: </label>
+                                                                <input type="text"
+                                                                       class="form-control form-control-alternative form-control-sm"
+                                                                       id="lastNameEditInput"
+                                                                       name="lastName"
+                                                                       th:value="${user.lastName}" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="selectRoleEdit">User type: </label>
+                                                        <select class="form-control form-control-sm" id="selectRoleEdit"
+                                                                name="role" required>
+                                                            <option class="list-group-item" value="ROLE_USER">User
+                                                            </option>
+                                                            <option class="list-group-item" value="ROLE_ADMIN">
+                                                                Administrator
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default btn-sm"
+                                                            data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Save changes
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </br>
+            </div>
 </body>
 </html>
