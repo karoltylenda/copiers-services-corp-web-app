@@ -1,6 +1,8 @@
 package com.tytanisukcesu.copiers.servlet;
 
 import com.tytanisukcesu.copiers.dto.DeviceDto;
+import com.tytanisukcesu.copiers.entity.Customer;
+import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.service.CustomerService;
 import com.tytanisukcesu.copiers.service.DeviceService;
 import com.tytanisukcesu.copiers.service.ManufacturerService;
@@ -27,14 +29,19 @@ public class DeviceServlet {
     @GetMapping
     public String findAll(Model model){
         model.addAttribute("devices", deviceService.findAll());
-        model.addAttribute("cumstomers", customerService.findAll());
+        model.addAttribute("customers", customerService.findAll());
         model.addAttribute("manufacturers", manufacturerService.findAll());
         return "pages/devices";
     }
 
     @PostMapping
     public RedirectView save(DeviceDto deviceDto){
-        System.out.println(deviceDto.toString());
+        deviceService.saveFromServlet(convertToEntity(deviceDto));
         return new RedirectView("/devices");
+    }
+
+    private Device convertToEntity(DeviceDto deviceDto){
+        Device device = modelMapper.map(deviceDto, Device.class);
+        return device;
     }
 }
