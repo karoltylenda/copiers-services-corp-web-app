@@ -59,7 +59,6 @@ public class ModelService {
         Optional<Model> modelOptional = modelRepository.findById(id);
         if (modelOptional.isPresent()) {
             Model modelUpdated = modelOptional.get();
-            modelUpdated.setManufacturer(model.getManufacturer());
             modelUpdated.setName(model.getName());
             modelUpdated.setConsumables(model.getConsumables());
             modelUpdated.setPrintingFormat(model.getPrintingFormat());

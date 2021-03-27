@@ -69,7 +69,7 @@
                                 <td th:text="${model.productionYear}"></td>
                                 <td th:text="${model.printingSpeed}"></td>
                                 <td th:text="${model.manufacturer.name}"></td>
-                                <td th:text="${model.printingSpeed}"></td>
+                                <td th:text="${model.printingFormat}"></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -79,10 +79,10 @@
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                             <a class="dropdown-item" th:href="editModelModal+${model.id}"
                                                data-toggle="modal"
-                                               th:data-target="'#editModelModal+${model.id}">Edit</a>
+                                               th:data-target="'#editModelModal'+${model.id}">Edit</a>
                                             <a class="dropdown-item" th:href="deleteModal+${model.id}"
                                                data-toggle="modal"
-                                               th:data-target="'#deleteModal+${model.id}">Delete</a>
+                                               th:data-target="'#deleteModal'+${model.id}">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -110,61 +110,83 @@
                                                                name="name"
                                                                th:value="${model.name}" required>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="firstNameEditInput">First name: </label>
-                                                                <input type="text"
-                                                                       class="form-control form-control-alternative form-control-sm"
-                                                                       id="firstNameEditInput"
-                                                                       name="firstName"
-                                                                       th:value="${user.firstName}" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="lastNameEditInput">Last name: </label>
-                                                                <input type="text"
-                                                                       class="form-control form-control-alternative form-control-sm"
-                                                                       id="lastNameEditInput"
-                                                                       name="lastName"
-                                                                       th:value="${user.lastName}" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-group">
-                                                        <label for="selectRoleEdit">User type: </label>
-                                                        <select class="form-control form-control-sm" id="selectRoleEdit"
-                                                                name="role" required>
-                                                            <option class="list-group-item" value="ROLE_USER">User
+                                                        <label for="productionYearEditInput">Production
+                                                            Year: </label>
+                                                        <input type="text"
+                                                               class="form-control form-control-alternative form-control-sm"
+                                                               id="productionYearEditInput"
+                                                               name="productionYear"
+                                                               th:value="${model.productionYear}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="printingSpeedEditInput">Printing
+                                                            Speed: </label>
+                                                        <input type="text"
+                                                               class="form-control form-control-alternative form-control-sm"
+                                                               id="printingSpeedEditInput"
+                                                               name="printingSpeed"
+                                                               th:value="${model.printingSpeed}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="selectPrintingFormatEdit">Printing
+                                                            Format: </label>
+                                                        <select class="form-control form-control-sm"
+                                                                id="selectPrintingFormatEdit"
+                                                                name="printingFormat" required>
+                                                            <option class="list-group-item" value="A4">
+                                                                A4
                                                             </option>
-                                                            <option class="list-group-item" value="ROLE_ADMIN">
-                                                                Administrator
+                                                            <option class="list-group-item" value="A3">
+                                                                A3
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="selectPrintsInColourEdit">Prints
+                                                            in
+                                                            Colour: </label>
+                                                        <select class="form-control form-control-sm"
+                                                                id="selectPrintsInColourEdit"
+                                                                name="printingFormat" required>
+                                                            <option class="list-group-item"
+                                                                    value=true>
+                                                                YES
+                                                            </option>
+                                                            <option class="list-group-item"
+                                                                    value=false>
+                                                                NO
                                                             </option>
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default btn-sm"
+                                                    <button type="button"
+                                                            class="btn btn-default btn-sm"
                                                             data-dismiss="modal">
                                                         Cancel
                                                     </button>
-                                                    <button type="submit" class="btn btn-primary btn-sm">Save changes
+                                                    <button type="submit"
+                                                            class="btn btn-primary btn-sm">Save
+                                                        changes
                                                     </button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                </br>
             </div>
+
+        </div>
+    </div>
+</div>
+
+<th:block th:include="pages/fragments/scripts.html"></th:block>
+
 </body>
 </html>
