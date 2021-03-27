@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.servlet;
 import com.tytanisukcesu.copiers.dto.DeviceDto;
 import com.tytanisukcesu.copiers.service.CustomerService;
 import com.tytanisukcesu.copiers.service.DeviceService;
+import com.tytanisukcesu.copiers.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -20,12 +21,14 @@ public class DeviceServlet {
 
     private final DeviceService deviceService;
     private final CustomerService customerService;
+    private final ManufacturerService manufacturerService;
     private final ModelMapper modelMapper;
 
     @GetMapping
     public String findAll(Model model){
         model.addAttribute("devices", deviceService.findAll());
         model.addAttribute("cumstomers", customerService.findAll());
+        model.addAttribute("manufacturers", manufacturerService.findAll());
         return "pages/devices";
     }
 

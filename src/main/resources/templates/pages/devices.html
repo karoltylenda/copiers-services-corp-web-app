@@ -109,26 +109,30 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="manufacturerSelectAddNewDeviceModal">Manufacturer:</label>
+                                <label for="manufacturerSelect">Manufacturer:</label>
                                 <select class="form-control form-control-sm"
-                                        id="manufacturerSelectAddNewDeviceModal"></select>
+                                        id="manufacturerSelect">
+                                    <option value=""></option>
+                                    <option th:each="manufacturer:${manufacturers}" th:text="${manufacturer.name}" th:value="${manufacturer.id}"></option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="modelSelectAddNewDeviceModal">Model:</label>
-                                <select class="form-control form-control-sm" id="modelSelectAddNewDeviceModal"></select>
+                                <label for="modelSelect">Model:</label>
+                                <select class="form-control form-control-sm" id="modelSelect"></select>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="serialNumberAddNewDeviceModal">Serial number:</label>
-                        <input type="text" class="form-control form-control-sm" id="serialNumberAddNewDeviceModal" name="serialNumber"></input>
+                        <label>Serial number:</label>
+                        <input type="text" class="form-control form-control-sm" name="serialNumber"></input>
                     </div>
                     <div class="form-group">
-                        <label for="selectCustomerNewDeviceModal">Customer:</label>
-                        <select class="form-control form-control-sm" id="selectCustomerNewDeviceModal" name="customer">
-                            <option class="list-group-item" th:each="customer:${cumstomers}" th:text="${customer.companyName}" th:value="${customer.id}"></option>
+                        <label>Customer:</label>
+                        <select class="form-control form-control-sm" id="selectCustomer" name="customer">
+                            <option value=""></option>
+                            <option th:each="customer:${cumstomers}" th:text="${customer.companyName}" th:value="${customer.id}"></option>
                         </select>
                     </div>
                     <div class="form-group text-center text-lg">
@@ -178,8 +182,29 @@
 <script>
     $(document).ready(function () {
         $("#devicesTable").DataTable();
+
     });
 
+    $("#selectCustomer").select2({
+        dropdownParent: $("#addNewDeviceModal"),
+        theme: "bootstrap",
+        placeholder: 'Select customer',
+        allowClear: true
+    });
+
+    $('#manufacturerSelect').select2({
+        dropdownParent: $("#addNewDeviceModal"),
+        theme: "bootstrap",
+        placeholder: 'Select manufacturer',
+        allowClear: true
+    });
+
+    $('#modelSelect').select2({
+        dropdownParent: $("#addNewDeviceModal"),
+        theme: "bootstrap",
+        placeholder: 'Select model',
+        allowClear: true
+    });
 </script>
 </body>
 
