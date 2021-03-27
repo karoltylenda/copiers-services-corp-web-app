@@ -143,9 +143,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="selectPrintsInColourEdit">Prints
-                                                            in
-                                                            Colour: </label>
+                                                        <label for="selectPrintsInColourEdit">Prints in Colour: </label>
                                                         <select class="form-control form-control-sm"
                                                                 id="selectPrintsInColourEdit"
                                                                 name="printingFormat" required>
@@ -187,6 +185,13 @@
 </div>
 
 <th:block th:include="pages/fragments/scripts.html"></th:block>
+
+
+<script>
+    $(document).ready(function () {
+        $('#modelsTable').DataTable();
+    });
+</script>
 
 </body>
 </html>
