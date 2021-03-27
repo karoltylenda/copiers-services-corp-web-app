@@ -21,6 +21,7 @@ public class DeviceService {
     private final DeviceRepository deviceRepository;
     private final ModelService modelService;
     private final CustomerService customerService;
+    private final AddressService addressService;
     private static final Logger LOGGER = Logger.getLogger(DeviceService.class.getName());
 
     @Cacheable(cacheNames = "AllDevices")
@@ -45,6 +46,23 @@ public class DeviceService {
             deviceToSave.setModel(modelService.save(device.getModel()));
             deviceToSave.setCustomer(customerService.save(device.getCustomer()));
             deviceToSave.setContract(device.getContract());
+            deviceToSave.setAddress(device.getAddress());
+            LOGGER.info("A new row has been added.");
+            return deviceRepository.save(deviceToSave);
+        }
+    }
+
+    @Transactional
+    public Device saveFromServlet(Device device) {
+        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(device.getSerialNumber());
+        if (deviceOptional.isPresent()) {
+            return deviceOptional.get();
+        } else {
+            Device deviceToSave = new Device();
+            deviceToSave.setSerialNumber(device.getSerialNumber());
+            deviceToSave.setModel(modelService.findById(device.getModel().getId()));
+            deviceToSave.setCustomer(customerService.findById(device.getCustomer().getId()));
+            deviceToSave.setAddress(addressService.save(device.getAddress()));
             LOGGER.info("A new row has been added.");
             return deviceRepository.save(deviceToSave);
         }

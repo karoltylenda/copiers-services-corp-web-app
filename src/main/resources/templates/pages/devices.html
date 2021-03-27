@@ -120,7 +120,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="modelSelect">Model:</label>
-                                <select class="form-control form-control-sm" id="modelSelect"></select>
+                                <select class="form-control form-control-sm" id="modelSelect" name="model.id"></select>
                             </div>
                         </div>
                     </div>
@@ -130,9 +130,9 @@
                     </div>
                     <div class="form-group">
                         <label>Customer:</label>
-                        <select class="form-control form-control-sm" id="selectCustomer" name="customer">
+                        <select class="form-control form-control-sm" id="selectCustomer" name="customer.id">
                             <option value=""></option>
-                            <option th:each="customer:${cumstomers}" th:text="${customer.companyName}" th:value="${customer.id}"></option>
+                            <option th:each="customer:${customers}" th:text="${customer.companyName}" th:value="${customer.id}"></option>
                         </select>
                     </div>
                     <div class="form-group text-center text-lg">
