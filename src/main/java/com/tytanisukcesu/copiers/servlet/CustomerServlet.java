@@ -32,6 +32,13 @@ public class CustomerServlet {
         return new RedirectView("/customers");
     }
 
+    @PostMapping(value = "/delete")
+    public RedirectView deleteCustomer(CustomerDto customerDto){
+        customerService.delete(customerDto.getId());
+        return new RedirectView("/customers");
+    }
+
+
     private Customer convertToEntity(CustomerDto customerDto){
         return modelMapper.map(customerDto, Customer.class);
     }

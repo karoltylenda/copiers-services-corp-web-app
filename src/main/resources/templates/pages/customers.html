@@ -76,7 +76,7 @@
                                             <a class="dropdown-item"
                                                href="#deleteCustomerModal"
                                                data-toggle="modal"
-                                               data-target="#deleteCustomerModal">Delete</a>
+                                               data-target="#deleteCustomerModal" th:onclick="'setDeleteCustomerModal('+${customer.id}+')'">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -205,9 +205,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="#" autocomplete="off">
+            <form method="post" action="/customers/delete" autocomplete="off">
                 <div class="modal-body">
-
+                    <p>Are you sure you want delete customer: </p>
+                    <h3 id="h3DeleteCustomerModal"></h3>
+                    <p>This action cannot be undone and you will be unable to recover
+                        any
+                        data.</p>
+                    <input type="text" id="deleteCustomerId" name="id" hidden="true">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
@@ -238,7 +243,20 @@
         });
     });
 
-    function setDeleteModal
+    function setDeleteCustomerModal(id){
+        $.ajax({
+            url: "http://localhost:8080/api/customers/"+id,
+            type: "GET",
+            success: function (result){
+                console.log(result);
+                document.getElementById('deleteCustomerId').value = id;
+                document.getElementById('h3DeleteCustomerModal').innerHTML = result.companyName+'<br>Tax id: '+result.taxId+'?';
+            },
+            error: function (error){
+                console.log(error);
+            }
+        });
+    }
 </script>
 </body>
 </html>
