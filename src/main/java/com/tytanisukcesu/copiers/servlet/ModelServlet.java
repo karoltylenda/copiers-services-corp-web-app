@@ -1,15 +1,12 @@
 package com.tytanisukcesu.copiers.servlet;
 
 
-import com.tytanisukcesu.copiers.dto.DeviceDto;
 import com.tytanisukcesu.copiers.dto.ModelDto;
-import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

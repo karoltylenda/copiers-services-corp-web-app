@@ -80,9 +80,10 @@
                                             <a class="dropdown-item" th:href="editModelModal+${model.id}"
                                                data-toggle="modal"
                                                th:data-target="'#editModelModal'+${model.id}">Edit</a>
-                                            <a class="dropdown-item" th:href="deleteModal+${model.id}"
+                                            <a class="dropdown-item" href="deleteModelModal"
                                                data-toggle="modal"
-                                               th:data-target="'#deleteModal'+${model.id}">Delete</a>
+                                               data-target="#deleteModelModal"
+                                               th:onclick="'setDeleteModelModal('+${model.id}+')'">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -281,7 +282,7 @@
             </div>
             <form method="post" action="/models/delete">
                 <div class="modal-body text-sm">
-                    <p>Are you sure you want delete device: </p>
+                    <p>Are you sure you want to delete model: </p>
                     <h3 id="h3DeleteModelModal"></h3>
                     <p>This action cannot be undone and you will be unable to recover any data.</p>
                     <input type="text" id="deleteModelId" name="id" hidden="true">
@@ -329,6 +330,21 @@
                         })
                     );
                 }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function setDeleteModelModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/models/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('deleteModelId').value = id;
+                document.getElementById('h3DeleteModelModal').innerText = 'Model ' + result.name + '?';
             },
             error: function (error) {
                 console.log(error);
