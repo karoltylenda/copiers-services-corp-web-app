@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tytanisukcesu.copiers.types.AddressType;
 import lombok.*;
@@ -29,13 +30,23 @@ public class AddressDto {
 
     private String apartmentNumber;
 
-    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @JsonIgnoreProperties({
+            "address",
+            "devices",
+            "users"
+    })
     private CustomerDto customer;
 
-    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @JsonIgnoreProperties({
+            "customer",
+            "counters",
+            "address",
+            "contract",
+    })
     private DeviceDto device;
 
-    @JsonIgnore
     private AddressType addressType;
 
 }

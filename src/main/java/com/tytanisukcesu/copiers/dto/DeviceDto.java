@@ -24,15 +24,22 @@ public class DeviceDto {
     })
     private ModelDto model;
 
-    @JsonView(ContractDto.class)
     private String serialNumber;
 
     @EqualsAndHashCode.Exclude
-    @JsonBackReference
+    @JsonIgnoreProperties({
+            "devices",
+            "users"
+    })
     private CustomerDto customer;
 
     private Set<CounterDto> counters;
 
+    @JsonIgnoreProperties({
+            "device",
+            "customer",
+            "addressType"
+    })
     private AddressDto address;
 
     @EqualsAndHashCode.Exclude

@@ -24,7 +24,6 @@ public class DeviceService {
     private final AddressService addressService;
     private static final Logger LOGGER = Logger.getLogger(DeviceService.class.getName());
 
-    @Cacheable(cacheNames = "AllDevices")
     public List<Device> findAll() {
         List<Device> devices = deviceRepository.findAll();
         return devices;
