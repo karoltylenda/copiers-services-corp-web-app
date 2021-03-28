@@ -183,7 +183,7 @@
     </div>
 </div>
 
-<!-- Add new device modal -->
+<!-- Add new model modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
      aria-hidden="true" id="addNewModelModal">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
@@ -196,9 +196,22 @@
             </div>
             <form action="/models" method="post" autocomplete="off">
                 <div class="modal-body text-sm">
-                    <div class="form-group">
-                        <label>Name:</label>
-                        <input type="text" class="form-control form-control-sm" name="name">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerSelect">Manufacturer:</label>
+                                <select class="form-control form-control-sm"
+                                        id="manufacturerSelect" name="manufacturer.name">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -214,39 +227,39 @@
                             </div>
                         </div>
                     </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectPrintingFormatEdit">Printing Format: </label>
-                                    <select class="form-control form-control-sm"
-                                            name="printingFormat" required>
-                                        <option class="list-group-item" value="A4">
-                                            A4
-                                        </option>
-                                        <option class="list-group-item" value="A3">
-                                            A3
-                                        </option>
-                                    </select>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectPrintingFormatEdit">Printing Format: </label>
+                                <select class="form-control form-control-sm"
+                                        name="printingFormat" required>
+                                    <option class="list-group-item" value="A4">
+                                        A4
+                                    </option>
+                                    <option class="list-group-item" value="A3">
+                                        A3
+                                    </option>
+                                </select>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="selectPrintsInColourEdit">Prints in Colour: </label>
-                                    <select class="form-control form-control-sm"
-                                            name="printingFormat" required>
-                                        <option class="list-group-item"
-                                                value=true>
-                                            YES
-                                        </option>
-                                        <option class="list-group-item"
-                                                value=false>
-                                            NO
-                                        </option>
-                                    </select>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectPrintsInColourEdit">Prints in Colour: </label>
+                                <select class="form-control form-control-sm"
+                                        name="printingFormat" required>
+                                    <option class="list-group-item"
+                                            value=true>
+                                        YES
+                                    </option>
+                                    <option class="list-group-item"
+                                            value=false>
+                                        NO
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
+                </div>
                 <div class="modal-footer text-sm align-content-end">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary btn-sm">Add model</button>
@@ -264,6 +277,37 @@
     $(document).ready(function () {
         $('#modelsTable').DataTable();
     });
+
+    $('#manufacturerSelect').select2({
+        dropdownParent: $("#addNewModelModal"),
+        theme: "bootstrap",
+        placeholder: 'Select manufacturer',
+        allowClear: true
+    }).click(getManufacturers());
+
+    function getManufacturers() {
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers",
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const manufacturersLength = result.length;
+                for (let i = 0; i < manufacturersLength; i++) {
+                    $('#manufacturerSelect').append(
+                        $('<option>', {
+                            value: result[i].name,
+                            text: result[i].name
+                        })
+                    );
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
 </script>
 
 </body>
