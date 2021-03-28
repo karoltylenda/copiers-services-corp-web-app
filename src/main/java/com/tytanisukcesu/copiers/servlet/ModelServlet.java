@@ -42,7 +42,7 @@ public class ModelServlet {
         return new RedirectView("/models");
     }
 
-    @DeleteMapping(value = "/delete")
+    @PostMapping(value = "/delete")
     public RedirectView delete (ModelDto modelDto){
         com.tytanisukcesu.copiers.entity.Model model = convertToEntity(modelDto);
         modelService.delete(model.getId());
