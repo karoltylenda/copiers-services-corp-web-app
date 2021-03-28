@@ -32,7 +32,6 @@
     <th:block th:include="pages/fragments/topnav.html"></th:block>
 
     <!-- Page content -->
-
     <div class="container-fluid mt--6">
         <div class="card">
             <div class="card-header bg-transparent">
@@ -62,7 +61,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="device:${devices}">
-                                <td th:text="${device.model.manufacturer}+' '+${device.model.name}"></td>
+                                <td th:text="${device.model.manufacturer.name}+' '+${device.model.name}"></td>
                                 <td th:text="${device.serialNumber}"></td>
                                 <td th:text="${device.customer.companyName}"></td>
                                 <td th:text="${device.address.getStreet()}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></td>
@@ -73,12 +72,12 @@
                                             <i class="fas fa-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <a class="dropdown-item" href="editUserModal+${user.id}"
+                                            <a class="dropdown-item" href="editDeviceModal"
                                                data-toggle="modal"
-                                               data-target="'#editUserModal'+${user.id}">Edit</a>
-                                            <a class="dropdown-item" href="deleteModal+${user.id}"
+                                               data-target="#editDeviceModal">Edit</a>
+                                            <a class="dropdown-item" href="deleteDeviceModal"
                                                data-toggle="modal"
-                                               data-target="'#deleteModal'+${user.id}">Delete</a>
+                                               data-target="#deleteDeviceModal" th:onclick="'setDeleteDeviceModal('+${device.id}+')'">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -95,7 +94,7 @@
 
 <!-- Add new device modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
-     aria-hidden="true" id="addNewDeviceModal" onload="getManufacturers()">
+     aria-hidden="true" id="addNewDeviceModal">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,8 +112,6 @@
                                 <select class="form-control form-control-sm"
                                         id="manufacturerSelect" onchange="updateModels(this.value)">
                                     <option value=""></option>
-<!--                                    <option th:each="manufacturer:${manufacturers}" th:text="${manufacturer.name}" th:value="${manufacturer.id}"></option>-->
-
                                 </select>
                             </div>
                         </div>
@@ -127,7 +124,7 @@
                     </div>
                     <div class="form-group">
                         <label>Serial number:</label>
-                        <input type="text" class="form-control form-control-sm" name="serialNumber"></input>
+                        <input type="text" class="form-control form-control-sm" name="serialNumber">
                     </div>
                     <div class="form-group">
                         <label>Customer:</label>
@@ -177,15 +174,80 @@
         </div>
     </div>
 </div>
+
+
+<!-- Edit device modal -->
+<div class="modal fade" id="editDeviceModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary btn-sm">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete device modal -->
+<div class="modal fade" id="deleteDeviceModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmation</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/devices/delete">
+                <div class="modal-body text-sm">
+                    <p>Are you sure you want delete device: </p>
+                    <h3 id="h3DeleteDeviceModal"></h3>
+                    <p>This action cannot be undone and you will be unable to recover
+                        any
+                        data.</p>
+                    <input type="text" id="deleteDeviceId" name="id" hidden="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm"
+                            data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 
 <script>
     $(document).ready(function () {
-        $("#devicesTable").DataTable();
+        $("#devicesTable").DataTable({
+            language: {
+                paginate: {
+                    previous: '<',
+                    next: '>'
+                }
+            },
+            aria: {
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            }
+        });
+
     });
-    
-    $("#manufacturerSelect").change(getManufacturers());
 
     $("#selectCustomer").select2({
         dropdownParent: $("#addNewDeviceModal"),
@@ -198,9 +260,8 @@
         dropdownParent: $("#addNewDeviceModal"),
         theme: "bootstrap",
         placeholder: 'Select manufacturer',
-        allowClear: true,
-        getManufacturers
-    });
+        allowClear: true
+    }).click(getManufacturers());
 
     $('#modelSelect').select2({
         dropdownParent: $("#addNewDeviceModal"),
@@ -208,25 +269,6 @@
         placeholder: 'Select model',
         allowClear: true
     });
-
-    function getManufacturers(){
-        $('#manufacturerSelect').empty();
-        $.ajax({
-            url: "http://localhost:8080/api/manufacturers",
-            type: "GET",
-            success: function (result){
-                const manufacturersLength = result.length;
-                for (let i = 0; i < manufacturersLength; i++) {
-                    $('#manufacturerSelect').append(
-                        $('<option>'),{
-                            value: result[i].id,
-                            text: result[i].name
-                        })
-                }
-                console.log(result);
-            }
-        })
-    }
 
     function updateModels(manufacturerId){
         $('#modelSelect').empty();
@@ -249,6 +291,44 @@
                 console.log(error);
             }
         })
+    }
+
+    function getManufacturers(){
+        // $('#manufacturerSelect').empty();
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers",
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const manufacturersLength = result.length;
+                for (let i=0; i<manufacturersLength; i++){
+                    $('#manufacturerSelect').append(
+                        $('<option>',{
+                            value: result[i].id,
+                            text: result[i].name
+                        })
+                    );
+                }
+            },
+            error: function (error){
+                console.log(error);
+            }
+        })
+    }
+
+    function setDeleteDeviceModal(id){
+        $.ajax({
+           url: "http://localhost:8080/api/devices/"+id,
+           type: "GET",
+            success: function (result){
+               console.log(result);
+               document.getElementById('deleteDeviceId').value = id;
+               document.getElementById('h3DeleteDeviceModal').innerHTML = result.model.manufacturer.name+' '+result.model.name+'<br>S/N: '+result.serialNumber+'?';
+            },
+            error: function (error){
+                console.log(error);
+            }
+        });
     }
 </script>
 </body>

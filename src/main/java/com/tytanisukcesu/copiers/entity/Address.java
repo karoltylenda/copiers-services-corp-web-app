@@ -34,9 +34,11 @@ public class Address {
 
     private String apartmentNumber;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "address")
     private Customer customer;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "address")
     private Device device;
 

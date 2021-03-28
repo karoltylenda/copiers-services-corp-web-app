@@ -328,11 +328,25 @@
             </div>
         </div>
     </div>
+</div>
 
     <th:block th:include="pages/fragments/scripts.html"></th:block>
     <script>
         $(document).ready(function () {
-            $('#usersTable').DataTable();
+            $('#usersTable').DataTable({
+                language: {
+                    paginate: {
+                        previous: '<',
+                        next: '>'
+                    }
+                },
+                aria: {
+                    paginate: {
+                        previous: 'Previous',
+                        next: 'Next'
+                    }
+                }
+            });
             $('#messagePasswordControl').html('Fields cannot be empty').css('color', 'red');
             $('#messagePasswordResetControl').html('password doesn\'t match!').css('color', 'red');
         });

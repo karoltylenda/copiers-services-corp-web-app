@@ -28,6 +28,7 @@ public class Customer {
 
     private String regon;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private Address address;

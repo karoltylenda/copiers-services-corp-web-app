@@ -1,7 +1,6 @@
 package com.tytanisukcesu.copiers.servlet;
 
 import com.tytanisukcesu.copiers.dto.DeviceDto;
-import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.service.CustomerService;
 import com.tytanisukcesu.copiers.service.DeviceService;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,12 +29,20 @@ public class DeviceServlet {
         model.addAttribute("devices", deviceService.findAll());
         model.addAttribute("customers", customerService.findAll());
         model.addAttribute("manufacturers", manufacturerService.findAll());
+        System.out.println(model.getAttribute("devices").toString());
         return "pages/devices";
     }
 
     @PostMapping
     public RedirectView save(DeviceDto deviceDto){
         deviceService.saveFromServlet(convertToEntity(deviceDto));
+        return new RedirectView("/devices");
+    }
+
+    @PostMapping(value = "/delete")
+    public RedirectView delete (DeviceDto deviceDto){
+        Device device = convertToEntity(deviceDto);
+        deviceService.delete(device.getId());
         return new RedirectView("/devices");
     }
 
