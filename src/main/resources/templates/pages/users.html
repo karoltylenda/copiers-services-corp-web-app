@@ -89,8 +89,8 @@
                                 <!-- Edit modal -->
                                 <div class="modal fade" th:id="editUserModal+${user.id}" tabindex="-1" role="dialog"
                                      aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content p-4 bg-secondary">
+                                    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                                        <div class="modal-content">
                                             <form method="post" action="/users/update" autocomplete="off">
                                                 <div class="modal-header">
                                                     <h2>Edit user: </h2>
@@ -104,7 +104,7 @@
                                                     <div class="form-group">
                                                         <label for="usernameEditInput">E-mail: </label>
                                                         <input type="email"
-                                                               class="form-control form-control-alternative form-control-sm"
+                                                               class="form-control form-control-sm"
                                                                id="usernameEditInput"
                                                                name="username"
                                                                th:value="${user.username}" required>
@@ -114,7 +114,7 @@
                                                             <div class="form-group">
                                                                 <label for="firstNameEditInput">First name: </label>
                                                                 <input type="text"
-                                                                       class="form-control form-control-alternative form-control-sm"
+                                                                       class="form-control form-control-sm"
                                                                        id="firstNameEditInput"
                                                                        name="firstName"
                                                                        th:value="${user.firstName}" required>
@@ -124,7 +124,7 @@
                                                             <div class="form-group">
                                                                 <label for="lastNameEditInput">Last name: </label>
                                                                 <input type="text"
-                                                                       class="form-control form-control-alternative form-control-sm"
+                                                                       class="form-control form-control-sm"
                                                                        id="lastNameEditInput"
                                                                        name="lastName"
                                                                        th:value="${user.lastName}" required>
@@ -199,8 +199,8 @@
     </div>
     <!-- New user modal -->
     <div class="modal fade" id="addNewUserModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content p-4 bg-secondary">
+        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
                 <form method="post" action="/users" autocomplete="off">
                     <div class="modal-header">
                         <h2>Add new user: </h2>
@@ -211,7 +211,7 @@
                     <div class="modal-body text-sm">
                         <div class="form-group">
                             <label for="usernameInput">E-mail: </label>
-                            <input type="email" class="form-control form-control-alternative form-control-sm"
+                            <input type="email" class="form-control form-control-sm"
                                    id="usernameInput"
                                    name="username"
                                    placeholder="example@example.com" required>
@@ -220,7 +220,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="firstNameInput">First name: </label>
-                                    <input type="text" class="form-control form-control-alternative form-control-sm"
+                                    <input type="text" class="form-control form-control-sm"
                                            id="firstNameInput"
                                            name="firstName" required>
                                 </div>
@@ -228,7 +228,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="lastNameInput">Last name: </label>
-                                    <input type="text" class="form-control form-control-alternative form-control-sm"
+                                    <input type="text" class="form-control form-control-sm"
                                            id="lastNameInput"
                                            name="lastName" required>
                                 </div>
@@ -247,7 +247,7 @@
                             <div class="col-md-6">
                                 <div class="form-group is-invalid">
                                     <label for="passwordInput">Password: </label>
-                                    <input type="password" class="form-control form-control-alternative form-control-sm"
+                                    <input type="password" class="form-control form-control-sm"
                                            id="passwordInput"
                                            name="password" autocomplete="new-password" required>
                                 </div>
@@ -255,7 +255,7 @@
                             <div class="col-md-6">
                                 <div class="form-group is-invalid">
                                     <label for="confirmPasswordInput">Confirm password: </label>
-                                    <input type="password" class="form-control form-control-alternative form-control-sm"
+                                    <input type="password" class="form-control form-control-sm"
                                            id="confirmPasswordInput"
                                            name="confirmPassword" required>
                                 </div>
@@ -279,8 +279,8 @@
 
     <!-- Reset password modal -->
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="passwordResetModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content p-4 bg-secondary">
+        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h2>Password reset</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -295,7 +295,7 @@
                                 <div class="form-group">
                                     <label for="passwordResetInput">Password: </label>
                                     <input type="password"
-                                           class="form-control form-control-alternative form-control-sm"
+                                           class="form-control form-control-sm"
                                            id="passwordResetInput"
                                            name="password" autocomplete="new-password" required>
                                 </div>
@@ -305,7 +305,7 @@
                                     <label for="confirmPasswordResetInput">Confirm
                                         password: </label>
                                     <input type="password"
-                                           class="form-control form-control-alternative form-control-sm"
+                                           class="form-control form-control-sm"
                                            id="confirmPasswordResetInput" name="confirmPassword"
                                            required>
                                 </div>

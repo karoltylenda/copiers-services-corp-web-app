@@ -33,7 +33,7 @@ public class Customer {
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
-    private Long telephoneNumber;
+    private String telephoneNumber;
 
     private String email;
 

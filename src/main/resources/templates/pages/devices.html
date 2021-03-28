@@ -74,7 +74,7 @@
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                             <a class="dropdown-item" href="editDeviceModal"
                                                data-toggle="modal"
-                                               data-target="#editDeviceModal">Edit</a>
+                                               data-target="#editDeviceModal" th:onclick="'setEditDeviceModal('+${device.id}+')'">Edit</a>
                                             <a class="dropdown-item" href="deleteDeviceModal"
                                                data-toggle="modal"
                                                data-target="#deleteDeviceModal" th:onclick="'setDeleteDeviceModal('+${device.id}+')'">Delete</a>
@@ -181,18 +181,77 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit device</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-sm">Save changes</button>
-            </div>
+            <form action="/devices/update" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Manufacturer:</label>
+                                <input type="text" class="form-control form-control-sm"
+                                        id="deviceManufacturerEdit" disabled>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modelSelect">Model:</label>
+                                <input type="text" class="form-control form-control-sm" id="deviceModelEdit" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Serial number:</label>
+                        <input type="text" class="form-control form-control-sm" id="deviceSerialNumberEdit" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer:</label>
+                        <input type="text" class="form-control form-control-sm" id="deviceCustomerEdit" disabled>
+                    </div>
+                    <div class="form-group text-center text-lg">
+                        <p>Installation address</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Street:</label>
+                            <input type="text" class="form-control form-control-sm" id="deviceStreetEdit" name="address.street">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Nr</label>
+                            <input type="text" class="form-control form-control-sm" id="deviceHouseNumberEdit" name="address.houseNumber">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Ap. nr</label>
+                            <input type="text" class="form-control form-control-sm" id="deviceApartmentNumberEdit" name="address.apartmentNumber">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Post code:</label>
+                            <input type="text" class="form-control form-control-sm" id="devicePostCodeEdit" name="address.postCode">
+                        </div>
+                        <div class="col-md-8">
+                            <label>City:</label>
+                            <input type="text" class="form-control form-control-sm" id="deviceCityEdit" name="address.city">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Province:</label>
+                        <input type="text" class="form-control form-control-sm" id="deviceProvinceEdit" name="address.province">
+                    </div>
+                </div>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+                <input type="text" id="deviceIdEdit" name="id" hidden>
+                <input type="text" id="deviceAddressIdEdit" name="address.id" hidden>
+                <input type="text" value="INSTALLATION_DEVICE" name="address.addressType" hidden>
+            </form>
         </div>
     </div>
 </div>
@@ -209,12 +268,12 @@
             </div>
             <form method="post" action="/devices/delete">
                 <div class="modal-body text-sm">
-                    <p>Are you sure you want delete device: </p>
-                    <h3 id="h3DeleteDeviceModal"></h3>
-                    <p>This action cannot be undone and you will be unable to recover
-                        any
-                        data.</p>
-                    <input type="text" id="deleteDeviceId" name="id" hidden="true">
+                        <p>Are you sure you want delete device: </p>
+                        <h3 id="h3DeleteDeviceModal"></h3>
+                        <p>This action cannot be undone and you will be unable to recover
+                            any
+                            data.</p>
+                        <input type="text" id="deleteDeviceId" name="id" hidden="true">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm"
@@ -229,7 +288,6 @@
 </div>
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
-
 <script>
     $(document).ready(function () {
         $("#devicesTable").DataTable({
@@ -294,20 +352,28 @@
     }
 
     function getManufacturers(){
-        // $('#manufacturerSelect').empty();
+        $('#manufacturerSelect').empty();
         $.ajax({
             url: "http://localhost:8080/api/manufacturers",
             type: "GET",
             success: function (result) {
                 console.log(result);
                 const manufacturersLength = result.length;
-                for (let i=0; i<manufacturersLength; i++){
-                    $('#manufacturerSelect').append(
-                        $('<option>',{
-                            value: result[i].id,
-                            text: result[i].name
-                        })
-                    );
+                for (let i=0; i<manufacturersLength+1; i++){
+                    if (i === manufacturersLength) {
+                        $('#manufacturerSelect').append(
+                            $('<option selected>', {
+                                value: ''
+                            })
+                        )
+                    } else {
+                        $('#manufacturerSelect').append(
+                            $('<option>',{
+                                value: result[i].id,
+                                text: result[i].name
+                            })
+                        );
+                    }
                 }
             },
             error: function (error){
@@ -330,6 +396,35 @@
             }
         });
     }
+
+    function setEditDeviceModal(id){
+        console.log(id);
+        $.ajax({
+            url: "http://localhost:8080/api/devices/"+id,
+            type: "GET",
+            success: function (result){
+                console.log(result);
+                document.getElementById('deviceIdEdit').value = result.id;
+                document.getElementById('deviceAddressIdEdit').value = result.address.id;
+
+                document.getElementById('deviceManufacturerEdit').value = result.model.manufacturer.name;
+                document.getElementById('deviceModelEdit').value = result.model.name;
+                document.getElementById('deviceSerialNumberEdit').value = result.serialNumber;
+                document.getElementById('deviceCustomerEdit').value = result.customer.companyName+', TAX ID: '+result.customer.taxId;
+
+                document.getElementById('deviceStreetEdit').value = result.address.street;
+                document.getElementById('deviceHouseNumberEdit').value = result.address.houseNumber;
+                document.getElementById('deviceApartmentNumberEdit').value = result.address.apartmentNumber;
+                document.getElementById('devicePostCodeEdit').value = result.address.postCode;
+                document.getElementById('deviceCityEdit').value = result.address.city;
+                document.getElementById('deviceProvinceEdit').value = result.address.province;
+            },
+            error: function (error){
+                console.log(error);
+            }
+        })
+    }
+
 </script>
 </body>
 

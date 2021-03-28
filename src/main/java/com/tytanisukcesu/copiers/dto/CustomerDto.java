@@ -32,7 +32,7 @@ public class CustomerDto {
     })
     private AddressDto address;
 
-    private Long telephoneNumber;
+    private String telephoneNumber;
 
     private String email;
 

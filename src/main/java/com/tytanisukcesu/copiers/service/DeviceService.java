@@ -83,7 +83,7 @@ public class DeviceService {
             return deviceUpdated;
         } else {
             LOGGER.warning("Device for id " + id + " has not been found");
-            throw new ModelNotFoundException(id,"device");        }
+            throw new ModelNotFoundException(id, "device");        }
     }
 
     @CacheEvict(cacheNames = "SingleDevice")
