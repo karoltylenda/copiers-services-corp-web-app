@@ -1,7 +1,9 @@
 package com.tytanisukcesu.copiers.servlet;
 
 import com.tytanisukcesu.copiers.dto.DeviceDto;
+import com.tytanisukcesu.copiers.entity.Address;
 import com.tytanisukcesu.copiers.entity.Device;
+import com.tytanisukcesu.copiers.service.AddressService;
 import com.tytanisukcesu.copiers.service.CustomerService;
 import com.tytanisukcesu.copiers.service.DeviceService;
 import com.tytanisukcesu.copiers.service.ManufacturerService;
@@ -22,6 +24,7 @@ public class DeviceServlet {
     private final DeviceService deviceService;
     private final CustomerService customerService;
     private final ManufacturerService manufacturerService;
+    private final AddressService addressService;
     private final ModelMapper modelMapper;
 
     @GetMapping
@@ -36,6 +39,13 @@ public class DeviceServlet {
     @PostMapping
     public RedirectView save(DeviceDto deviceDto){
         deviceService.saveFromServlet(convertToEntity(deviceDto));
+        return new RedirectView("/devices");
+    }
+
+    @PostMapping(value = "/update")
+    public RedirectView update(DeviceDto deviceDto){
+        Device device = convertToEntity(deviceDto);
+        addressService.update(device.getAddress().getId(), device.getAddress());
         return new RedirectView("/devices");
     }
 

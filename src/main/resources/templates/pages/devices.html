@@ -249,6 +249,7 @@
                     <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
                 <input type="text" id="deviceIdEdit" name="id" hidden>
+                <input type="text" id="deviceAddressIdEdit" name="address.id" hidden>
                 <input type="text" value="INSTALLATION_DEVICE" name="address.addressType" hidden>
             </form>
         </div>
@@ -267,12 +268,12 @@
             </div>
             <form method="post" action="/devices/delete">
                 <div class="modal-body text-sm">
-                    <p>Are you sure you want delete device: </p>
-                    <h3 id="h3DeleteDeviceModal"></h3>
-                    <p>This action cannot be undone and you will be unable to recover
-                        any
-                        data.</p>
-                    <input type="text" id="deleteDeviceId" name="id" hidden="true">
+                        <p>Are you sure you want delete device: </p>
+                        <h3 id="h3DeleteDeviceModal"></h3>
+                        <p>This action cannot be undone and you will be unable to recover
+                            any
+                            data.</p>
+                        <input type="text" id="deleteDeviceId" name="id" hidden="true">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm"
@@ -404,6 +405,7 @@
             success: function (result){
                 console.log(result);
                 document.getElementById('deviceIdEdit').value = result.id;
+                document.getElementById('deviceAddressIdEdit').value = result.address.id;
 
                 document.getElementById('deviceManufacturerEdit').value = result.model.manufacturer.name;
                 document.getElementById('deviceModelEdit').value = result.model.name;

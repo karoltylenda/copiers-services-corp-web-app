@@ -76,7 +76,8 @@
                                             <a class="dropdown-item"
                                                href="#deleteCustomerModal"
                                                data-toggle="modal"
-                                               data-target="#deleteCustomerModal" th:onclick="'setDeleteCustomerModal('+${customer.id}+')'">Delete</a>
+                                               data-target="#deleteCustomerModal"
+                                               th:onclick="'setDeleteCustomerModal('+${customer.id}+')'">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -183,12 +184,71 @@
                 </button>
             </div>
             <form method="post" action="#" autocomplete="off">
-                <div class="modal-body">
-
+                <div class="modal-body text-sm">
+                    <div class="form-group">
+                        <label>Customer name:</label>
+                        <input class="form-control form-control-sm" type="text" name="companyName">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Tax ID:</label>
+                            <input type="text" class="form-control form-control-sm" name="taxId">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Regon:</label>
+                            <input type="text" class="form-control form-control-sm" name="regon">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Street:</label>
+                            <input type="text" class="form-control form-control-sm" name="address.street">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Nr</label>
+                            <input type="text" class="form-control form-control-sm" name="address.houseNumber">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Ap. nr</label>
+                            <input type="text" class="form-control form-control-sm" name="address.apartmentNumber">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Post code:</label>
+                            <input type="text" class="form-control form-control-sm" name="address.postCode">
+                        </div>
+                        <div class="col-md-8">
+                            <label>City:</label>
+                            <input type="text" class="form-control form-control-sm" name="address.city">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Province:</label>
+                        <input type="text" class="form-control form-control-sm" name="address.province">
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Telephone:</label>
+                            <input type="tel" class="form-control form-control-sm" name="telephoneNumber">
+                        </div>
+                        <div class="col-md-6">
+                            <label>E-mail:</label>
+                            <input type="email" class="form-control form-control-sm" name="email">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Customer site:</label>
+                            <input type="text" class="form-control form-control-sm" name="companySiteUrl">
+                        </div>
+                    </div>
+                    <input type="text" value="INVOICE" name="address.addressType" hidden>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Add customer</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                 </div>
             </form>
         </div>
@@ -243,16 +303,16 @@
         });
     });
 
-    function setDeleteCustomerModal(id){
+    function setDeleteCustomerModal(id) {
         $.ajax({
-            url: "http://localhost:8080/api/customers/"+id,
+            url: "http://localhost:8080/api/customers/" + id,
             type: "GET",
-            success: function (result){
+            success: function (result) {
                 console.log(result);
                 document.getElementById('deleteCustomerId').value = id;
-                document.getElementById('h3DeleteCustomerModal').innerHTML = result.companyName+'<br>Tax id: '+result.taxId+'?';
+                document.getElementById('h3DeleteCustomerModal').innerHTML = result.companyName + '<br>Tax id: ' + result.taxId + '?';
             },
-            error: function (error){
+            error: function (error) {
                 console.log(error);
             }
         });
