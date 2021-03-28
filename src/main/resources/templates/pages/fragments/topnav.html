@@ -245,7 +245,7 @@
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a href="/home"><i class="fas fa-home"></i></a></li>
                             <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page" value="page">Page</li>
+                            <li class="breadcrumb-item active" aria-current="page" value="page" id="current">Page</li>
                         </ol>
                     </nav>
                 </div>
@@ -253,3 +253,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    let sPath = window.location.pathname;
+    let sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    // console.log(sPage);
+    const page = document.querySelector("#current");
+    page.textContent = sPage.charAt(0).toUpperCase() + sPage.slice(1);
+</script>
