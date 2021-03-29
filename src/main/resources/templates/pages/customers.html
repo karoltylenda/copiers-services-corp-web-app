@@ -58,7 +58,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="customer:${customers}">
+                            <tr th:each="customer:${customers}"
+                                data-toggle="modal"
+                                data-target="#additionalInfoCustomerModal"
+                                th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
                                 <td th:text="${customer.getCompanyName()}"></td>
                                 <td th:text="${customer.getTaxId()}"></td>
                                 <td th:text="${customer.address.street}"></td>
@@ -296,6 +299,33 @@
     </div>
 </div>
 
+<!-- Row click customer modal -->
+<div class="modal fade" id="additionalInfoCustomerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="#" autocomplete="off">
+                <div class="modal-body">
+                    <p>Are you sure you want delete customer: </p>
+                    <h3>Customer</h3>
+                    <p>This action cannot be undone and you will be unable to recover
+                        any
+                        data.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 <script>
@@ -352,6 +382,20 @@
                 document.getElementById('customerTelephoneEdit').value = result.telephoneNumber;
                 document.getElementById('customerSiteEdit').value = result.companySiteUrl;
                 document.getElementById('customerEmailEdit').value = result.email;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function setAdditionalInfoCustomerModel(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('#').innerHTML = result.companyName + '<br>Tax id: ' + result.taxId + '?';
             },
             error: function (error) {
                 console.log(error);
