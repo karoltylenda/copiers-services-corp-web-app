@@ -38,6 +38,13 @@ public class CustomerServlet {
         return new RedirectView("/customers");
     }
 
+    @PostMapping(value = "/update")
+    public RedirectView updateCustomer(CustomerDto customerDto){
+        System.out.println(customerDto.toString());
+        customerService.updateFromServlet(convertToEntity(customerDto));
+        return new RedirectView("/customers");
+    }
+
 
     private Customer convertToEntity(CustomerDto customerDto){
         return modelMapper.map(customerDto, Customer.class);

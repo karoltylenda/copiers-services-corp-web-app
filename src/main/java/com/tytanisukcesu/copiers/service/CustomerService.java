@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final AddressService addressService;
     private static final Logger LOGGER = Logger.getLogger(CustomerService.class.getName());
 
     public List<Customer> findAll() {
@@ -27,6 +28,7 @@ public class CustomerService {
         return customerRepository.findById(id).orElseThrow(()->new ModelNotFoundException(id,"customer"));
     }
 
+    @Transactional
     public Customer save(Customer customer) {
         Optional<Customer> customerOptional = customerRepository.getCustomerByTaxId(customer.getTaxId());
         if (customerOptional.isPresent()) {
@@ -72,4 +74,22 @@ public class CustomerService {
             throw new ModelNotFoundException(id,"customer");        }
     }
 
+    @Transactional
+    public Customer updateFromServlet(Customer customer) {
+        Optional<Customer> customerOptional = customerRepository.findById(customer.getId());
+        if (customerOptional.isPresent()) {
+            Customer customerToUpdate = customerOptional.get();
+            customerToUpdate.setCompanyName(customer.getCompanyName());
+            customerToUpdate.setEmail(customer.getEmail());
+            customerToUpdate.setCompanySiteUrl(customer.getCompanySiteUrl());
+            customerToUpdate.setRegon(customer.getRegon());
+            customerToUpdate.setTelephoneNumber(customer.getTelephoneNumber());
+            customerToUpdate.setAddress(addressService.save(customer.getAddress()));
+            customerToUpdate.setEmail(customer.getEmail());
+            LOGGER.info(customerToUpdate.getCompanyName() + " with TAX ID " +customerToUpdate.getTaxId() + " for id " + customerToUpdate.getId() + " has been updated.");
+            return customerToUpdate;
+        } else {
+            LOGGER.warning("Customer for id " + customer.getId() + " has not been found");
+            throw new ModelNotFoundException(customer.getId(),"customer");        }
+    }
 }
