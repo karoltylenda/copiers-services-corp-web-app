@@ -58,13 +58,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="customer:${customers}"
-                                data-toggle="modal"
-                                data-target="#additionalInfoCustomerModal"
-                                th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
-                                <td th:text="${customer.getCompanyName()}"></td>
-                                <td th:text="${customer.getTaxId()}"></td>
-                                <td th:text="${customer.address.street}"></td>
+                            <tr th:each="customer:${customers}">
+                                <td th:text="${customer.getCompanyName()}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoCustomerModal"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
+                                <td th:text="${customer.getTaxId()}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoCustomerModal"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
+                                <td th:text="${customer.address.street}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoCustomerModal"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -197,7 +203,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Tax ID:</label>
-                            <input type="text" class="form-control form-control-sm" id="customerTaxIdEdit" name="taxId">
+                            <input type="text" class="form-control form-control-sm" id="customerTaxIdEdit" name="taxId" disabled>
                         </div>
                         <div class="col-md-6">
                             <label>Regon:</label>
