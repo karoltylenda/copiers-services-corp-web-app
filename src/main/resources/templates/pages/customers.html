@@ -59,9 +59,18 @@
                             </thead>
                             <tbody>
                             <tr th:each="customer:${customers}">
-                                <td th:text="${customer.getCompanyName()}"></td>
-                                <td th:text="${customer.getTaxId()}"></td>
-                                <td th:text="${customer.address.street}"></td>
+                                <td th:text="${customer.getCompanyName()}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoCustomerModal"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
+                                <td th:text="${customer.getTaxId()}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoCustomerModal"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
+                                <td th:text="${customer.address.street}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoCustomerModal"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -72,7 +81,8 @@
                                             <a class="dropdown-item"
                                                href="#editCustomerModal"
                                                data-toggle="modal"
-                                               data-target="#editCustomerModal">Edit</a>
+                                               data-target="#editCustomerModal"
+                                               th:onclick="'setEditCustomerModal('+${customer.id}+')'">Edit</a>
                                             <a class="dropdown-item"
                                                href="#deleteCustomerModal"
                                                data-toggle="modal"
@@ -183,68 +193,80 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="#" autocomplete="off">
+            <form method="post" action="/customers/update" autocomplete="off">
                 <div class="modal-body text-sm">
                     <div class="form-group">
                         <label>Customer name:</label>
-                        <input class="form-control form-control-sm" type="text" name="companyName">
+                        <input class="form-control form-control-sm" type="text" id="customerNameEdit"
+                               name="companyName">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label>Tax ID:</label>
-                            <input type="text" class="form-control form-control-sm" name="taxId">
+                            <input type="text" class="form-control form-control-sm" id="customerTaxIdEdit" name="taxId" disabled>
                         </div>
                         <div class="col-md-6">
                             <label>Regon:</label>
-                            <input type="text" class="form-control form-control-sm" name="regon">
+                            <input type="text" class="form-control form-control-sm" id="customerRegonEdit" name="regon">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label>Street:</label>
-                            <input type="text" class="form-control form-control-sm" name="address.street">
+                            <input type="text" class="form-control form-control-sm" id="customerStreetEdit"
+                                   name="address.street">
                         </div>
                         <div class="col-md-3">
                             <label>Nr</label>
-                            <input type="text" class="form-control form-control-sm" name="address.houseNumber">
+                            <input type="text" class="form-control form-control-sm" id="customerHouseNrEdit"
+                                   name="address.houseNumber">
                         </div>
                         <div class="col-md-3">
                             <label>Ap. nr</label>
-                            <input type="text" class="form-control form-control-sm" name="address.apartmentNumber">
+                            <input type="text" class="form-control form-control-sm" id="customerApNrEdit"
+                                   name="address.apartmentNumber">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <label>Post code:</label>
-                            <input type="text" class="form-control form-control-sm" name="address.postCode">
+                            <input type="text" class="form-control form-control-sm" id="customerPostCodeEdit"
+                                   name="address.postCode">
                         </div>
                         <div class="col-md-8">
                             <label>City:</label>
-                            <input type="text" class="form-control form-control-sm" name="address.city">
+                            <input type="text" class="form-control form-control-sm" id="customerCityEdit"
+                                   name="address.city">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Province:</label>
-                        <input type="text" class="form-control form-control-sm" name="address.province">
+                        <input type="text" class="form-control form-control-sm" id="customerProvinceEdit"
+                               name="address.province">
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-md-6">
                             <label>Telephone:</label>
-                            <input type="tel" class="form-control form-control-sm" name="telephoneNumber">
+                            <input type="tel" class="form-control form-control-sm" id="customerTelephoneEdit"
+                                   name="telephoneNumber">
                         </div>
                         <div class="col-md-6">
                             <label>E-mail:</label>
-                            <input type="email" class="form-control form-control-sm" name="email">
+                            <input type="email" class="form-control form-control-sm" id="customerEmailEdit"
+                                   name="email">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <label>Customer site:</label>
-                            <input type="text" class="form-control form-control-sm" name="companySiteUrl">
+                            <input type="text" class="form-control form-control-sm" id="customerSiteEdit"
+                                   name="companySiteUrl">
                         </div>
                     </div>
                     <input type="text" value="INVOICE" name="address.addressType" hidden>
+                    <input type="text" id="customerIdEdit" name="id" hidden>
+                    <input type="text" id="addressIdEdit" name="address.id" hidden>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
@@ -283,6 +305,33 @@
     </div>
 </div>
 
+<!-- Row click customer modal -->
+<div class="modal fade" id="additionalInfoCustomerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="#" autocomplete="off">
+                <div class="modal-body">
+                    <p>Are you sure you want delete customer: </p>
+                    <h3>Customer</h3>
+                    <p>This action cannot be undone and you will be unable to recover
+                        any
+                        data.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 <script>
@@ -311,6 +360,48 @@
                 console.log(result);
                 document.getElementById('deleteCustomerId').value = id;
                 document.getElementById('h3DeleteCustomerModal').innerHTML = result.companyName + '<br>Tax id: ' + result.taxId + '?';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function setEditCustomerModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('customerIdEdit').value = result.id;
+                document.getElementById('addressIdEdit').value = result.address.id;
+
+                document.getElementById('customerNameEdit').value = result.companyName;
+                document.getElementById('customerTaxIdEdit').value = result.taxId;
+                document.getElementById('customerRegonEdit').value = result.regon;
+                document.getElementById('customerStreetEdit').value = result.address.street;
+                document.getElementById('customerHouseNrEdit').value = result.address.houseNumber;
+                document.getElementById('customerApNrEdit').value = result.address.apartmentNumber;
+                document.getElementById('customerCityEdit').value = result.address.city;
+                document.getElementById('customerPostCodeEdit').value = result.address.postCode;
+                document.getElementById('customerProvinceEdit').value = result.address.province;
+                document.getElementById('customerTelephoneEdit').value = result.telephoneNumber;
+                document.getElementById('customerSiteEdit').value = result.companySiteUrl;
+                document.getElementById('customerEmailEdit').value = result.email;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function setAdditionalInfoCustomerModel(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('#').innerHTML = result.companyName + '<br>Tax id: ' + result.taxId + '?';
             },
             error: function (error) {
                 console.log(error);
