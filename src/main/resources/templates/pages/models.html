@@ -219,14 +219,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="prodYearInput">Production Year:</label>
-                                <input type="number" class="form-control form-control-sm" name="productionYear"
+                                <input type="text" class="form-control form-control-sm" name="productionYear"
                                        id="prodYearInput" placeholder="production year" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="printingSpeedInput">Printing Speed:</label>
-                                <input type="number" class="form-control form-control-sm" name="printingSpeed"
+                                <input type="text" class="form-control form-control-sm" name="printingSpeed"
                                        id="printingSpeedInput" placeholder="printing speed" required>
                             </div>
                         </div>
@@ -361,33 +361,29 @@
         })
     }
 
-    function areFieldsEmpty() {
-        if ($('#nameInput').val().length === 0 ||
-            $('#printingSpeedInput').val().length === 0 ||
-            $('#prodYearInput').val().length === 0){
-            $('#messageFieldsControl').html('Fields cannot be TEST').css('color', 'tomato');
-        } else {
-            $('#messageFieldsControl').html('All fields correctly completed.').css('color', 'green');
-        }
-    }
+    // function areFieldsEmpty() {
+    //     if ($('#nameInput').val().length === 0 ||
+    //         $('#printingSpeedInput').val().length === 0 ||
+    //         $('#prodYearInput').val().length === 0){
+    //         $('#messageFieldsControl').html('Fields cannot be TEST').css('color', 'tomato');
+    //     } else {
+    //         $('#messageFieldsControl').html('All fields correctly completed.').css('color', 'green');
+    //     }
+    // }
 
     function test(){
-        areFieldsEmpty();
-        if($('#nameInput').val() === 'test' && $('prodYearInput').val() === '2020'){
-            $('#messageFieldsControl').html('name SAME').css('color', 'tomato');
+        // areFieldsEmpty();
+        if($('#nameInput').val() === '' || $('#prodYearInput').val() === '' || $('#printingSpeedInput').val() === ''){
+            $('#messageFieldsControl').html('Fields cannot be null.').css('color', 'tomato');
             return true;
         }else{
-            $('#messageFieldsControl').html('name NOT same').css('color', 'tomato');
+            $('#messageFieldsControl').html('All fields correctly completed').css('color', 'green');
             return false
         }
     }
 
     $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
-        if(test()){
-            document.getElementById("addNewModelButton").disabled = false;
-        }else{
-            document.getElementById("addNewModelButton").disabled = true;
-        }
+        test();
     });
 
 
