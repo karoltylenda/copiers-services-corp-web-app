@@ -28,6 +28,7 @@ public class ModelService {
     public Model save(Model model) {
         Optional<Model> modelOptional = modelRepository.getModelByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
         if (modelOptional.isPresent()) {
+            LOGGER.info("A new row has not been added cause it already exists.");
             return modelOptional.get();
         } else {
             model.setManufacturer(manufacturerService.save(model.getManufacturer()));

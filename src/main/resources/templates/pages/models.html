@@ -200,15 +200,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Name:</label>
-                                <input type="text" class="form-control form-control-sm" name="name">
+                                <label for="nameInput">Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       id="nameInput" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="manufacturerSelect">Manufacturer:</label>
                                 <select class="form-control form-control-sm"
-                                        id="manufacturerSelect" name="manufacturer.name">
+                                        id="manufacturerSelect" name="manufacturer.name" required>
                                     <option value=""></option>
                                 </select>
                             </div>
@@ -217,14 +218,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Production Year:</label>
-                                <input type="number" class="form-control form-control-sm" name="productionYear">
+                                <label for="prodYearInput">Production Year:</label>
+                                <input type="number" class="form-control form-control-sm" name="productionYear"
+                                       id="prodYearInput" placeholder="production year" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Printing Speed:</label>
-                                <input type="number" class="form-control form-control-sm" name="printingSpeed">
+                                <label for="printingSpeedInput">Printing Speed:</label>
+                                <input type="number" class="form-control form-control-sm" name="printingSpeed"
+                                       id="printingSpeedInput" placeholder="printing speed" required>
                             </div>
                         </div>
                     </div>
@@ -260,10 +263,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="messageFieldsControl"></span>
+                    </div>
                 </div>
+                <hr>
                 <div class="modal-footer text-sm align-content-end">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Add model</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewModelButton" disabled>Add model</button>
                 </div>
             </form>
         </div>
@@ -306,6 +314,7 @@
 <script>
     $(document).ready(function () {
         $('#modelsTable').DataTable();
+
     });
 
     $('#manufacturerSelect').select2({
@@ -351,6 +360,47 @@
             }
         })
     }
+
+    function areFieldsEmpty() {
+        if ($('#nameInput').val().length === 0 ||
+            $('#printingSpeedInput').val().length === 0 ||
+            $('#prodYearInput').val().length === 0){
+            $('#messageFieldsControl').html('Fields cannot be TEST').css('color', 'tomato');
+        } else {
+            $('#messageFieldsControl').html('All fields correctly completed.').css('color', 'green');
+        }
+    }
+
+    function test(){
+        areFieldsEmpty();
+        if($('#nameInput').val() === 'test' && $('prodYearInput').val() === '2020'){
+            $('#messageFieldsControl').html('name SAME').css('color', 'tomato');
+            return true;
+        }else{
+            $('#messageFieldsControl').html('name NOT same').css('color', 'tomato');
+            return false
+        }
+    }
+
+    $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
+        if(test()){
+            document.getElementById("addNewModelButton").disabled = false;
+        }else{
+            document.getElementById("addNewModelButton").disabled = true;
+        }
+    });
+
+
+
+
+
+    // $('#printingSpeedInput, #prodYearInput').on('keyup', function () {
+    //     if ($('#printingSpeedInput').val().length !== 0 || $('#prodYearInput').val.length !== 0) {
+    //         $('#messageFieldsControl').html('Fields cannot be TEST').css('color', 'tomato');
+    //     } else {
+    //         $('#messageFieldsControl').html('All fields correctly completed.').css('color', 'green');
+    //     }
+    // });
 
 
 </script>
