@@ -44,6 +44,10 @@
                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewModelModal">
                             Add new Model
                         </button>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#addNewManufacturerModal">
+                            add new Manufacturer
+                        </button>
                     </div>
                 </div>
             </div>
@@ -211,7 +215,7 @@
                                 <select class="form-control form-control-sm"
                                         id="manufacturerSelect" name="manufacturer.name" required>
                                     <option value=""></option>
-                                    <option value="new">add new Manufacturer <input></option>
+                                    <!--                                    <option value="new">add new Manufacturer <input></option>-->
                                 </select>
                             </div>
                         </div>
@@ -309,6 +313,45 @@
     </div>
 </div>
 
+<!-- Add new Manufacturer modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+     aria-hidden="true" id="addNewManufacturerModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new Manufacturer</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/manufacturers" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerInput">Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       placeholder="insert new manufacturer name" id="manufacturerInput" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="manufacturerFieldControl"></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewManufacturerButton" disabled>Add
+                        manufacturer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <th:block th:include="pages/fragments/scripts.html"></th:block>
 
@@ -370,11 +413,7 @@
     });
 
     $('#manufacturerSelect').on('change', function () {
-        if ($('#manufacturerSelect').val() === 'new') {
-            console.log("karol")
-        } else {
-            setMessageFieldsControl();
-        }
+        setMessageFieldsControl();
     })
 
     function areFieldsFilled() {
@@ -398,6 +437,36 @@
     $('#newManufacturer').on('change', function () {
         console.log("karol")
     })
+
+    // manufacturers
+    function isManufacturerExists() {
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers",
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const manufacturersLength = result.length;
+                for (let i = 0; i < manufacturersLength; i++) {
+                    if($('#manufacturerInput').val().toLowerCase() === result[i].name.toLowerCase()){
+                        $('#manufacturerFieldControl').text('Manufacturer already exists.').css('color', 'tomato');
+                        document.getElementById("addNewManufacturerButton").disabled = true;
+                    }else{
+                        $('#manufacturerFieldControl').text('All correct.').css('color', 'green');
+                        document.getElementById("addNewManufacturerButton").disabled = false;
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    $('#manufacturerInput').on('keyup', function () {
+        isManufacturerExists();
+    });
+
+
 
 
 </script>
