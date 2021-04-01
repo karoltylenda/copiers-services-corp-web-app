@@ -418,25 +418,41 @@
 
     function areFieldsFilled() {
         if ($('#nameInput').val() === '' || $('#prodYearInput').val() === '' || $('#printingSpeedInput').val() === '' || $('#manufacturerSelect').val() === '') {
+            $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
+            document.getElementById("addNewModelButton").disabled = true;
             return false;
         } else {
+            $('#messageFieldsControl').text('All fields correctly completed').css('color', 'green');
+            document.getElementById("addNewModelButton").disabled = false;
             return true;
         }
     }
 
     function setMessageFieldsControl() {
-        if (areFieldsFilled()) {
-            $('#messageFieldsControl').text('All fields correctly completed').css('color', 'green');
-            document.getElementById("addNewModelButton").disabled = false;
-        } else {
-            $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
-            document.getElementById("addNewModelButton").disabled = true;
-        }
+        isModelExists();
     }
 
-    $('#newManufacturer').on('change', function () {
-        console.log("karol")
-    })
+    function isModelExists() {
+        areFieldsFilled();
+        $.ajax({
+            url: "http://localhost:8080/api/models",
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const modelsLength = result.length;
+                for (let i = 0; i < modelsLength; i++) {
+                    if($('#nameInput').val().toLowerCase() === result[i].name.toLowerCase()){
+                        $('#messageFieldsControl').text('Model already exists.').css('color', 'tomato');
+                        document.getElementById("addNewModelButton").disabled = false;
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
 
     // manufacturers
     function isManufacturerExists() {
