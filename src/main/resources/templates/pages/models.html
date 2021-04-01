@@ -211,6 +211,7 @@
                                 <select class="form-control form-control-sm"
                                         id="manufacturerSelect" name="manufacturer.name" required>
                                     <option value=""></option>
+                                    <option value="new">add new Manufacturer <input></option>
                                 </select>
                             </div>
                         </div>
@@ -271,7 +272,8 @@
                 <hr>
                 <div class="modal-footer text-sm align-content-end">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm" id="addNewModelButton" disabled>Add model</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewModelButton" disabled>Add model
+                    </button>
                 </div>
             </form>
         </div>
@@ -314,6 +316,7 @@
 <script>
     $(document).ready(function () {
         $('#modelsTable').DataTable();
+
 
     });
 
@@ -361,42 +364,40 @@
         })
     }
 
-    // function areFieldsEmpty() {
-    //     if ($('#nameInput').val().length === 0 ||
-    //         $('#printingSpeedInput').val().length === 0 ||
-    //         $('#prodYearInput').val().length === 0){
-    //         $('#messageFieldsControl').html('Fields cannot be TEST').css('color', 'tomato');
-    //     } else {
-    //         $('#messageFieldsControl').html('All fields correctly completed.').css('color', 'green');
-    //     }
-    // }
 
-    function test(){
-        // areFieldsEmpty();
-        if($('#nameInput').val() === '' || $('#prodYearInput').val() === '' || $('#printingSpeedInput').val() === ''){
-            $('#messageFieldsControl').html('Fields cannot be null.').css('color', 'tomato');
+    $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
+        setMessageFieldsControl();
+    });
+
+    $('#manufacturerSelect').on('change', function () {
+        if ($('#manufacturerSelect').val() === 'new') {
+            console.log("karol")
+        } else {
+            setMessageFieldsControl();
+        }
+    })
+
+    function areFieldsFilled() {
+        if ($('#nameInput').val() === '' || $('#prodYearInput').val() === '' || $('#printingSpeedInput').val() === '' || $('#manufacturerSelect').val() === '') {
+            return false;
+        } else {
             return true;
-        }else{
-            $('#messageFieldsControl').html('All fields correctly completed').css('color', 'green');
-            return false
         }
     }
 
-    $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
-        test();
-    });
+    function setMessageFieldsControl() {
+        if (areFieldsFilled()) {
+            $('#messageFieldsControl').text('All fields correctly completed').css('color', 'green');
+            document.getElementById("addNewModelButton").disabled = false;
+        } else {
+            $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
+            document.getElementById("addNewModelButton").disabled = true;
+        }
+    }
 
-
-
-
-
-    // $('#printingSpeedInput, #prodYearInput').on('keyup', function () {
-    //     if ($('#printingSpeedInput').val().length !== 0 || $('#prodYearInput').val.length !== 0) {
-    //         $('#messageFieldsControl').html('Fields cannot be TEST').css('color', 'tomato');
-    //     } else {
-    //         $('#messageFieldsControl').html('All fields correctly completed.').css('color', 'green');
-    //     }
-    // });
+    $('#newManufacturer').on('change', function () {
+        console.log("karol")
+    })
 
 
 </script>
