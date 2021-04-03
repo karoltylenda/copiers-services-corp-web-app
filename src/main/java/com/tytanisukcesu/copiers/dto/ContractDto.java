@@ -23,8 +23,8 @@ public class ContractDto {
     @EqualsAndHashCode.Exclude
     @JsonIgnoreProperties({
             "id",
-            "model",
-            "customer",
+//            "model",
+//            "customer",
             "counters",
             "address",
             "contract"

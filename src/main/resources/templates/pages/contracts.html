@@ -38,23 +38,242 @@
             <div class="card-header bg-transparent">
                 <div class="row">
                     <div class="col">
-                        <p>This is header for card one of two columns</p>
+                        <p>Contracts</p>
                     </div>
                     <div class="col text-right">
-                        <p>Two of two colums align to right</p>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addContractModal">Add
+                            contract
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p>Content in card body</p>
+                <div class="table-responsive">
+                    <div class="container-fluid">
+                        <table class="table align-items-center" id="contractsTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Start date</th>
+                                <th scope="col">End date</th>
+                                <th class="text-right" scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="contract:${contracts}">
+                                <td th:text="${contract.contractNumber}"
+                                data-toggle="modal"
+                                data-target="#additionalInfoContractModal"
+                                th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td th:text="${contract.device.customer.getCompanyName()}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoContractModal"
+                                    th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td th:text="${contract.device.serialNumber}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoContractModal"
+                                    th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td th:text="${contract.startDate}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoContractModal"
+                                    th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td th:text="${contract.endDate}"
+                                    data-toggle="modal"
+                                    data-target="#additionalInfoContractModal"
+                                    th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item"
+                                               href="#editContractModal"
+                                               data-toggle="modal"
+                                               data-target="#editContractModal"
+                                               th:onclick="'setEditContractModal('+${contract.id}+')'">Edit</a>
+                                            <a class="dropdown-item"
+                                               href="#deleteContractModal"
+                                               data-toggle="modal"
+                                               data-target="#deleteContractModal"
+                                               th:onclick="'setDeleteContractModal('+${contract.id}+')'">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 </div>
+
+<!-- Add contract modal -->
+<div class="modal fade" id="addContractModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new contract</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/contracts" autocomplete="off">
+                <div class="modal-body text-sm">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Add contract</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit contract modal -->
+<div class="modal fade" id="editContractModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add new contract</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/contracts/update" autocomplete="off">
+                <div class="modal-body text-sm">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete contract modal -->
+<div class="modal fade" id="deleteContractModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/contracts/delete" autocomplete="off">
+                <div class="modal-body">
+                    <p>Are you sure you want delete customer: </p>
+                    <h3 id="h3DeleteContractModal"></h3>
+                    <p>This action cannot be undone and you will be unable to recover
+                        any
+                        data.</p>
+                    <input type="text" id="deleteContractId" name="id" hidden="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Row click contract modal -->
+<div class="modal fade" id="additionalInfoContractModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Additional info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="additionalInfoModalBodyId">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
+<script>
+    $(document).ready(function () {
+        $('#contractsTable').DataTable({
+            language: {
+                paginate: {
+                    previous: '<',
+                    next: '>'
+                }
+            },
+            aria: {
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            }
+        });
+    });
 
+    function setAdditionalInfoContractModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/contracts/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('additionalInfoModalBodyId').innerHTML =
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Contract number: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.contractNumber + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Customer: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.device.customer.companyName + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Device: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.device.model.manufacturer.name +' '+result.device.model.name+'  '+'  S/N: '+result.device.serialNumber+'</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Color price: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.colorPagePrice + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Mono price: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.monoPagePrice + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Lease price: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.leasePrice + '</span>' +
+                    '</div>'+
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Start date: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.startDate + '</span>' +
+                    '</div>'+
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">End date: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.endDate + '</span>' +
+                    '</div>';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
 </body>
 
 </html>
