@@ -64,7 +64,11 @@
                                 <td th:text="${device.model.manufacturer.name}+' '+${device.model.name}"></td>
                                 <td th:text="${device.serialNumber}"></td>
                                 <td th:text="${device.customer.companyName}"></td>
-                                <td th:text="${device.address.getStreet()}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></td>
+                                <td th:switch="${device.address.apartmentNumber}">
+                                    <span th:case="'null'" th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
+                                    <span th:case="''" th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
+                                    <span th:case="*" th:text="${device.address.street}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
+                                </td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"

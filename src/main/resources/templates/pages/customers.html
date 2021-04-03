@@ -75,10 +75,6 @@
                                     <span th:case="*" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+'/'+${customer.address.apartmentNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
 
                                 </td>
-<!--                                <td th:text="${customer.address.street}"-->
-<!--                                    data-toggle="modal"-->
-<!--                                    data-target="#additionalInfoCustomerModal"-->
-<!--                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>-->
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
