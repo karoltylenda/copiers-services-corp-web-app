@@ -67,10 +67,18 @@
                                     data-toggle="modal"
                                     data-target="#additionalInfoCustomerModal"
                                     th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
-                                <td th:text="${customer.address.street}"
-                                    data-toggle="modal"
+                                <td th:switch="${customer.address.apartmentNumber}" data-toggle="modal"
                                     data-target="#additionalInfoCustomerModal"
-                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
+                                    <span th:case="'null'" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
+                                    <span th:case="''" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
+                                    <span th:case="*" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+'/'+${customer.address.apartmentNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
+
+                                </td>
+<!--                                <td th:text="${customer.address.street}"-->
+<!--                                    data-toggle="modal"-->
+<!--                                    data-target="#additionalInfoCustomerModal"-->
+<!--                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>-->
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -278,6 +286,7 @@
     </div>
 </div>
 
+
 <!-- Delete customer modal -->
 <div class="modal fade" id="deleteCustomerModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -306,6 +315,7 @@
     </div>
 </div>
 
+
 <!-- Row click customer modal -->
 <div class="modal fade" id="additionalInfoCustomerModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -324,7 +334,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <!-- Argon Scripts -->
     <th:block th:include="pages/fragments/scripts"></th:block>
     <script>
