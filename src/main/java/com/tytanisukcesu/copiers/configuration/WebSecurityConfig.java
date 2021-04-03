@@ -30,8 +30,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/home/**").authenticated()
-                .antMatchers("/api/**", "/users", "/devices").hasAnyRole("ADMIN", "MODERATOR")
+                .antMatchers("/api/**").authenticated()
+                .antMatchers(
+                        "/home",
+                        "/customers",
+                        "/customers/**",
+                        "/devices",
+                        "/devices/**",
+                        "/users",
+                        "/users/**",
+                        "/models/",
+                        "/models/**",
+                        "/serviceOrders",
+                        "/serviceOrders/**",
+                        "/contracts",
+                        "/contracts/**",
+                        "/articles",
+                        "/articles/**",
+                        "/settings")
+                        .hasAnyRole("ADMIN", "MODERATOR")
                 .antMatchers("/templates/pages/fragments/**").authenticated()
                 .and()
                 .formLogin()

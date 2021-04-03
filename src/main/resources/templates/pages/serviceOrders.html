@@ -1,0 +1,60 @@
+<!--
+=========================================================
+* Argon Dashboard - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+
+
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+
+
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:include="pages/fragments/header.html"></th:block>
+</head>
+
+<body>
+<!-- Sidenav -->
+<th:block th:include="pages/fragments/sidenav.html"></th:block>
+
+<!-- Main content -->
+<div class="main-content" id="panel">
+
+    <!-- Topnav -->
+    <th:block th:include="pages/fragments/topnav.html"></th:block>
+
+    <!-- Page content -->
+
+    <div class="container-fluid mt--6">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row">
+                    <div class="col">
+                        <p>This is header for card one of two columns</p>
+                    </div>
+                    <div class="col text-right">
+                        <p>Two of two colums align to right</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>Content in card body</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Argon Scripts -->
+<th:block th:include="pages/fragments/scripts"></th:block>
+
+</body>
+
+</html>
