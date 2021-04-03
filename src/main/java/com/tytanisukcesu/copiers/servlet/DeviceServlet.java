@@ -32,7 +32,6 @@ public class DeviceServlet {
         model.addAttribute("devices", deviceService.findAll());
         model.addAttribute("customers", customerService.findAll());
         model.addAttribute("manufacturers", manufacturerService.findAll());
-        System.out.println(model.getAttribute("devices").toString());
         return "pages/devices";
     }
 

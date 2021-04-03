@@ -40,7 +40,6 @@ public class CustomerServlet {
 
     @PostMapping(value = "/update")
     public RedirectView updateCustomer(CustomerDto customerDto){
-        System.out.println(customerDto.toString());
         customerService.updateFromServlet(convertToEntity(customerDto));
         return new RedirectView("/customers");
     }
