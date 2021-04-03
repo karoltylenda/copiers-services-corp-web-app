@@ -2,6 +2,7 @@ package com.tytanisukcesu.copiers.servlet;
 
 
 import com.tytanisukcesu.copiers.dto.ModelDto;
+import com.tytanisukcesu.copiers.service.ManufacturerService;
 import com.tytanisukcesu.copiers.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,11 +20,13 @@ public class ModelServlet {
 
     private final ModelService modelService;
     private final ModelMapper modelMapper;
+    private final ManufacturerService manufacturerService;
 
 
     @GetMapping
     public String findAll(Model model) {
         model.addAttribute("models", modelService.findAll());
+        model.addAttribute("manufacturers",manufacturerService.findAll());
         return "pages/models";
     }
 

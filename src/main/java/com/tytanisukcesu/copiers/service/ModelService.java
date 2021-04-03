@@ -38,6 +38,10 @@ public class ModelService {
         }
     }
 
+    public Model getModelByNameAndManufacturerName(String modelName, String manufacturerName){
+        return modelRepository.getModelByNameAndManufacturerName(modelName,manufacturerName).orElse(new Model());
+    }
+
     public Model findById(Long id) {
         return modelRepository.findById(id).orElseThrow(()-> new ModelNotFoundException(id,"model"));
     }

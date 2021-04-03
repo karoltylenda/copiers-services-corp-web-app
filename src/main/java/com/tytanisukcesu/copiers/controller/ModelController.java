@@ -35,6 +35,13 @@ public class ModelController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(value = "/search")
+    public ModelDto getModelByNameAndManufacturerName(@RequestParam String modelName,
+                                                      @RequestParam String manufacturerName){
+        Model model = modelService.getModelByNameAndManufacturerName(modelName,manufacturerName);
+        return convertToDto(model);
+    }
+
     @PostMapping
     public ModelDto save(@RequestBody ModelDto modelDto) {
         Model model = convertToEntity(modelDto);

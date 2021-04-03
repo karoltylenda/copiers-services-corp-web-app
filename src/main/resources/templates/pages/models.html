@@ -46,7 +46,7 @@
                         </button>
                         <button class="btn btn-primary btn-sm" data-toggle="modal"
                                 data-target="#addNewManufacturerModal">
-                            add new Manufacturer
+                            Add new Manufacturer
                         </button>
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                             <div class="form-group">
                                 <label for="nameInput">Name:</label>
                                 <input type="text" class="form-control form-control-sm" name="name"
-                                       id="nameInput" required>
+                                       id="nameInput" onkeyup="isModelExists(this.value,getNameManufacturerSelect())" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -215,6 +215,7 @@
                                 <select class="form-control form-control-sm"
                                         id="manufacturerSelect" name="manufacturer.name" required>
                                     <option value=""></option>
+                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}" th:text="${manufacturer.name}"></option>
                                     <!--                                    <option value="new">add new Manufacturer <input></option>-->
                                 </select>
                             </div>
@@ -331,7 +332,7 @@
                             <div class="form-group">
                                 <label for="manufacturerInput">Name:</label>
                                 <input type="text" class="form-control form-control-sm" name="name"
-                                       placeholder="insert new manufacturer name" id="manufacturerInput" required>
+                                       placeholder="insert new manufacturer name" id="manufacturerInput" onkeyup="isManufacturerExists(this.value)" required>
                             </div>
                         </div>
                     </div>
@@ -368,29 +369,29 @@
         theme: "bootstrap",
         placeholder: 'Select manufacturer',
         allowClear: true
-    }).click(getManufacturers());
+    });
 
-    function getManufacturers() {
-        $.ajax({
-            url: "http://localhost:8080/api/manufacturers",
-            type: "GET",
-            success: function (result) {
-                console.log(result);
-                const manufacturersLength = result.length;
-                for (let i = 0; i < manufacturersLength; i++) {
-                    $('#manufacturerSelect').append(
-                        $('<option>', {
-                            value: result[i].name,
-                            text: result[i].name
-                        })
-                    );
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
-    }
+    // function getManufacturers() {
+    //     $.ajax({
+    //         url: "http://localhost:8080/api/manufacturers",
+    //         type: "GET",
+    //         success: function (result) {
+    //             console.log(result);
+    //             const manufacturersLength = result.length;
+    //             for (let i = 0; i < manufacturersLength; i++) {
+    //                 $('#manufacturerSelect').append(
+    //                     $('<option>', {
+    //                         value: result[i].name,
+    //                         text: result[i].name
+    //                     })
+    //                 );
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     })
+    // }
 
     function setDeleteModelModal(id) {
         $.ajax({
@@ -409,11 +410,13 @@
 
 
     $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
-        setMessageFieldsControl();
+        areFieldsFilled();
+        isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
     });
 
     $('#manufacturerSelect').on('change', function () {
-        setMessageFieldsControl();
+        areFieldsFilled();
+        isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
     })
 
     function areFieldsFilled() {
@@ -428,23 +431,19 @@
         }
     }
 
-    function setMessageFieldsControl() {
-        isModelExists();
-    }
 
-    function isModelExists() {
-        areFieldsFilled();
+    function isModelExists(modelName,manufacturerName) {
+        // areFieldsFilled();
         $.ajax({
-            url: "http://localhost:8080/api/models",
+            url: "http://localhost:8080/api/models/search?modelName="+modelName + "&manufacturerName="+manufacturerName,
             type: "GET",
             success: function (result) {
                 console.log(result);
-                const modelsLength = result.length;
-                for (let i = 0; i < modelsLength; i++) {
-                    if($('#nameInput').val().toLowerCase() === result[i].name.toLowerCase()){
-                        $('#messageFieldsControl').text('Model already exists.').css('color', 'tomato');
-                        document.getElementById("addNewModelButton").disabled = false;
-                    }
+                if (result.id !== null) {
+                    $('#messageFieldsControl').text('Model for this Manufacturer already exists.').css('color', 'tomato');
+                    document.getElementById("addNewModelButton").disabled = true;
+                } else {
+                    document.getElementById("addNewModelButton").disabled = false;
                 }
             },
             error: function (error) {
@@ -455,21 +454,19 @@
 
 
     // manufacturers
-    function isManufacturerExists() {
+    function isManufacturerExists(name) {
         $.ajax({
-            url: "http://localhost:8080/api/manufacturers",
+            url: "http://localhost:8080/api/manufacturers/search?name=" + name,
             type: "GET",
             success: function (result) {
                 console.log(result);
                 const manufacturersLength = result.length;
-                for (let i = 0; i < manufacturersLength; i++) {
-                    if($('#manufacturerInput').val().toLowerCase() === result[i].name.toLowerCase()){
-                        $('#manufacturerFieldControl').text('Manufacturer already exists.').css('color', 'tomato');
-                        document.getElementById("addNewManufacturerButton").disabled = true;
-                    }else{
-                        $('#manufacturerFieldControl').text('All correct.').css('color', 'green');
-                        document.getElementById("addNewManufacturerButton").disabled = false;
-                    }
+                if (manufacturersLength > 0) {
+                    $('#manufacturerFieldControl').text('Manufacturer already exists.').css('color', 'tomato');
+                    document.getElementById("addNewManufacturerButton").disabled = true;
+                } else {
+                    $('#manufacturerFieldControl').text('All correct.').css('color', 'green');
+                    document.getElementById("addNewManufacturerButton").disabled = false;
                 }
             },
             error: function (error) {
@@ -478,10 +475,13 @@
         })
     }
 
-    $('#manufacturerInput').on('keyup', function () {
-        isManufacturerExists();
-    });
+    // $('#manufacturerInput').on('keyup', function () {
+    //     isManufacturerExists();
+    // });
 
+    function getNameManufacturerSelect(){
+        return $('#manufacturerSelect').val();
+    }
 
 
 
