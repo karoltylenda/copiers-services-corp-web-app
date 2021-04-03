@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.security.Principal;
 
 @Controller
@@ -32,9 +31,7 @@ public class RegisterServlet {
 
     @GetMapping("/test123")
     public String test123(Model model, Principal principal){
-
         model.addAttribute("name",principal.getName());
-        System.out.println(principal.toString());
         return "test123";
     }
 
