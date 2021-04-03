@@ -54,6 +54,7 @@
                                 <th scope="col">Customer name</th>
                                 <th scope="col">Tax Id</th>
                                 <th scope="col">Address</th>
+                                <th scope="col">Link</th>
                                 <th class="text-right" scope="col">Action</th>
                             </tr>
                             </thead>
@@ -70,10 +71,16 @@
                                 <td th:switch="${customer.address.apartmentNumber}" data-toggle="modal"
                                     data-target="#additionalInfoCustomerModal"
                                     th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
-                                    <span th:case="'null'" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
-                                    <span th:case="''" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
-                                    <span th:case="*" th:text="${customer.address.street}+' '+${customer.address.houseNumber}+'/'+${customer.address.apartmentNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
+                                    <span th:case="'null'"
+                                          th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
+                                    <span th:case="''"
+                                          th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
+                                    <span th:case="*"
+                                          th:text="${customer.address.street}+' '+${customer.address.houseNumber}+'/'+${customer.address.apartmentNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
 
+                                </td>
+                                <td>
+                                    <a class="btn-outline-primary btn-sm" th:href="'/devices/?id='+${customer.id}">Devices</a>
                                 </td>
                                 <td class="text-right">
                                     <div class="dropdown">
@@ -331,106 +338,106 @@
         </div>
     </div>
 </div>
-    <!-- Argon Scripts -->
-    <th:block th:include="pages/fragments/scripts"></th:block>
-    <script>
-        $(document).ready(function () {
-            $('#customersTable').DataTable({
-                language: {
-                    paginate: {
-                        previous: '<',
-                        next: '>'
-                    }
-                },
-                aria: {
-                    paginate: {
-                        previous: 'Previous',
-                        next: 'Next'
-                    }
+<!-- Argon Scripts -->
+<th:block th:include="pages/fragments/scripts"></th:block>
+<script>
+    $(document).ready(function () {
+        $('#customersTable').DataTable({
+            language: {
+                paginate: {
+                    previous: '<',
+                    next: '>'
                 }
-            });
+            },
+            aria: {
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            }
         });
+    });
 
-        function setDeleteCustomerModal(id) {
-            $.ajax({
-                url: "http://localhost:8080/api/customers/" + id,
-                type: "GET",
-                success: function (result) {
-                    console.log(result);
-                    document.getElementById('deleteCustomerId').value = id;
-                    document.getElementById('h3DeleteCustomerModal').innerHTML = result.companyName + '<br>Tax id: ' + result.taxId + '?';
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
+    function setDeleteCustomerModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('deleteCustomerId').value = id;
+                document.getElementById('h3DeleteCustomerModal').innerHTML = result.companyName + '<br>Tax id: ' + result.taxId + '?';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
 
-        function setEditCustomerModal(id) {
-            $.ajax({
-                url: "http://localhost:8080/api/customers/" + id,
-                type: "GET",
-                success: function (result) {
-                    console.log(result);
-                    document.getElementById('customerIdEdit').value = result.id;
-                    document.getElementById('addressIdEdit').value = result.address.id;
+    function setEditCustomerModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('customerIdEdit').value = result.id;
+                document.getElementById('addressIdEdit').value = result.address.id;
 
-                    document.getElementById('customerNameEdit').value = result.companyName;
-                    document.getElementById('customerTaxIdEdit').value = result.taxId;
-                    document.getElementById('customerRegonEdit').value = result.regon;
-                    document.getElementById('customerStreetEdit').value = result.address.street;
-                    document.getElementById('customerHouseNrEdit').value = result.address.houseNumber;
-                    document.getElementById('customerApNrEdit').value = result.address.apartmentNumber;
-                    document.getElementById('customerCityEdit').value = result.address.city;
-                    document.getElementById('customerPostCodeEdit').value = result.address.postCode;
-                    document.getElementById('customerProvinceEdit').value = result.address.province;
-                    document.getElementById('customerTelephoneEdit').value = result.telephoneNumber;
-                    document.getElementById('customerSiteEdit').value = result.companySiteUrl;
-                    document.getElementById('customerEmailEdit').value = result.email;
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
+                document.getElementById('customerNameEdit').value = result.companyName;
+                document.getElementById('customerTaxIdEdit').value = result.taxId;
+                document.getElementById('customerRegonEdit').value = result.regon;
+                document.getElementById('customerStreetEdit').value = result.address.street;
+                document.getElementById('customerHouseNrEdit').value = result.address.houseNumber;
+                document.getElementById('customerApNrEdit').value = result.address.apartmentNumber;
+                document.getElementById('customerCityEdit').value = result.address.city;
+                document.getElementById('customerPostCodeEdit').value = result.address.postCode;
+                document.getElementById('customerProvinceEdit').value = result.address.province;
+                document.getElementById('customerTelephoneEdit').value = result.telephoneNumber;
+                document.getElementById('customerSiteEdit').value = result.companySiteUrl;
+                document.getElementById('customerEmailEdit').value = result.email;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
 
-        function setAdditionalInfoCustomerModel(id) {
-            $.ajax({
-                url: "http://localhost:8080/api/customers/" + id,
-                type: "GET",
-                success: function (result) {
-                    console.log(result);
-                    document.getElementById('additionalInfoModalBodyId').innerHTML =
-                        '<div class="row">' +
-                        '<span class="form-control-label col-md-4">Customer name: </span>' +
-                        '<span class="form-control-label text-muted col-md-8">' + result.companyName + '</span>' +
-                        '</div>' +
-                        '<div class="row">' +
-                        '<span class="form-control-label col-md-4">Tax id: </span>' +
-                        '<span class="form-control-label text-muted col-md-8">' + result.taxId + '</span>' +
-                        '</div>' +
-                        '<div class="row">' +
-                        '<span class="form-control-label col-md-4">Regon: </span>' +
-                        '<span class="form-control-label text-muted col-md-8">' + result.regon + '</span>' +
-                        '</div>' +
-                        '<div class="row">' +
-                        '<span class="form-control-label col-md-4">Telephone no: </span>' +
-                        '<span class="form-control-label text-muted col-md-8">' + result.telephoneNumber + '</span>' +
-                        '</div>' +
-                        '<div class="row">' +
-                        '<span class="form-control-label col-md-4">E-mail: </span>' +
-                        '<span class="form-control-label text-muted col-md-8">' + result.email + '</span>' +
-                        '</div>' +
-                        '<div class="row">' +
-                        '<span class="form-control-label col-md-4">URL: </span>' +
-                        '<span class="form-control-label text-muted col-md-8">' + result.companySiteUrl + '</span>' +
-                        '</div>';
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-    </script>
+    function setAdditionalInfoCustomerModel(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('additionalInfoModalBodyId').innerHTML =
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Customer name: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.companyName + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Tax id: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.taxId + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Regon: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.regon + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">Telephone no: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.telephoneNumber + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">E-mail: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.email + '</span>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<span class="form-control-label col-md-4">URL: </span>' +
+                    '<span class="form-control-label text-muted col-md-8">' + result.companySiteUrl + '</span>' +
+                    '</div>';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
 </body>
 </html>

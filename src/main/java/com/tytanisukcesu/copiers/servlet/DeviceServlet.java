@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -32,6 +33,12 @@ public class DeviceServlet {
         model.addAttribute("devices", deviceService.findAll());
         model.addAttribute("customers", customerService.findAll());
         model.addAttribute("manufacturers", manufacturerService.findAll());
+        return "pages/devices";
+    }
+
+    @GetMapping(value = "/")
+    public String findByCustomer(@RequestParam Long id, Model model){
+        model.addAttribute("devices", customerService.findById(id).getDevices());
         return "pages/devices";
     }
 
