@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class ManufacturerServlet {
 
     private final ManufacturerService manufacturerService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @PostMapping
     public RedirectView save(ManufacturerDto manufacturerDto){
