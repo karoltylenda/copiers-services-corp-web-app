@@ -26,6 +26,7 @@ public class ArticleServlet {
     @GetMapping
     public String findAll(Model model) {
         model.addAttribute("articles", articleService.findAll());
+        model.addAttribute("manufacturers",manufacturerService.findAll());
         return "pages/articles";
     }
 

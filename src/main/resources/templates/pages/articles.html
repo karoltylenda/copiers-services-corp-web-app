@@ -82,23 +82,98 @@
                                         </div>
                                     </div>
                                 </td>
-
-
                             </tr>
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+
+<!-- Add new model modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true"
+     id="addNewArticleModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new article</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/articles" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nameInput">Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       id="nameInput" placeholder="article's name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="catalogueNumberInput">Catalogue Number:</label>
+                                <input type="text" class="form-control form-control-sm" name="catalogueNumber"
+                                       id="catalogueNumberInput" placeholder="article's catalogue number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerSelect">Manufacturer:</label>
+                                <select class="form-control form-control-sm"
+                                        id="manufacturerSelect" name="manufacturer.name" required>
+                                    <option value=""></option>
+                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
+                                            th:text="${manufacturer.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Consumable:</label>
+                                <select class="form-control form-control-sm" name="isConsumable" required>
+                                    <option value=""></option>
+                                    <option class="list-group-item" value=true>YES</option>
+                                    <option class="list-group-item" value=false>NO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="messageFieldsControl"></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewArticleButton" disabled>Add Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 
-</body>
+<script>
+    $(document).ready(function (){
+        $('#articlesTable').DataTable();
+    });
 
+    
+
+
+</script>
+
+</body>
 </html>
