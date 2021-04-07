@@ -38,23 +38,142 @@
             <div class="card-header bg-transparent">
                 <div class="row">
                     <div class="col">
-                        <p>This is header for card one of two columns</p>
+                        <p>Articles</p>
                     </div>
                     <div class="col text-right">
-                        <p>Two of two colums align to right</p>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewArticleModal">
+                            Add new Article
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p>Content in card body</p>
+                <div class="table-responsive">
+                    <div class="container-fluid">
+                        <table class="table align-items-center" id="articlesTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Catalogue Number</th>
+                                <th scope="col">Manufacturer</th>
+                                <th scope="col">Consumable</th>
+                                <th class="text-right" scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="article:${articles}">
+                                <td th:text="${article.name}"></td>
+                                <td th:text="${article.catalogueNumber}"></td>
+                                <td th:text="${article.manufacturer.name}"></td>
+                                <td th:text="${article.consumable}"></td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" th:href="editArticleModal+${article.id}"
+                                               data-toggle="modal"
+                                               th:data-target="'#editArticleModal'+${article.id}">Edit</a>
+                                            <a class="dropdown-item" href="deleteArticleModal"
+                                               data-toggle="modal" data-target="#deleteArticleModal"
+                                               th:onclick="'setDeleteArticleModal('+${article.id}+')'">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
+
+<!-- Add new model modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true"
+     id="addNewArticleModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new article</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/articles" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nameInput">Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       id="nameInput" placeholder="article's name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="catalogueNumberInput">Catalogue Number:</label>
+                                <input type="text" class="form-control form-control-sm" name="catalogueNumber"
+                                       id="catalogueNumberInput" placeholder="article's catalogue number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerSelect">Manufacturer:</label>
+                                <select class="form-control form-control-sm"
+                                        id="manufacturerSelect" name="manufacturer.name" required>
+                                    <option value=""></option>
+                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
+                                            th:text="${manufacturer.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Consumable:</label>
+                                <select class="form-control form-control-sm" name="isConsumable" required>
+                                    <option value=""></option>
+                                    <option class="list-group-item" value=true>YES</option>
+                                    <option class="list-group-item" value=false>NO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="messageFieldsControl"></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewArticleButton" disabled>Add Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 
-</body>
+<script>
+    $(document).ready(function (){
+        $('#articlesTable').DataTable();
+    });
 
+    
+
+
+</script>
+
+</body>
 </html>
