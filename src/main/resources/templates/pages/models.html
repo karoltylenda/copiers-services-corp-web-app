@@ -433,7 +433,6 @@
 
 
     function isModelExists(modelName,manufacturerName) {
-        // areFieldsFilled();
         $.ajax({
             url: "http://localhost:8080/api/models/search?modelName="+modelName + "&manufacturerName="+manufacturerName,
             type: "GET",

@@ -115,18 +115,28 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="catalogueNumberInput">Catalogue Number:</label>
-                                <input type="text" class="form-control form-control-sm" name="catalogueNumber"
-                                       id="catalogueNumberInput" placeholder="article's catalogue number" required>
+                                <label for="isConsumableSelect">Consumable:</label>
+                                <select class="form-control form-control-sm"
+                                        id="isConsumableSelect" name="isConsumable" required>
+                                    <option value=""></option>
+                                    <option class="list-group-item" value=true>YES</option>
+                                    <option class="list-group-item" value=false>NO</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="catalogueNumberInput">Catalogue Number:</label>
+                        <input type="text" class="form-control form-control-sm" name="catalogueNumber"
+                               id="catalogueNumberInput" placeholder="article's catalogue number" required>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="manufacturerSelect">Manufacturer:</label>
                                 <select class="form-control form-control-sm"
-                                        id="manufacturerSelect" name="manufacturer.name" required>
+                                        id="manufacturerSelect" name="manufacturer.name"
+                                        placeholder="Select manufacturer" required>
                                     <option value=""></option>
                                     <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
                                             th:text="${manufacturer.name}"></option>
@@ -135,11 +145,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Consumable:</label>
-                                <select class="form-control form-control-sm" name="isConsumable" required>
+                                <label for="modelSelect">Model:</label>
+                                <select class="form-control form-control-sm" multiple="multiple"
+                                        id="modelSelect" name="modelsList" placeholder="asdasd" required>
                                     <option value=""></option>
-                                    <option class="list-group-item" value=true>YES</option>
-                                    <option class="list-group-item" value=false>NO</option>
+                                    <option th:each="model:${models}" th:value="${model.id}"
+                                            th:text="${model.name}"></option>
                                 </select>
                             </div>
                         </div>
@@ -160,17 +171,75 @@
 </div>
 
 
-
-
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         $('#articlesTable').DataTable();
     });
 
-    
+    function getManufacturers() {
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers",
+            type: "GET",
+            success: function (result) {
+                const manufacturersLength = result.length;
+                for (let i = 0; i < manufacturersLength; i++) {
+                    $('#manufacturerSelect').append(
+                        $('<option>', {
+                            value: result[i].name,
+                            text: result[i].name
+                        })
+                    );
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function getModels() {
+        $.ajax({
+            url: "http://localhost:8080/api/models",
+            type: "GET",
+            success: function (result) {
+                const modelsLength = result.length;
+                for (let i = 0; i < modelsLength; i++) {
+                    $('#modelSelect').append(
+                        $('<option>', {
+                            value: result[i].id,
+                            text: result[i].name
+                        })
+                    );
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function areFieldsFilled() {
+        if ($('#nameInput').val() === '' || $('#catalogueNumberInput').val() === '' || $('#manufacturerSelect').val() === '' || $('#isConsumableSelect').val() === '') {
+            $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
+            document.getElementById("addNewArticleButton").disabled = true;
+            return false;
+        } else {
+            $('#messageFieldsControl').text('All fields correctly completed').css('color', 'green');
+            document.getElementById("addNewArticleButton").disabled = false;
+            return true;
+        }
+    }
+
+    $('#nameInput, #catalogueNumberInput').on('keyup', function () {
+        areFieldsFilled();
+    })
+
+    $('#manufacturerSelect,#isConsumableSelect').on('change', function () {
+        areFieldsFilled();
+    })
 
 
 </script>
