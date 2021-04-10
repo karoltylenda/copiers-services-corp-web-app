@@ -135,8 +135,7 @@
                             <div class="form-group">
                                 <label for="manufacturerSelect">Manufacturer:</label>
                                 <select class="form-control form-control-sm"
-                                        id="manufacturerSelect" name="manufacturer.name"
-                                        placeholder="Select manufacturer" required>
+                                        id="manufacturerSelect" name="manufacturer.name" required>
                                     <option value=""></option>
                                     <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
                                             th:text="${manufacturer.name}"></option>
@@ -147,8 +146,8 @@
                             <div class="form-group">
                                 <label for="modelSelect">Model:</label>
                                 <select class="form-control form-control-sm" multiple="multiple"
-                                        id="modelSelect" name="modelsList" placeholder="asdasd" required>
-                                    <option value=""></option>
+                                        id="modelSelect" name="modelsArray" required>
+<!--                                    <option value=""></option>-->
                                     <option th:each="model:${models}" th:value="${model.id}"
                                             th:text="${model.name}"></option>
                                 </select>
@@ -178,6 +177,14 @@
     $(document).ready(function () {
         $('#articlesTable').DataTable();
     });
+
+    $('#manufacturerSelect').select2({
+        dropdownParent: $("#addNewArticleModal"),
+        theme: "bootstrap",
+        placeholder: 'Select manufacturer',
+        allowClear: true
+    });
+
 
     function getManufacturers() {
         $.ajax({
@@ -221,8 +228,9 @@
         })
     }
 
+
     function areFieldsFilled() {
-        if ($('#nameInput').val() === '' || $('#catalogueNumberInput').val() === '' || $('#manufacturerSelect').val() === '' || $('#isConsumableSelect').val() === '') {
+        if ($('#nameInput').val() === '' || $('#catalogueNumberInput').val() === '' || $('#manufacturerSelect').val() === '' || $('#isConsumableSelect').val() === '' || $('#modelSelect').val().length === 0) {
             $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
             document.getElementById("addNewArticleButton").disabled = true;
             return false;
@@ -237,9 +245,11 @@
         areFieldsFilled();
     })
 
-    $('#manufacturerSelect,#isConsumableSelect').on('change', function () {
+    $('#manufacturerSelect,#isConsumableSelect,#modelSelect').on('change', function () {
         areFieldsFilled();
     })
+
+
 
 
 </script>

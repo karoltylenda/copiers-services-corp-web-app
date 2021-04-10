@@ -419,6 +419,7 @@
         isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
     })
 
+
     function areFieldsFilled() {
         if ($('#nameInput').val() === '' || $('#prodYearInput').val() === '' || $('#printingSpeedInput').val() === '' || $('#manufacturerSelect').val() === '') {
             $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
