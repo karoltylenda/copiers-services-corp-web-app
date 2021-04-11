@@ -1,6 +1,8 @@
 package com.tytanisukcesu.copiers.entity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,6 +20,7 @@ public class CopierSettlement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfSettlement;
 
     private Integer startingMonoCounter;

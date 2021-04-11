@@ -1,20 +1,18 @@
 package com.tytanisukcesu.copiers.servlet;
 
 import com.tytanisukcesu.copiers.dto.ArticleDto;
-import com.tytanisukcesu.copiers.dto.ModelDto;
 import com.tytanisukcesu.copiers.entity.Article;
+import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.service.ArticleService;
 import com.tytanisukcesu.copiers.service.ManufacturerService;
 import com.tytanisukcesu.copiers.service.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/articles")
@@ -27,7 +25,7 @@ public class ArticleServlet {
     private final ModelMapper modelMapper;
 
     @GetMapping
-    public String findAll(Model model) {
+    public String findAll(org.springframework.ui.Model model) {
         model.addAttribute("articles", articleService.findAll());
         model.addAttribute("manufacturers",manufacturerService.findAll());
         model.addAttribute("models",modelService.findAll());
@@ -35,13 +33,20 @@ public class ArticleServlet {
     }
 
     @PostMapping
-    public RedirectView save(ArticleDto articleDto,ArrayList<Integer> modelsList){
-        articleService.save(convertToEntity(articleDto));
+    public RedirectView save(ArticleDto articleDto, Integer[] modelsTab){
+        Set<Model> models = new HashSet<>();
+        for (int i = 0; i < modelsTab.length; i++) {
+            Long modelId = Long.valueOf(modelsTab[i]);
+            models.add(modelService.findById(modelId));
+        }
+        Article article = convertToEntity(articleDto);
+        article.setModels(models);
+        articleService.save(article);
         return new RedirectView("/articles");
     }
 
     @GetMapping(value = "/")
-    public String findByCustomer(@RequestParam Long id, Model model){
+    public String findByCustomer(@RequestParam Long id, org.springframework.ui.Model model){
         model.addAttribute("models", articleService.findById(id).getModels());
         return "pages/articles";
     }

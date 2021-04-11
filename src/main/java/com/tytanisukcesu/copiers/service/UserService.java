@@ -40,16 +40,16 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id, "user"));
     }
 
-    public List<Device> findDevicesByUserId(Long id){
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isPresent()){
-            List<Device> devices = deviceService.findByCustomer(optionalUser.get().getCustomer());
-            return devices;
-        } else {
-            LOGGER.warning("User for id " + id + " doesn't exist");
-            return new ArrayList<>();
-        }
-    }
+//    public List<Device> findDevicesByUserId(Long id){
+//        Optional<User> optionalUser = userRepository.findById(id);
+//        if(optionalUser.isPresent()){
+//            List<Device> devices = deviceService.findByCustomer(optionalUser.get().getCustomer());
+//            return devices;
+//        } else {
+//            LOGGER.warning("User for id " + id + " doesn't exist");
+//            return new ArrayList<>();
+//        }
+//    }
 
     public User findUserByUsername(String username){
         return userRepository.findByUsername(username).orElseThrow(()-> new UserNotFoundException(username));

@@ -13,5 +13,5 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
 
     Optional<Device> getDeviceBySerialNumber(String serialNumber);
 
-    List<Device> getAllByCustomer(Customer customer);
+    List<Device> getAllByCustomer_Id(Long customerId);
 }

@@ -146,8 +146,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="modelSelect">Model:</label>
-                                <select class="form-control form-control-sm" multiple="multiple"
-                                        id="modelSelect" name="modelsList" placeholder="asdasd" required>
+                                <select class="form-control form-control-sm" multiple="true"
+                                        id="modelSelect" name="modelsTab" placeholder="asdasd" required>
                                     <option value=""></option>
                                     <option th:each="model:${models}" th:value="${model.id}"
                                             th:text="${model.name}"></option>

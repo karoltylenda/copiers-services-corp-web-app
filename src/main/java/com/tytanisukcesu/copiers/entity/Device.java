@@ -44,7 +44,7 @@ public class Device {
     private Set<Counter> counters;
 
     @OneToOne(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
     )
     @JoinColumn(referencedColumnName = "id")
