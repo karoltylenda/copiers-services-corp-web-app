@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,12 @@ public class ContractServlet {
         Contract contract = convertToEntity(contractDto);
         contract.setDevice(deviceService.findById(contractDto.getDevice().getId()));
         contractService.save(contract);
+        return new RedirectView("/contracts");
+    }
+
+    @PostMapping(value = "/delete")
+    public RedirectView deleteContract(ContractDto contractDto){
+        contractService.delete(contractDto.getId());
         return new RedirectView("/contracts");
     }
 
