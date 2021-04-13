@@ -39,8 +39,8 @@ public class DeviceController {
     }
 
     @GetMapping(value = "/{id}")
-    public Device getById(@PathVariable("id") Long id){
-        return deviceService.findById(id);
+    public DeviceDto getById(@PathVariable("id") Long id){
+        return convertToDto(deviceService.findById(id));
     }
 
     @PostMapping
