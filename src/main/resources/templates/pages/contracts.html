@@ -58,6 +58,7 @@
                                 <th scope="col">Device</th>
                                 <th scope="col">Start date</th>
                                 <th scope="col">End date</th>
+                                <th scope="col">Last settlement</th>
                                 <th class="text-right" scope="col">Action</th>
                             </tr>
                             </thead>
@@ -83,6 +84,7 @@
                                     data-toggle="modal"
                                     data-target="#additionalInfoContractModal"
                                     th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td th:text="Data"></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"

@@ -50,8 +50,7 @@ public class DeviceServlet {
 
     @PostMapping(value = "/update")
     public RedirectView update(DeviceDto deviceDto){
-        Device device = convertToEntity(deviceDto);
-        addressService.update(device.getAddress().getId(), device.getAddress());
+        addressService.update(deviceDto.getAddress().getId(), deviceDto.getAddress());
         return new RedirectView("/devices");
     }
 

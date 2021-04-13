@@ -20,30 +20,14 @@ import java.util.stream.Collectors;
 public class AddressController {
 
     private final AddressService addressService;
-    private final ModelMapper modelMapper;
 
     @GetMapping
     public List<AddressDto> getAll(){
-        List<Address> devices = addressService.findAll();
-        return devices.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return addressService.findAll();
     }
 
     @GetMapping(value = "/{id}")
     public AddressDto getById(@PathVariable("id") Long id){
-        Address address = addressService.findById(id);
-        return convertToDto(address);
+        return addressService.findById(id);
     }
-
-    private AddressDto convertToDto(Address address){
-        AddressDto addressDto = modelMapper.map(address, AddressDto.class);
-        return addressDto;
-    }
-
-    private Address convertToEntity(AddressDto addressDto){
-        Address address = modelMapper.map(addressDto, Address.class);
-        return address;
-    }
-
 }
