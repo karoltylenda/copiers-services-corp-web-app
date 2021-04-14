@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeId;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -30,8 +31,10 @@ public class Contract {
     @EqualsAndHashCode.Exclude
     private Device device;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private BigDecimal monoPagePrice;

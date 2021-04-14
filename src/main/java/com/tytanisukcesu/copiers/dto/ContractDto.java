@@ -2,6 +2,8 @@ package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
@@ -31,8 +33,10 @@ public class ContractDto {
     })
     private DeviceDto device;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private BigDecimal monoPagePrice;

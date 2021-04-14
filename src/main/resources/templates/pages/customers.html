@@ -63,11 +63,13 @@
                                 <td th:text="${customer.getCompanyName()}"
                                     data-toggle="modal"
                                     data-target="#additionalInfoCustomerModal"
-                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
-                                <td th:text="${customer.getTaxId()}"
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
+                                </td>
+                                <td  th:text="${customer.getTaxId()}"
                                     data-toggle="modal"
                                     data-target="#additionalInfoCustomerModal"
-                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'"></td>
+                                    th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
+                                </td>
                                 <td th:switch="${customer.address.apartmentNumber}" data-toggle="modal"
                                     data-target="#additionalInfoCustomerModal"
                                     th:onclick="'setAdditionalInfoCustomerModel('+${customer.id}+')'">
@@ -77,10 +79,9 @@
                                           th:text="${customer.address.street}+' '+${customer.address.houseNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
                                     <span th:case="*"
                                           th:text="${customer.address.street}+' '+${customer.address.houseNumber}+'/'+${customer.address.apartmentNumber}+', '+${customer.address.postCode}+' '+${customer.address.city}"></span>
-
                                 </td>
                                 <td>
-                                    <a class="btn-info btn-sm" th:href="'/devices/?id='+${customer.id}">Devices</a>
+                                    <a class="btn btn-info btn-sm" th:href="'/devices/?id='+${customer.id}">Devices</a>
                                 </td>
                                 <td class="text-right">
                                     <div class="dropdown">

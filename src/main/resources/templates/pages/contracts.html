@@ -58,6 +58,7 @@
                                 <th scope="col">Device</th>
                                 <th scope="col">Start date</th>
                                 <th scope="col">End date</th>
+                                <th scope="col">Last settlement</th>
                                 <th class="text-right" scope="col">Action</th>
                             </tr>
                             </thead>
@@ -83,6 +84,7 @@
                                     data-toggle="modal"
                                     data-target="#additionalInfoContractModal"
                                     th:onclick="'setAdditionalInfoContractModal('+${contract.id}+')'"></td>
+                                <td th:text="Data"></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -139,7 +141,7 @@
                     </div>
                     <div class="form-group">
                         <label>Device:</label>
-                        <select class="form-control form-control-sm" id="selectDeviceContract">
+                        <select class="form-control form-control-sm" id="selectDeviceContract" name="device.id">
                             <option value=""></option>
                         </select>
                     </div>
@@ -156,6 +158,26 @@
                     <div class="form-group">
                         <label>Lease price:</label>
                         <input type="number" min="0.00" step="0.01" class="form-control form-control-sm" name="leasePrice">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Start date:</label>
+                            <input type="date" class="form-control form-control-sm" name="startDate" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>End date:</label>
+                            <input type="date" class="form-control form-control-sm" name="endDate">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Initial mono counter: </label>
+                            <input type="number" min="0" step="1" class="form-control form-control-sm" name="initialMonoCounter">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Initial colour counter:</label>
+                            <input type="number" min="0" step="1" class="form-control form-control-sm" name="initialColourCounter">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -202,7 +224,7 @@
             </div>
             <form method="post" action="/contracts/delete" autocomplete="off">
                 <div class="modal-body">
-                    <p>Are you sure you want delete customer: </p>
+                    <p>Are you sure you want delete contract: </p>
                     <h3 id="h3DeleteContractModal"></h3>
                     <p>This action cannot be undone and you will be unable to recover
                         any
@@ -275,18 +297,18 @@
     function updateDevices(id){
         $('#selectDeviceContract').empty();
         $.ajax({
-            url: "http://localhost:8080/api/customers/"+id,
+            url: "http://localhost:8080/api/devices/search?customerId="+id,
             type: "GET",
             success: function (result) {
-                console.log(result);
-                const devicesLength = result.devices.length;
-                for (let i=0; i<devicesLength; i++){
-                    $('#selectDeviceContract').append(
-                        $('<option>',{
-                            value: result.devices[i].id,
-                            text: result.devices[i].serialNumber
-                        })
-                    );
+                for (let i=0; i<result.length; i++){
+                    if (result[i].contract === null || result[i].contract === ''){
+                        $('#selectDeviceContract').append(
+                            $('<option>',{
+                                value: result[i].id,
+                                text: result[i].serialNumber
+                            })
+                        );
+                    }
                 }
             },
             error: function (error){
@@ -338,6 +360,21 @@
                     '<span class="form-control-label col-md-4">End date: </span>' +
                     '<span class="form-control-label text-muted col-md-8">' + result.endDate + '</span>' +
                     '</div>';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function setDeleteContractModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/contracts/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('deleteContractId').value = id;
+                document.getElementById('h3DeleteContractModal').innerHTML = result.contractNumber + ' ?';
             },
             error: function (error) {
                 console.log(error);

@@ -1,5 +1,6 @@
 package com.tytanisukcesu.copiers.controller;
 
+import com.tytanisukcesu.copiers.dto.CustomerDto;
 import com.tytanisukcesu.copiers.dto.DeviceDto;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.service.DeviceService;
@@ -29,10 +30,17 @@ public class DeviceController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping(value = "/search")
+    public List<DeviceDto> getByCustomer(@RequestParam Long customerId){
+        return deviceService.findByCustomer(customerId)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping(value = "/{id}")
     public DeviceDto getById(@PathVariable("id") Long id){
-        Device device = deviceService.findById(id);
-        return convertToDto(device);
+        return convertToDto(deviceService.findById(id));
     }
 
     @PostMapping

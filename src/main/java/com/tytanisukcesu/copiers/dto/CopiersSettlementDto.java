@@ -2,6 +2,8 @@ package com.tytanisukcesu.copiers.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -16,6 +18,7 @@ public class CopiersSettlementDto {
 
     private Long id;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfSettlement;
 
     private Integer startingMonoCounter;

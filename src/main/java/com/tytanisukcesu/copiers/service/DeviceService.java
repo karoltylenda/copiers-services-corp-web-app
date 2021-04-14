@@ -1,10 +1,13 @@
 package com.tytanisukcesu.copiers.service;
 
+import com.tytanisukcesu.copiers.dto.CustomerDto;
+import com.tytanisukcesu.copiers.dto.DeviceDto;
 import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,6 +25,7 @@ public class DeviceService {
     private final ModelService modelService;
     private final CustomerService customerService;
     private final AddressService addressService;
+    private final MapperService mapperService;
     private static final Logger LOGGER = Logger.getLogger(DeviceService.class.getName());
 
     public List<Device> findAll() {
@@ -99,7 +103,8 @@ public class DeviceService {
         }
     }
 
-    public List<Device> findByCustomer(Customer customer) {
-        return deviceRepository.getAllByCustomer(customer);
+    public List<Device> findByCustomer(Long customerId) {
+        return deviceRepository.getAllByCustomer_Id(customerId);
     }
+
 }
