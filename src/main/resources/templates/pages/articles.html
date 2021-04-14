@@ -82,6 +82,73 @@
                                         </div>
                                     </div>
                                 </td>
+
+                                <!-- Edit modal -->
+                                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+                                     aria-hidden="true" th:id="editModelModal+${article.id}">
+                                    <div class="modal-dialog modal-dialog-centered modal-" role="document">
+                                        <div class="modal-content">
+                                            <h3 class="modal-title">Edit article:</h3>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="/articles/update" method="post" autocomplete="off">
+                                            <div class="modal-body text-sm">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="nameInputEdit">Name:</label>
+                                                            <input type="text" class="form-control form-control-sm"
+                                                                   name="name"
+                                                                   id="nameInputEdit" th:value="${article.name}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="isConsumableSelectEdit">Consumable:</label>
+                                                            <select class="form-control form-control-sm"
+                                                                    id="isConsumableSelectEdit" name="isConsumable" required>
+                                                                <option value=""></option>
+                                                                <option class="list-group-item" value=true>YES</option>
+                                                                <option class="list-group-item" value=false>NO</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="catalogueNumberInputEdit">Catalogue Number:</label>
+                                                    <input type="text" class="form-control form-control-sm" name="catalogueNumber"
+                                                           id="catalogueNumberInputEdit" th:value="${article.catalogueNumber}" required>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="manufacturerSelectEdit">Manufacturer:</label>
+                                                            <select class="form-control form-control-sm"
+                                                                    id="manufacturerSelectEdit" name="manufacturer.name" required>
+                                                                <option value=""></option>
+                                                                <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
+                                                                        th:text="${manufacturer.name}"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="modelSelectEdit">Model:</label>
+                                                            <select class="form-control form-control-sm" multiple="multiple"
+                                                                    id="modelSelectEdit" name="modelsArray" required>
+                                                                <option th:each="model:${models}" th:value="${model.id}"
+                                                                        th:text="${model.name}"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
                             </tr>
                             </tbody>
                         </table>
@@ -147,7 +214,7 @@
                                 <label for="modelSelect">Model:</label>
                                 <select class="form-control form-control-sm" multiple="multiple"
                                         id="modelSelect" name="modelsArray" required>
-<!--                                    <option value=""></option>-->
+                                    <!--                                    <option value=""></option>-->
                                     <option th:each="model:${models}" th:value="${model.id}"
                                             th:text="${model.name}"></option>
                                 </select>
@@ -162,7 +229,8 @@
                 <hr>
                 <div class="modal-footer text-sm align-content-end">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm" id="addNewArticleButton" disabled>Add Article</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewArticleButton" disabled>Add Article
+                    </button>
                 </div>
             </form>
         </div>
@@ -248,8 +316,6 @@
     $('#manufacturerSelect,#isConsumableSelect,#modelSelect').on('change', function () {
         areFieldsFilled();
     })
-
-
 
 
 </script>

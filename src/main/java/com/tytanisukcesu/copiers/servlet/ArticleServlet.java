@@ -56,6 +56,13 @@ public class ArticleServlet {
         return "pages/articles";
     }
 
+//    @PostMapping(value = "/update")
+//    public RedirectView update(Long id,ArticleDto articleDto,Integer[] modelsArray){
+//        Set<com.tytanisukcesu.copiers.entity.Model> models
+//        articleService.update(id,convertToEntity(articleDto));
+//        return new RedirectView("/articles");
+//    }
+
     private ArticleDto convertToDto(Article article) {
         ArticleDto articleDto = modelMapper.map(article, ArticleDto.class);
         return articleDto;
