@@ -46,7 +46,7 @@ public class ArticleServlet {
         }
         Article article = convertToEntity(articleDto);
         article.setModels(models);
-        articleService.save(article);
+        articleService.saveFromServlet(article);
         return new RedirectView("/articles");
     }
 

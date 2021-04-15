@@ -159,7 +159,7 @@
     </div>
 </div>
 
-<!-- Add new model modal -->
+<!-- Add new article modal -->
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true"
      id="addNewArticleModal">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
@@ -202,10 +202,10 @@
                             <div class="form-group">
                                 <label for="manufacturerSelect">Manufacturer:</label>
                                 <select class="form-control form-control-sm"
-                                        id="manufacturerSelect" name="manufacturer.name" required>
-                                    <option value=""></option>
-                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
-                                            th:text="${manufacturer.name}"></option>
+                                        id="manufacturerSelect" name="manufacturer.id" onchange="getModelsByManufacturer(this.value)" required>
+<!--                                    <option value=""></option>-->
+<!--                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"-->
+<!--                                            th:text="${manufacturer.name}"></option>-->
                                 </select>
                             </div>
                         </div>
@@ -214,9 +214,9 @@
                                 <label for="modelSelect">Model:</label>
                                 <select class="form-control form-control-sm" multiple="multiple"
                                         id="modelSelect" name="modelsArray" required>
-                                    <!--                                    <option value=""></option>-->
-                                    <option th:each="model:${models}" th:value="${model.id}"
-                                            th:text="${model.name}"></option>
+<!--                                                                        <option value=""></option>-->
+<!--                                    <option th:each="model:${models}" th:value="${model.id}"-->
+<!--                                            th:text="${model.name}"></option>-->
                                 </select>
                             </div>
                         </div>
@@ -251,50 +251,92 @@
         theme: "bootstrap",
         placeholder: 'Select manufacturer',
         allowClear: true
-    });
+    }).click(getManufacturers());
+
+    // $('#modelSelect').select2({
+    //     dropdownParent: $("#addNewArticleModal"),
+    //     theme: "bootstrap",
+    //     placeholder: 'Select model',
+    //     allowClear: true
+    // });
 
 
-    function getManufacturers() {
+
+
+    function getManufacturers(){
+        $('#manufacturerSelect').empty();
         $.ajax({
             url: "http://localhost:8080/api/manufacturers",
             type: "GET",
             success: function (result) {
+                console.log(result);
                 const manufacturersLength = result.length;
-                for (let i = 0; i < manufacturersLength; i++) {
-                    $('#manufacturerSelect').append(
-                        $('<option>', {
-                            value: result[i].name,
-                            text: result[i].name
-                        })
-                    );
+                for (let i=0; i<manufacturersLength+1; i++){
+                    if (i === manufacturersLength) {
+                        $('#manufacturerSelect').append(
+                            $('<option selected>', {
+                                value: ''
+                            })
+                        )
+                    } else {
+                        $('#manufacturerSelect').append(
+                            $('<option>',{
+                                value: result[i].id,
+                                text: result[i].name
+                            })
+                        );
+                    }
                 }
             },
-            error: function (error) {
+            error: function (error){
                 console.log(error);
             }
         })
     }
 
-    function getModels() {
+    function getModelsByManufacturer(manufacturerId){
+        $('#modelSelect').empty();
         $.ajax({
-            url: "http://localhost:8080/api/models",
+            url: "http://localhost:8080/api/manufacturers/"+manufacturerId,
             type: "GET",
-            success: function (result) {
-                const modelsLength = result.length;
+            success: function (result){
+                console.log(result);
+                const modelsLength = result.models.length;
                 for (let i = 0; i < modelsLength; i++) {
                     $('#modelSelect').append(
-                        $('<option>', {
-                            value: result[i].id,
-                            text: result[i].name
+                        $('<option>',{
+                            value: result.models[i].id,
+                            text: result.models[i].name
                         })
                     );
                 }
             },
-            error: function (error) {
+            error: function (error){
                 console.log(error);
             }
         })
     }
+
+    // function getModels() {
+    //     $.ajax({
+    //         url: "http://localhost:8080/api/models",
+    //         type: "GET",
+    //         success: function (result) {
+    //             const modelsLength = result.length;
+    //             for (let i = 0; i < modelsLength; i++) {
+    //                 $('#modelSelect').append(
+    //                     $('<option>', {
+    //                         value: result[i].id,
+    //                         text: result[i].name
+    //                     })
+    //                 );
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     })
+    // }
 
 
     function areFieldsFilled() {

@@ -24,7 +24,7 @@ public class ManufacturerService {
         return manufacturers;
     }
 
-    public Manufacturer findById(Long id) throws NotFoundException {
+    public Manufacturer findById(Long id){
         return manufacturerRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"manufacturer"));
     }
 
