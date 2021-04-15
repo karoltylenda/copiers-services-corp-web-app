@@ -56,12 +56,18 @@ public class ArticleServlet {
         return "pages/articles";
     }
 
-//    @PostMapping(value = "/update")
-//    public RedirectView update(Long id,ArticleDto articleDto,Integer[] modelsArray){
-//        Set<com.tytanisukcesu.copiers.entity.Model> models
-//        articleService.update(id,convertToEntity(articleDto));
-//        return new RedirectView("/articles");
-//    }
+    @PostMapping(value = "/update")
+    public RedirectView update(Long id,ArticleDto articleDto,Integer[] modelsArray){
+        Set<com.tytanisukcesu.copiers.entity.Model> modelsUpdated = new HashSet<>();
+        for(Integer integer:modelsArray){
+            Long modelId = Long.valueOf(integer);
+            modelsUpdated.add(modelService.findById(modelId));
+        }
+        Article articleUpdated = convertToEntity(articleDto);
+        articleUpdated.setModels(modelsUpdated);
+        articleService.update(id,articleUpdated);
+        return new RedirectView("/articles");
+    }
 
     private ArticleDto convertToDto(Article article) {
         ArticleDto articleDto = modelMapper.map(article, ArticleDto.class);
