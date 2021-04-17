@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.servlet;
 
 import com.tytanisukcesu.copiers.dto.ArticleDto;
+import com.tytanisukcesu.copiers.dto.ModelDto;
 import com.tytanisukcesu.copiers.entity.Article;
 import com.tytanisukcesu.copiers.service.ArticleService;
 import com.tytanisukcesu.copiers.service.ManufacturerService;
@@ -59,6 +60,13 @@ public class ArticleServlet {
     @PostMapping(value = "/update")
     public RedirectView update(Long id,ArticleDto articleDto){
         articleService.update(id,convertToEntity(articleDto));
+        return new RedirectView("/articles");
+    }
+
+    @PostMapping(value = "/delete")
+    public RedirectView delete (ArticleDto articleDto){
+        Article article = convertToEntity(articleDto);
+        articleService.delete(article.getId());
         return new RedirectView("/articles");
     }
 
