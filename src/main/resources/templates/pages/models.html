@@ -206,7 +206,8 @@
                             <div class="form-group">
                                 <label for="nameInput">Name:</label>
                                 <input type="text" class="form-control form-control-sm" name="name"
-                                       id="nameInput" onkeyup="isModelExists(this.value,getNameManufacturerSelect())" required>
+                                       id="nameInput" onkeyup="isModelExists(this.value,getNameManufacturerSelect())"
+                                       required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -215,7 +216,8 @@
                                 <select class="form-control form-control-sm"
                                         id="manufacturerSelect" name="manufacturer.name" required>
                                     <option value=""></option>
-                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}" th:text="${manufacturer.name}"></option>
+                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}"
+                                            th:text="${manufacturer.name}"></option>
                                     <!--                                    <option value="new">add new Manufacturer <input></option>-->
                                 </select>
                             </div>
@@ -332,7 +334,8 @@
                             <div class="form-group">
                                 <label for="manufacturerInput">Name:</label>
                                 <input type="text" class="form-control form-control-sm" name="name"
-                                       placeholder="insert new manufacturer name" id="manufacturerInput" onkeyup="isManufacturerExists(this.value)" required>
+                                       placeholder="insert new manufacturer name" id="manufacturerInput"
+                                       onkeyup="isManufacturerExists(this.value)" required>
                             </div>
                         </div>
                     </div>
@@ -411,12 +414,12 @@
 
     $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
         areFieldsFilled();
-        isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
+        isModelExists($('#nameInput').val(), $('#manufacturerSelect').val())
     });
 
     $('#manufacturerSelect').on('change', function () {
         areFieldsFilled();
-        isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
+        isModelExists($('#nameInput').val(), $('#manufacturerSelect').val())
     })
 
 
@@ -433,9 +436,9 @@
     }
 
 
-    function isModelExists(modelName,manufacturerName) {
+    function isModelExists(modelName, manufacturerName) {
         $.ajax({
-            url: "http://localhost:8080/api/models/search?modelName="+modelName + "&manufacturerName="+manufacturerName,
+            url: "http://localhost:8080/api/models/search?modelName=" + modelName + "&manufacturerName=" + manufacturerName,
             type: "GET",
             success: function (result) {
                 console.log(result);
@@ -479,10 +482,9 @@
     //     isManufacturerExists();
     // });
 
-    function getNameManufacturerSelect(){
+    function getNameManufacturerSelect() {
         return $('#manufacturerSelect').val();
     }
-
 
 
 </script>

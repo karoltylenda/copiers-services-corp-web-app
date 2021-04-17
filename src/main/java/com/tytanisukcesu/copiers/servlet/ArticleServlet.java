@@ -57,15 +57,8 @@ public class ArticleServlet {
     }
 
     @PostMapping(value = "/update")
-    public RedirectView update(Long id,ArticleDto articleDto,Integer[] modelsArray){
-        Set<com.tytanisukcesu.copiers.entity.Model> modelsUpdated = new HashSet<>();
-        for(Integer integer:modelsArray){
-            Long modelId = Long.valueOf(integer);
-            modelsUpdated.add(modelService.findById(modelId));
-        }
-        Article articleUpdated = convertToEntity(articleDto);
-        articleUpdated.setModels(modelsUpdated);
-        articleService.update(id,articleUpdated);
+    public RedirectView update(Long id,ArticleDto articleDto){
+        articleService.update(id,convertToEntity(articleDto));
         return new RedirectView("/articles");
     }
 

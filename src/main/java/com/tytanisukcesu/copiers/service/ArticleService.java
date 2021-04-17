@@ -93,8 +93,6 @@ public class ArticleService {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
             Article articleUpdated = articleOptional.get();
-            articleUpdated.setManufacturer(article.getManufacturer());
-            articleUpdated.setModels(article.getModels());
             articleUpdated.setName(article.getName());
             articleUpdated.setCatalogueNumber(article.getCatalogueNumber());
             articleUpdated.setConsumable(article.isConsumable());
