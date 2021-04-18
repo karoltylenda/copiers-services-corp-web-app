@@ -38,22 +38,43 @@
             <div class="card-header bg-transparent">
                 <div class="row">
                     <div class="col">
-                        <p>This is header for card one of two columns</p>
+                        <p>Service Orders</p>
                     </div>
                     <div class="col text-right">
-                        <p>Two of two colums align to right</p>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#addNewServiceOrderModal">
+                            Add new Service Order
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <p>Content in card body</p>
+                <div class="table-responsive">
+                    <div class="container-fluid">
+                        <table class="table align-items-center" id="serviceOrdersTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Order Number</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Creation Date</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Last Update</th>
+                                <th scope="col">Device</th>
+                                <th class="text-right" scope="col">Action</th>
+
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-</div>
-<!-- Argon Scripts -->
-<th:block th:include="pages/fragments/scripts"></th:block>
+    </div>
+    <!-- Argon Scripts -->
+    <th:block th:include="pages/fragments/scripts"></th:block>
 
 </body>
 
