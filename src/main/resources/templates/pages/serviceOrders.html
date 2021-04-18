@@ -63,18 +63,53 @@
                                 <th scope="col">Last Update</th>
                                 <th scope="col">Device</th>
                                 <th class="text-right" scope="col">Action</th>
-
                             </tr>
                             </thead>
+                            <tbody>
+                            <tr th:each="sOrder:${serviceOrders}">
+                                <td th:text="${sOrder.serviceOrderNumber}"></td>
+                                <td th:text="${sOrder.orderType}"></td>
+                                <td th:text="${sOrder.orderStatus}"></td>
+                                <td th:text="${sOrder.orderCreationDate}"></td>
+                                <td th:text="${sOrder.orderStartDate}"></td>
+                                <td th:text="${sOrder.orderEndDate}"></td>
+                                <td th:text="${sOrder.lastUpdateDate}"></td>
+                                <td th:text="${sOrder.device}"></td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" th:href="editServiceOrderModal+${sOrder.id}"
+                                               data-toggle="modal"
+                                               th:data-target="'#editServiceOrderModal'+${sOrder.id}">Edit</a>
+                                            <a class="dropdown-item" href="deleteServiceOrderModal"
+                                               data-toggle="modal" data-target="#deleteServiceOrderModal"
+                                               th:onclick="'deleteServiceOrderModal('+${sOrder.id}+')'">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-    <!-- Argon Scripts -->
-    <th:block th:include="pages/fragments/scripts"></th:block>
+</div>
+<!-- Argon Scripts -->
+<th:block th:include="pages/fragments/scripts"></th:block>
+
+<script>
+    $(document).ready(function () {
+        $('#serviceOrdersTable').DataTable();
+    });
+
+
+</script>
 
 </body>
 
