@@ -56,6 +56,7 @@
                                 <th scope="col">Serial number</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Address</th>
+                                <th scope="col">Counters</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -69,6 +70,9 @@
                                     <span th:case="''" th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
                                     <span th:case="*" th:text="${device.address.street}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
                                 </td>
+                                <td><button class="btn btn-info btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#countersDeviceModal" th:onclick="'setCountersDeviceModal('+${device.id}+')'">Counters</button></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -290,6 +294,46 @@
         </div>
     </div>
 </div>
+
+<!-- Counters device modal -->
+<div class="modal fade" id="countersDeviceModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmation</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body text-sm">
+                    <input type="text" id="countersDeviceId" name="id" hidden="true">
+                    <div class="table-responsive">
+                        <div class="container-fluid">
+                            <table class="table align-items-center" id="countersTable">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Mono</th>
+                                    <th scope="col">Colour</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 <script>
@@ -331,6 +375,19 @@
         placeholder: 'Select model',
         allowClear: true
     });
+
+    $('#countersTable').dataTable({
+        ajax: {
+            url: 'api/devices/11',
+            dataSrc: 'counters'
+        },
+        columns: [
+            {data: 'counterDate'},
+            {data: 'monoCounter'},
+            {data: 'colourCounter'}
+        ]
+
+    })
 
     function updateModels(manufacturerId){
         $('#modelSelect').empty();
@@ -394,6 +451,20 @@
                console.log(result);
                document.getElementById('deleteDeviceId').value = id;
                document.getElementById('h3DeleteDeviceModal').innerHTML = result.model.manufacturer.name+' '+result.model.name+'<br>S/N: '+result.serialNumber+'?';
+            },
+            error: function (error){
+                console.log(error);
+            }
+        });
+    }
+
+    function setCountersDeviceModal(id){
+        $.ajax({
+            url: "http://localhost:8080/api/devices/"+id,
+            type: "GET",
+            success: function (result){
+                console.log(result.counters);
+
             },
             error: function (error){
                 console.log(error);
