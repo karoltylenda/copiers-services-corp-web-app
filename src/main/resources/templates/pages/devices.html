@@ -66,13 +66,20 @@
                                 <td th:text="${device.serialNumber}"></td>
                                 <td th:text="${device.customer.companyName}"></td>
                                 <td th:switch="${device.address.apartmentNumber}">
-                                    <span th:case="'null'" th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
-                                    <span th:case="''" th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
-                                    <span th:case="*" th:text="${device.address.street}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
+                                    <span th:case="'null'"
+                                          th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
+                                    <span th:case="''"
+                                          th:text="${device.address.street}+' '+${device.address.houseNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
+                                    <span th:case="*"
+                                          th:text="${device.address.street}+' '+${device.address.houseNumber}+'/'+${device.address.apartmentNumber}+', '+${device.address.postCode}+' '+${device.address.city}"></span>
                                 </td>
-                                <td><button class="btn btn-info btn-sm"
+                                <td>
+                                    <button class="btn btn-info btn-sm"
                                             data-toggle="modal"
-                                            data-target="#countersDeviceModal" th:onclick="'setCountersDeviceModal('+${device.id}+')'">Counters</button></td>
+                                            data-target="#countersDeviceModal"
+                                            th:onclick="'setCountersDeviceModal('+${device.id}+')'">Counters
+                                    </button>
+                                </td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -82,10 +89,12 @@
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                             <a class="dropdown-item" href="editDeviceModal"
                                                data-toggle="modal"
-                                               data-target="#editDeviceModal" th:onclick="'setEditDeviceModal('+${device.id}+')'">Edit</a>
+                                               data-target="#editDeviceModal"
+                                               th:onclick="'setEditDeviceModal('+${device.id}+')'">Edit</a>
                                             <a class="dropdown-item" href="deleteDeviceModal"
                                                data-toggle="modal"
-                                               data-target="#deleteDeviceModal" th:onclick="'setDeleteDeviceModal('+${device.id}+')'">Delete</a>
+                                               data-target="#deleteDeviceModal"
+                                               th:onclick="'setDeleteDeviceModal('+${device.id}+')'">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -138,7 +147,8 @@
                         <label>Customer:</label>
                         <select class="form-control form-control-sm" id="selectCustomer" name="customer.id">
                             <option value=""></option>
-                            <option th:each="customer:${customers}" th:text="${customer.companyName}" th:value="${customer.id}"></option>
+                            <option th:each="customer:${customers}" th:text="${customer.companyName}"
+                                    th:value="${customer.id}"></option>
                         </select>
                     </div>
                     <div class="form-group text-center text-lg">
@@ -201,7 +211,7 @@
                             <div class="form-group">
                                 <label>Manufacturer:</label>
                                 <input type="text" class="form-control form-control-sm"
-                                        id="deviceManufacturerEdit" disabled>
+                                       id="deviceManufacturerEdit" disabled>
 
                             </div>
                         </div>
@@ -226,30 +236,36 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Street:</label>
-                            <input type="text" class="form-control form-control-sm" id="deviceStreetEdit" name="address.street">
+                            <input type="text" class="form-control form-control-sm" id="deviceStreetEdit"
+                                   name="address.street">
                         </div>
                         <div class="col-md-3">
                             <label>Nr</label>
-                            <input type="text" class="form-control form-control-sm" id="deviceHouseNumberEdit" name="address.houseNumber">
+                            <input type="text" class="form-control form-control-sm" id="deviceHouseNumberEdit"
+                                   name="address.houseNumber">
                         </div>
                         <div class="col-md-3">
                             <label>Ap. nr</label>
-                            <input type="text" class="form-control form-control-sm" id="deviceApartmentNumberEdit" name="address.apartmentNumber">
+                            <input type="text" class="form-control form-control-sm" id="deviceApartmentNumberEdit"
+                                   name="address.apartmentNumber">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <label>Post code:</label>
-                            <input type="text" class="form-control form-control-sm" id="devicePostCodeEdit" name="address.postCode">
+                            <input type="text" class="form-control form-control-sm" id="devicePostCodeEdit"
+                                   name="address.postCode">
                         </div>
                         <div class="col-md-8">
                             <label>City:</label>
-                            <input type="text" class="form-control form-control-sm" id="deviceCityEdit" name="address.city">
+                            <input type="text" class="form-control form-control-sm" id="deviceCityEdit"
+                                   name="address.city">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Province:</label>
-                        <input type="text" class="form-control form-control-sm" id="deviceProvinceEdit" name="address.province">
+                        <input type="text" class="form-control form-control-sm" id="deviceProvinceEdit"
+                               name="address.province">
                     </div>
                 </div>
                 <div class="modal-footer text-sm align-content-end">
@@ -276,12 +292,12 @@
             </div>
             <form method="post" action="/devices/delete">
                 <div class="modal-body text-sm">
-                        <p>Are you sure you want delete device: </p>
-                        <h3 id="h3DeleteDeviceModal"></h3>
-                        <p>This action cannot be undone and you will be unable to recover
-                            any
-                            data.</p>
-                        <input type="text" id="deleteDeviceId" name="id" hidden="true">
+                    <p>Are you sure you want delete device: </p>
+                    <h3 id="h3DeleteDeviceModal"></h3>
+                    <p>This action cannot be undone and you will be unable to recover
+                        any
+                        data.</p>
+                    <input type="text" id="deleteDeviceId" name="id" hidden="true">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm"
@@ -305,31 +321,31 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                <div class="modal-body text-sm">
-                    <input type="text" id="countersDeviceId" name="id" hidden="true">
-                    <div class="table-responsive">
-                        <div class="container-fluid">
-                            <table class="table align-items-center" id="countersTable">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Mono</th>
-                                    <th scope="col">Colour</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+            <div class="modal-body text-sm">
+                <input type="text" id="countersDeviceId" name="id" hidden="true">
+                <div class="container">
+                    <table class="table" id="countersTable">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Mono</th>
+                            <th scope="col">Colour</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm"
-                            data-dismiss="modal">
-                        Close
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm"
+                        data-dismiss="modal">
+                    Close
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -376,43 +392,65 @@
         allowClear: true
     });
 
-    $('#countersTable').dataTable({
-        ajax: {
-            url: 'api/devices/11',
-            dataSrc: 'counters'
-        },
-        columns: [
-            {data: 'counterDate'},
-            {data: 'monoCounter'},
-            {data: 'colourCounter'}
-        ]
+    function setCountersDeviceModal(id){
+        $('#countersTable').dataTable({
+            destroy: true,
+            searching: false,
+            ajax:{
+                url: 'api/devices/'+id,
+                dataSrc: 'counters'
+            },
+            columns: [
+                {data: 'counterDate'},
+                {data: 'monoCounter'},
+                {data: 'colourCounter'},
+                {data: 'totalCounter'},
+                {
+                    defaultContent: '<button class="btn btn-sm btn-danger" onclick="deleteCounter(id)">Delete</button>'
+                }
+            ],
+            language: {
+                paginate: {
+                    previous: '<',
+                    next: '>'
+                }
+            },
+            aria: {
+                paginate: {
+                    previous: 'Previous',
+                    next: 'Next'
+                }
+            },
+            responsive: true
+        })
+    }
+    function deleteCounter(id){
+        console.log(id)
+    }
 
-    })
-
-    function updateModels(manufacturerId){
+    function updateModels(manufacturerId) {
         $('#modelSelect').empty();
         $.ajax({
-            url: "http://localhost:8080/api/manufacturers/"+manufacturerId,
+            url: "http://localhost:8080/api/manufacturers/" + manufacturerId,
             type: "GET",
             success: function (result) {
-                console.log(result);
                 const modelsLength = result.models.length;
-                for (let i=0; i<modelsLength; i++){
+                for (let i = 0; i < modelsLength; i++) {
                     $('#modelSelect').append(
-                        $('<option>',{
+                        $('<option>', {
                             value: result.models[i].id,
                             text: result.models[i].name
                         })
                     );
                 }
             },
-            error: function (error){
+            error: function (error) {
                 console.log(error);
             }
         })
     }
 
-    function getManufacturers(){
+    function getManufacturers() {
         $('#manufacturerSelect').empty();
         $.ajax({
             url: "http://localhost:8080/api/manufacturers",
@@ -420,7 +458,7 @@
             success: function (result) {
                 console.log(result);
                 const manufacturersLength = result.length;
-                for (let i=0; i<manufacturersLength+1; i++){
+                for (let i = 0; i < manufacturersLength + 1; i++) {
                     if (i === manufacturersLength) {
                         $('#manufacturerSelect').append(
                             $('<option selected>', {
@@ -429,7 +467,7 @@
                         )
                     } else {
                         $('#manufacturerSelect').append(
-                            $('<option>',{
+                            $('<option>', {
                                 value: result[i].id,
                                 text: result[i].name
                             })
@@ -437,47 +475,33 @@
                     }
                 }
             },
-            error: function (error){
+            error: function (error) {
                 console.log(error);
             }
         })
     }
 
-    function setDeleteDeviceModal(id){
+    function setDeleteDeviceModal(id) {
         $.ajax({
-           url: "http://localhost:8080/api/devices/"+id,
-           type: "GET",
-            success: function (result){
-               console.log(result);
-               document.getElementById('deleteDeviceId').value = id;
-               document.getElementById('h3DeleteDeviceModal').innerHTML = result.model.manufacturer.name+' '+result.model.name+'<br>S/N: '+result.serialNumber+'?';
-            },
-            error: function (error){
-                console.log(error);
-            }
-        });
-    }
-
-    function setCountersDeviceModal(id){
-        $.ajax({
-            url: "http://localhost:8080/api/devices/"+id,
+            url: "http://localhost:8080/api/devices/" + id,
             type: "GET",
-            success: function (result){
-                console.log(result.counters);
-
+            success: function (result) {
+                console.log(result);
+                document.getElementById('deleteDeviceId').value = id;
+                document.getElementById('h3DeleteDeviceModal').innerHTML = result.model.manufacturer.name + ' ' + result.model.name + '<br>S/N: ' + result.serialNumber + '?';
             },
-            error: function (error){
+            error: function (error) {
                 console.log(error);
             }
         });
     }
 
-    function setEditDeviceModal(id){
+    function setEditDeviceModal(id) {
         console.log(id);
         $.ajax({
-            url: "http://localhost:8080/api/devices/"+id,
+            url: "http://localhost:8080/api/devices/" + id,
             type: "GET",
-            success: function (result){
+            success: function (result) {
                 console.log(result);
                 document.getElementById('deviceIdEdit').value = result.id;
                 document.getElementById('deviceAddressIdEdit').value = result.address.id;
@@ -485,7 +509,7 @@
                 document.getElementById('deviceManufacturerEdit').value = result.model.manufacturer.name;
                 document.getElementById('deviceModelEdit').value = result.model.name;
                 document.getElementById('deviceSerialNumberEdit').value = result.serialNumber;
-                document.getElementById('deviceCustomerEdit').value = result.customer.companyName+', TAX ID: '+result.customer.taxId;
+                document.getElementById('deviceCustomerEdit').value = result.customer.companyName + ', TAX ID: ' + result.customer.taxId;
 
                 document.getElementById('deviceStreetEdit').value = result.address.street;
                 document.getElementById('deviceHouseNumberEdit').value = result.address.houseNumber;
@@ -494,7 +518,7 @@
                 document.getElementById('deviceCityEdit').value = result.address.city;
                 document.getElementById('deviceProvinceEdit').value = result.address.province;
             },
-            error: function (error){
+            error: function (error) {
                 console.log(error);
             }
         })
