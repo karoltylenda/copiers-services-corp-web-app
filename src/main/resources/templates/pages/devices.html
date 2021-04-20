@@ -368,7 +368,7 @@
                 }
             }
         });
-
+        $('#countersTable').DataTable();
     });
 
     $("#selectCustomer").select2({
@@ -392,39 +392,52 @@
         allowClear: true
     });
 
-    function setCountersDeviceModal(id){
-        $('#countersTable').dataTable({
-            destroy: true,
-            searching: false,
-            ajax:{
-                url: 'api/devices/'+id,
-                dataSrc: 'counters'
-            },
-            columns: [
-                {data: 'counterDate'},
-                {data: 'monoCounter'},
-                {data: 'colourCounter'},
-                {data: 'totalCounter'},
-                {
-                    defaultContent: '<button class="btn btn-sm btn-danger" onclick="deleteCounter(id)">Delete</button>'
+    function setCounters(result){
+        return result;
+    }
+
+    function setCountersDeviceModal(id) {
+        $.ajax({
+            url: 'api/devices/' + id,
+            type: 'GET',
+            success: function (result) {
+                let counters = result.counters;
+                console.log(counters);
+                // $('#countersTable tbody').empty();
+                $('#countersTable').DataTable().clear().destroy();
+
+                for (let i = 0; i < counters.length; i++) {
+                    $('#countersTable tbody').append(
+                        '<tr>' +
+                        '<td>' + counters[i].counterDate + '</td>' +
+                        '<td>' + counters[i].monoCounter + '</td>' +
+                        '<td>' + counters[i].colourCounter + '</td>' +
+                        '<td>' + counters[i].totalCounter + '</td>' +
+                        '<td>' + 'Delete' + '</td>' +
+                        '</tr>'
+                    )
                 }
-            ],
-            language: {
-                paginate: {
-                    previous: '<',
-                    next: '>'
-                }
-            },
-            aria: {
-                paginate: {
-                    previous: 'Previous',
-                    next: 'Next'
-                }
-            },
-            responsive: true
+                $('#countersTable').DataTable({
+                    searching: false,
+                    language: {
+                        paginate: {
+                            previous: '<',
+                            next: '>'
+                        }
+                    },
+                    aria: {
+                        paginate: {
+                            previous: 'Previous',
+                            next: 'Next'
+                        }
+                    },
+                    responsive: true
+                });
+            }
         })
     }
-    function deleteCounter(id){
+
+    function deleteCounter(id) {
         console.log(id)
     }
 
@@ -456,7 +469,6 @@
             url: "http://localhost:8080/api/manufacturers",
             type: "GET",
             success: function (result) {
-                console.log(result);
                 const manufacturersLength = result.length;
                 for (let i = 0; i < manufacturersLength + 1; i++) {
                     if (i === manufacturersLength) {
