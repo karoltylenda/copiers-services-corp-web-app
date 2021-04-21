@@ -32,7 +32,8 @@ public class CounterService {
 
     @Transactional
     public Counter save(Counter counter) {
-        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(counter.getDevice().getSerialNumber());
+//        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(counter.getDevice().getSerialNumber());
+        Optional<Device> deviceOptional = deviceRepository.findById(counter.getDevice().getId());
         if (deviceOptional.isPresent() && isCounterPossible(counter)) {
             counter.setDevice(deviceOptional.get());
             Counter counterSaved = counterRepository.save(counter);
