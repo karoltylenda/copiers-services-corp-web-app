@@ -4,6 +4,8 @@ import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.CounterRepository;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
+import com.tytanisukcesu.copiers.service.exception.CounterIncorrectValuesException;
+import com.tytanisukcesu.copiers.service.exception.DeviceNotFoundException;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,15 +34,14 @@ public class CounterService {
 
     @Transactional
     public Counter save(Counter counter) {
-//        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(counter.getDevice().getSerialNumber());
         Optional<Device> deviceOptional = deviceRepository.findById(counter.getDevice().getId());
-        if (deviceOptional.isPresent() && isCounterPossible(counter)) {
+        if (deviceOptional.isPresent()){
             counter.setDevice(deviceOptional.get());
-            Counter counterSaved = counterRepository.save(counter);
-            return counterSaved;
-        } else {
-            return new Counter();
-        }
+            if(isCounterPossible(counter)){
+                Counter counterSaved = counterRepository.save(counter);
+                return counterSaved;
+            } else throw new CounterIncorrectValuesException();
+        } else throw new DeviceNotFoundException(counter.getDevice().getId());
     }
 
     private boolean isCounterPossible(Counter counter) {
