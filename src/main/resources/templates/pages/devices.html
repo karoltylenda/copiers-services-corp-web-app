@@ -364,6 +364,19 @@
                     </div>
                 </div>
                 <hr>
+                <div class="alert alert-success collapse" role="alert" id="counterAddAlertSucess">
+                    <strong>Success!</strong> New counter has been added!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="alert alert-warning collapse" role="alert" id="counterAddAllertWarning">
+                    <strong>Warning!</strong> Counter has not been added!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-sm"
@@ -394,6 +407,10 @@
             }
         });
         $('#countersTable').DataTable();
+
+        $('.alert .close').on('click', function (){
+            $(this).parent().hide();
+        })
     });
 
     $("#selectCustomer").select2({
@@ -579,7 +596,10 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (){
-                alert("New counter has been added");
+                $("#counterAddAlertSucess").show();
+            },
+            error: function (){
+                $("#counterAddAllertWarning").show();
             }
         })
     }
