@@ -371,8 +371,22 @@
                     </button>
                 </div>
 
-                <div class="alert alert-warning collapse" role="alert" id="counterAddAllertWarning">
+                <div class="alert alert-warning collapse" role="alert" id="counterAddAlertWarning">
                     <strong>Warning!</strong> Counter has not been added!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="alert alert-success collapse" role="alert" id="counterDeleteAlertSucess">
+                    <strong>Success!</strong> Counter has been deleted!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="alert alert-warning collapse" role="alert" id="counterDeleteAlertWarning">
+                    <strong>Warning!</strong> Counter has not been deleted!
                     <button type="button" class="close" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -486,10 +500,10 @@
             type: "DELETE",
             success: function (){
                 setCountersDeviceModal(deviceId);
-                alert("Counter has been deleted");
+                $("#counterDeleteAlertSucess").show();
             },
             error: function (){
-                alert("Counter has not been deleted");
+                $("#counterDeleteAlertWarning").show();
             }
         })
     }
@@ -610,7 +624,7 @@
                 $("#counterAddAlertSucess").show();
             },
             error: function (){
-                $("#counterAddAllertWarning").show();
+                $("#counterAddAlertWarning").show();
             }
         })
     }
