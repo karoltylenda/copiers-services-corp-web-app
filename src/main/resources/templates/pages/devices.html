@@ -481,7 +481,17 @@
 
     function deleteCounter(counterId, deviceId) {
         console.log(counterId, deviceId);
-        setDeleteDeviceModal(deviceId);
+        $.ajax({
+            url: "/api/counters/"+counterId,
+            type: "DELETE",
+            success: function (){
+                setCountersDeviceModal(deviceId);
+                alert("Counter has been deleted");
+            },
+            error: function (){
+                alert("Counter has not been deleted");
+            }
+        })
     }
 
     function updateModels(manufacturerId) {
