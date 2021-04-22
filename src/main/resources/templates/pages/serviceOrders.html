@@ -91,6 +91,14 @@
                                         </div>
                                     </div>
                                 </td>
+                                <div class="modal fade" tabindex="-1" role="dialog"
+                                     aria-hidden="true" th:id="editServiceOrderModal+${sOrder.id}">
+                                    <div class="modal-dialog modal-dialog-centered modal-" role="document">
+                                        <div class="modal-content">
+
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                             </tbody>
                         </table>
@@ -100,6 +108,59 @@
         </div>
     </div>
 </div>
+
+<!-- Add new service order modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true"
+     id="addNewServiceOrderModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new Order</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/serviceOrders" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectType">Printing Format: </label>
+                                <select class="form-control form-control-sm" id="selectType"
+                                        name="orderType" required>
+                                    <option value=""></option>
+                                    <option class="list-group-item" value="REPAIR">
+                                        Repair
+                                    </option>
+                                    <option class="list-group-item" value="CONSUMABLE_DELIVERY">
+                                        Consumable Delivery
+                                    </option>
+                                    <option class="list-group-item" value="TECHNICAL_REVIEW">
+                                        Technival Review
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="deviceSelect">Device:</label>
+                                <select class="form-control form-control-sm"
+                                        id="deviceSelect" name="device.id" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionOfTheFault">Description:</label>
+                        <textarea class="form-control" id="descriptionOfTheFault" rows="3"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <!-- Argon Scripts -->
 <th:block th:include="pages/fragments/scripts"></th:block>
 
@@ -107,6 +168,56 @@
     $(document).ready(function () {
         $('#serviceOrdersTable').DataTable();
     });
+
+    $('#deviceSelect').select2({
+        dropdownParent: $("#addNewServiceOrderModal"),
+        theme: "bootstrap",
+        placeholder: 'Select device',
+        allowClear: true
+    }).click(getDevices());
+
+    function getDevices() {
+        $('#deviceSelect').empty();
+        $.ajax({
+            url: "http://localhost:8080/api/devices",
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const devices = result.length;
+                for (let i = 0; i < devices + 1; i++) {
+                    if (i === devices) {
+                        $('#deviceSelect').append(
+                            $('<option selected>', {
+                                value: ''
+                            })
+                        )
+                    } else {
+                        $('#deviceSelect').append(
+                            $('<option>', {
+                                value: result[i].id,
+                                text: result[i].serialNumber + ' ' + result[i].model.name
+                            })
+                        );
+                    }
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function isConsumableDeliverySelected(){
+        if($('#selectType').val() !== 'CONSUMABLE_DELIVERY'){
+            $('#deviceSelect').prop('disabled',true);
+        }else{
+            $('#deviceSelect').prop('disabled',false);
+        }
+    }
+
+    $('#selectType').on('change', function () {
+        isConsumableDeliverySelected();
+    })
 
 
 </script>
