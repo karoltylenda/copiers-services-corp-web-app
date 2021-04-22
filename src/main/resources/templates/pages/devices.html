@@ -316,7 +316,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Confirmation</h2>
+                <h2>Counter details</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -338,6 +338,58 @@
 
                         </tbody>
                     </table>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="monoCounter">Mono counter:</label>
+                        <input type="number" class="form-control form-control-sm" min="0" step="1" id="monoCounter">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="colourCounter">Colour counter:</label>
+                        <input type="number" class="form-control form-control-sm" min="0" step="1" id="colourCounter">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="totalCounter">Total counter:</label>
+                        <input type="number" class="form-control form-control-sm" min="0" step="1" id="totalCounter">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="counterDate">Date:</label>
+                        <input type="date" class="form-control form-control-sm" id="counterDate">
+                    </div>
+                    <div class="col-md-4 align-self-end">
+                        <button type="button" class="btn btn-sm btn-success" onclick="addNewCounter()">Add counter</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="alert alert-success collapse" role="alert" id="counterAddAlertSucess">
+                    <strong>Success!</strong> New counter has been added!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="alert alert-warning collapse" role="alert" id="counterAddAlertWarning">
+                    <strong>Warning!</strong> Counter has not been added!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="alert alert-success collapse" role="alert" id="counterDeleteAlertSucess">
+                    <strong>Success!</strong> Counter has been deleted!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="alert alert-warning collapse" role="alert" id="counterDeleteAlertWarning">
+                    <strong>Warning!</strong> Counter has not been deleted!
+                    <button type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -368,7 +420,11 @@
                 }
             }
         });
+        $('#countersTable').DataTable();
 
+        $('.alert .close').on('click', function (){
+            $(this).parent().hide();
+        })
     });
 
     $("#selectCustomer").select2({
@@ -392,40 +448,64 @@
         allowClear: true
     });
 
-    function setCountersDeviceModal(id){
-        $('#countersTable').dataTable({
-            destroy: true,
-            searching: false,
-            ajax:{
-                url: 'api/devices/'+id,
-                dataSrc: 'counters'
-            },
-            columns: [
-                {data: 'counterDate'},
-                {data: 'monoCounter'},
-                {data: 'colourCounter'},
-                {data: 'totalCounter'},
-                {
-                    defaultContent: '<button class="btn btn-sm btn-danger" onclick="deleteCounter(id)">Delete</button>'
+    function setCounters(result) {
+        return result;
+    }
+
+    function setCountersDeviceModal(deviceId) {
+        $.ajax({
+            url: 'api/devices/' + deviceId,
+            type: 'GET',
+            success: function (result) {
+                let counters = result.counters;
+                console.log(counters);
+                document.getElementById("countersDeviceId").value = deviceId;
+                $('#countersTable').DataTable().clear().destroy();
+                for (let i = 0; i < counters.length; i++) {
+                    const id = counters[i].id;
+                    $('#countersTable tbody').append(
+                        '<tr>' +
+                        '<td>' + counters[i].counterDate + '</td>' +
+                        '<td>' + counters[i].monoCounter + '</td>' +
+                        '<td>' + counters[i].colourCounter + '</td>' +
+                        '<td>' + counters[i].totalCounter + '</td>' +
+                        '<td>' + '<button class="btn btn-danger btn-sm" onclick="deleteCounter(' + counters[i].id + ',' + deviceId + ')"> Delete </button>' + '</td>' +
+                        '</tr>'
+                    )
                 }
-            ],
-            language: {
-                paginate: {
-                    previous: '<',
-                    next: '>'
-                }
-            },
-            aria: {
-                paginate: {
-                    previous: 'Previous',
-                    next: 'Next'
-                }
-            },
-            responsive: true
+                $('#countersTable').DataTable({
+                    searching: false,
+                    language: {
+                        paginate: {
+                            previous: '<',
+                            next: '>'
+                        }
+                    },
+                    aria: {
+                        paginate: {
+                            previous: 'Previous',
+                            next: 'Next'
+                        }
+                    },
+                    responsive: true
+                });
+            }
         })
     }
-    function deleteCounter(id){
-        console.log(id)
+
+    function deleteCounter(counterId, deviceId) {
+        console.log(counterId, deviceId);
+        $.ajax({
+            url: "/api/counters/"+counterId,
+            type: "DELETE",
+            success: function (){
+                setCountersDeviceModal(deviceId);
+                $("#counterDeleteAlertSucess").show();
+            },
+            error: function (){
+                $("#counterDeleteAlertWarning").show();
+            }
+        })
     }
 
     function updateModels(manufacturerId) {
@@ -456,7 +536,6 @@
             url: "http://localhost:8080/api/manufacturers",
             type: "GET",
             success: function (result) {
-                console.log(result);
                 const manufacturersLength = result.length;
                 for (let i = 0; i < manufacturersLength + 1; i++) {
                     if (i === manufacturersLength) {
@@ -520,6 +599,32 @@
             },
             error: function (error) {
                 console.log(error);
+            }
+        })
+    }
+
+    function addNewCounter(){
+        let monoCounter = document.getElementById("monoCounter").value;
+        let colourCounter = document.getElementById("colourCounter").value;
+        let totalCounter = document.getElementById("totalCounter").value;
+        let counterDate = document.getElementById("counterDate").value;
+        let id = document.getElementById("countersDeviceId").value;
+        let device = {id: id}
+        let counter = {monoCounter, colourCounter, totalCounter, counterDate, device};
+        let json = JSON.stringify(counter);
+        console.log(json);
+        $.ajax({
+            type: 'POST',
+            url: '/api/counters',
+            data: json,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (){
+                setCountersDeviceModal(id);
+                $("#counterAddAlertSucess").show();
+            },
+            error: function (){
+                $("#counterAddAlertWarning").show();
             }
         })
     }

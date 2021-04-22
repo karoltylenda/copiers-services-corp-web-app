@@ -27,7 +27,6 @@ public class CounterDto {
 
     @EqualsAndHashCode.Exclude
     @JsonIgnoreProperties({
-            "id",
             "model",
             "customer",
             "counters",

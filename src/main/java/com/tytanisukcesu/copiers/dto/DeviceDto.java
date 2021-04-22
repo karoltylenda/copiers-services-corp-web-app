@@ -1,10 +1,9 @@
 package com.tytanisukcesu.copiers.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
+
 import java.util.Set;
 
 @Builder
@@ -16,7 +15,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class DeviceDto {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @JsonIgnoreProperties({

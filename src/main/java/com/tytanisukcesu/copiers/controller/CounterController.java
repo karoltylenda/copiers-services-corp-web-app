@@ -5,6 +5,8 @@ import com.tytanisukcesu.copiers.entity.Counter;
 import com.tytanisukcesu.copiers.service.CounterService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +46,13 @@ public class CounterController {
         Counter counter = convertToEntity(counterDto);
         Counter counterSaved = counterService.save(counter);
         return convertToDto(counterSaved);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id){
+        if (counterService.delete(id)) {
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        } else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     private Counter convertToEntity(CounterDto counterDto){

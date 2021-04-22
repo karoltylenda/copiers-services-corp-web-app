@@ -1,18 +1,14 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.dto.CustomerDto;
-import com.tytanisukcesu.copiers.dto.DeviceDto;
-import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -33,9 +29,8 @@ public class DeviceService {
         return devices;
     }
 
-    @Cacheable(cacheNames = "SingleDevice",key = "#id")
     public Device findById(Long id) {
-        return deviceRepository.findById(id).orElseThrow(()->new ModelNotFoundException(id,"device"));
+        return deviceRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id, "device"));
     }
 
     @Transactional
@@ -72,7 +67,7 @@ public class DeviceService {
     }
 
     @Transactional
-    @CachePut(cacheNames = "SingleDevice",key = "#result.id")
+    @CachePut(cacheNames = "SingleDevice", key = "#result.id")
     public Device update(Long id, Device device) {
         Optional<Device> deviceOptional = deviceRepository.findById(id);
         if (deviceOptional.isPresent()) {
@@ -87,7 +82,8 @@ public class DeviceService {
             return deviceUpdated;
         } else {
             LOGGER.warning("Device for id " + id + " has not been found");
-            throw new ModelNotFoundException(id, "device");        }
+            throw new ModelNotFoundException(id, "device");
+        }
     }
 
     @CacheEvict(cacheNames = "SingleDevice")
