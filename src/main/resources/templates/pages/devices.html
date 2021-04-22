@@ -596,6 +596,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (){
+                setCountersDeviceModal(id);
                 $("#counterAddAlertSucess").show();
             },
             error: function (){
