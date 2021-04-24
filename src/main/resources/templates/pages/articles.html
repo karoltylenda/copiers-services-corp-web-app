@@ -113,10 +113,9 @@
                                                                 <select class="form-control form-control-sm"
                                                                         id="isConsumableSelectEdit" name="isConsumable"
                                                                         required>
-                                                                    <option value=""></option>
-                                                                    <option class="list-group-item" value=true>YES
+                                                                    <option th:selected="${article.isConsumable == true}" class="list-group-item" value=true>YES
                                                                     </option>
-                                                                    <option class="list-group-item" value=false>NO
+                                                                    <option th:selected="${article.isConsumable == false}" class="list-group-item" value=false>NO
                                                                     </option>
                                                                 </select>
                                                             </div>

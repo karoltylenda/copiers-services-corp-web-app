@@ -128,7 +128,6 @@
                                 <label for="selectType">Printing Format: </label>
                                 <select class="form-control form-control-sm" id="selectType"
                                         name="orderType" required>
-                                    <option value=""></option>
                                     <option class="list-group-item" value="REPAIR">
                                         Repair
                                     </option>
@@ -141,11 +140,21 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerSelect">Customer:</label>
+                                <select class="form-control form-control-sm"
+                                        id="customerSelect" onchange="getDevicesByCustomer(this.value)">
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="deviceSelect">Device:</label>
                                 <select class="form-control form-control-sm"
-                                        id="deviceSelect" name="device.id" required>
+                                        id="deviceSelect" name="device.id" onchange="getArticlesForModel(this.value)" required>
                                 </select>
                             </div>
                         </div>
@@ -153,6 +162,19 @@
                     <div class="form-group">
                         <label for="descriptionOfTheFault">Description:</label>
                         <textarea class="form-control" id="descriptionOfTheFault" rows="3"></textarea>
+                    </div>
+                    <div class="form-group text-center text-lg">
+                        <p>Articles:</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="articleSelect">Article:</label>
+                                <select class="form-control form-control-sm" multiple="multiple"
+                                        id="articleSelect" name="articlesArray" required>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -169,33 +191,33 @@
         $('#serviceOrdersTable').DataTable();
     });
 
-    $('#deviceSelect').select2({
+    $('#customerSelect').select2({
         dropdownParent: $("#addNewServiceOrderModal"),
         theme: "bootstrap",
-        placeholder: 'Select device',
+        placeholder: 'Select customer',
         allowClear: true
-    }).click(getDevices());
+    }).click(getCustomers());
 
-    function getDevices() {
-        $('#deviceSelect').empty();
+
+    function getCustomers() {
+        $('#customerSelect').empty();
         $.ajax({
-            url: "http://localhost:8080/api/devices",
+            url: "http://localhost:8080/api/customers",
             type: "GET",
             success: function (result) {
-                console.log(result);
-                const devices = result.length;
-                for (let i = 0; i < devices + 1; i++) {
-                    if (i === devices) {
-                        $('#deviceSelect').append(
+                const customers = result.length;
+                for (let i = 0; i < customers + 1; i++) {
+                    if (i === customers) {
+                        $('#customerSelect').append(
                             $('<option selected>', {
                                 value: ''
                             })
                         )
                     } else {
-                        $('#deviceSelect').append(
+                        $('#customerSelect').append(
                             $('<option>', {
                                 value: result[i].id,
-                                text: result[i].serialNumber + ' ' + result[i].model.name
+                                text: result[i].companyName + ' ' + result[i].taxId
                             })
                         );
                     }
@@ -207,17 +229,78 @@
         })
     }
 
-    function isConsumableDeliverySelected(){
-        if($('#selectType').val() !== 'CONSUMABLE_DELIVERY'){
-            $('#deviceSelect').prop('disabled',true);
-        }else{
-            $('#deviceSelect').prop('disabled',false);
-        }
+
+    function getDevicesByCustomer(customerId) {
+        $('#deviceSelect').empty();
+        $('#articleSelect').empty();
+        $.ajax({
+            url: "http://localhost:8080/api/customers/" + customerId,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const devicesLength = result.devices.length;
+                for (let i = 0; i < devicesLength; i++) {
+                    $('#deviceSelect').append(
+                        $('<option>', {
+                            value: result.devices[i].id,
+                            text: result.devices[i].serialNumber + ' / ' + result.devices[i].model.name
+                        })
+                    );
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
     }
 
-    $('#selectType').on('change', function () {
-        isConsumableDeliverySelected();
-    })
+
+
+
+
+    function getArticlesForModel(deviceId){
+        $('#articleSelect').empty();
+        $.ajax({
+            url: "http://localhost:8080/api/devices/" + deviceId,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                console.log(result.model.id);
+                const modelId = result.model.id;
+                $.ajax({
+                    url: "http://localhost:8080/api/models/" + modelId,
+                    type: "GET",
+                    success: function (result) {
+                        console.log(result);
+                        const articlesLength = result.consumables.length;
+                        for (let i = 0; i < articlesLength; i++) {
+                            $('#articleSelect').append(
+                                $('<option>', {
+                                    value: result.consumables[i].id,
+                                    text: result.consumables[i].name
+                                })
+                            );
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+    })}
+
+
+    // function isConsumableDeliverySelected() {
+    //     if ($('#selectType').val() !== 'CONSUMABLE_DELIVERY') {
+    //         $('#deviceSelect').prop('disabled', true);
+    //     } else {
+    //         $('#deviceSelect').prop('disabled', false);
+    //     }
+    // }
+    //
+    // $('#selectType').on('change', function () {
+    //     isConsumableDeliverySelected();
+    // })
 
 
 </script>

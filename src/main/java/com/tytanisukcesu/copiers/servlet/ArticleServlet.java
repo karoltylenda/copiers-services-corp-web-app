@@ -51,11 +51,11 @@ public class ArticleServlet {
         return new RedirectView("/articles");
     }
 
-    @GetMapping(value = "/")
-    public String findByCustomer(@RequestParam Long id, Model model) {
-        model.addAttribute("models", articleService.findById(id).getModels());
-        return "pages/articles";
-    }
+//    @GetMapping(value = "/")
+//    public String findByCustomer(@RequestParam Long id, Model model) {
+//        model.addAttribute("models", articleService.findById(id).getModels());
+//        return "pages/articles";
+//    }
 
     @PostMapping(value = "/update")
     public RedirectView update(Long id,ArticleDto articleDto){

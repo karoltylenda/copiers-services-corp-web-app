@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.servlet;
 
 import com.tytanisukcesu.copiers.dto.ServiceOrderDto;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
+import com.tytanisukcesu.copiers.service.CustomerService;
 import com.tytanisukcesu.copiers.service.DeviceService;
 import com.tytanisukcesu.copiers.service.ServiceOrderService;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,14 @@ public class ServiceOrderServlet {
 
     private final ServiceOrderService serviceOrderService;
     private final DeviceService deviceService;
+    private final CustomerService customerService;
     private final ModelMapper modelMapper;
 
     @GetMapping
     public String findAll(Model model){
         model.addAttribute("serviceOrders", serviceOrderService.findAll());
         model.addAttribute("devices", deviceService.findAll());
+        model.addAttribute("customers",customerService.findAll());
         return ("pages/serviceOrders");
     }
 
