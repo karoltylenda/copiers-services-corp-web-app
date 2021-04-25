@@ -36,6 +36,36 @@ public class ServiceOrderService {
             ServiceOrder serviceOrderToSave = new ServiceOrder();
             serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
             Set<ArticleOrdered> articleOrderedSet = new HashSet<>();
+            if(serviceOrder.getArticleOrderedSet()!=null){ //dodany if //FIXME
+                for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
+                    articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+                }
+            }
+            serviceOrderToSave.setArticleOrderedSet(articleOrderedSet);
+            serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
+            serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
+            serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
+            serviceOrderToSave.setOrderCreationDate(LocalDateTime.now());
+            serviceOrderToSave.setServiceOrderNumber(generateOrderNumber(serviceOrderToSave.getOrderCreationDate()));
+            serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
+            serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
+            serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
+            ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrderToSave);
+            articleOrderedSet.forEach(articleOrdered -> {
+                articleOrdered.setServiceOrder(serviceOrderSaved);
+            });
+            return serviceOrderSaved;
+        } else {
+            return new ServiceOrder();
+        }
+    }
+
+    @Transactional
+    public ServiceOrder saveFromServlet(ServiceOrder serviceOrder) {
+        if (!checkIfServiceOrderExists(serviceOrder.getDevice().getSerialNumber()) || serviceOrder.getOrderType().equals(ServiceOrderType.CONSUMABLE_DELIVERY)) {
+            ServiceOrder serviceOrderToSave = new ServiceOrder();
+            serviceOrderToSave.setDevice(deviceService.findById(serviceOrder.getDevice().getId()));
+            Set<ArticleOrdered> articleOrderedSet = new HashSet<>();
             for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
                 articleOrderedSet.add(articleOrderedService.save(articleOrdered));
             }

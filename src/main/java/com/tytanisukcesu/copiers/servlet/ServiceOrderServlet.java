@@ -35,7 +35,7 @@ public class ServiceOrderServlet {
 
     @PostMapping
     public RedirectView save(ServiceOrderDto serviceOrderDto){
-        serviceOrderService.save(convertToEntity(serviceOrderDto));
+        serviceOrderService.saveFromServlet(convertToEntity(serviceOrderDto));
         return new RedirectView("/serviceOrders");
     }
 

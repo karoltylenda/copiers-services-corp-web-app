@@ -62,6 +62,7 @@
                                 <th scope="col">End Date</th>
                                 <th scope="col">Last Update</th>
                                 <th scope="col">Device</th>
+                                <th scope="col">Status Bar</th>
                                 <th class="text-right" scope="col">Action</th>
                             </tr>
                             </thead>
@@ -75,6 +76,7 @@
                                 <td th:text="${sOrder.orderEndDate}"></td>
                                 <td th:text="${sOrder.lastUpdateDate}"></td>
                                 <td th:text="${sOrder.device}"></td>
+                                <td><span class="badge badge-pill" th:classappend="${sOrder.orderStatus.equals(sOrder.orderStatus.NEW)} ? 'badge-success' : 'badge-default'" th:text="${sOrder.orderStatus}"></span></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
@@ -171,11 +173,17 @@
                             <div class="form-group">
                                 <label for="articleSelect">Article:</label>
                                 <select class="form-control form-control-sm" multiple="multiple"
-                                        id="articleSelect" name="articlesArray" required>
+                                        id="articleSelect">
                                 </select>
                             </div>
                         </div>
                     </div>
+                </div>
+                <hr>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" >Add Order
+                    </button>
                 </div>
             </form>
         </div>
@@ -290,17 +298,17 @@
     })}
 
 
-    // function isConsumableDeliverySelected() {
-    //     if ($('#selectType').val() !== 'CONSUMABLE_DELIVERY') {
-    //         $('#deviceSelect').prop('disabled', true);
-    //     } else {
-    //         $('#deviceSelect').prop('disabled', false);
-    //     }
-    // }
-    //
-    // $('#selectType').on('change', function () {
-    //     isConsumableDeliverySelected();
-    // })
+    function isConsumableDeliverySelected() {
+        if ($('#selectType').val() !== 'CONSUMABLE_DELIVERY') {
+            $('#articleSelect').prop('disabled', true);
+        } else {
+            $('#articleSelect').prop('disabled', false);
+        }
+    }
+
+    $('#selectType').on('change', function () {
+        isConsumableDeliverySelected();
+    })
 
 
 </script>
