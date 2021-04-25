@@ -76,7 +76,11 @@
                                 <td th:text="${sOrder.orderEndDate}"></td>
                                 <td th:text="${sOrder.lastUpdateDate}"></td>
                                 <td th:text="${sOrder.device}"></td>
-                                <td><span class="badge badge-pill" th:classappend="${sOrder.orderStatus.equals(sOrder.orderStatus.NEW)} ? 'badge-success' : 'badge-default'" th:text="${sOrder.orderStatus}"></span></td>
+                                <td><span class="badge badge-pill" th:classappend="${(sOrder.orderStatus.equals(sOrder.orderStatus.NEW) ? 'badge-info' : '')+
+                                                                                   (sOrder.orderStatus.equals(sOrder.orderStatus.IN_PROGRESS) ? 'badge-primary' : '')+
+                                                                                   (sOrder.orderStatus.equals(sOrder.orderStatus.COMPLETED) ? 'badge-success' : '')+
+                                                                                   (sOrder.orderStatus.equals(sOrder.orderStatus.CANCELLED) ? 'badge-danger' : '')}"
+                                          th:text="${sOrder.orderStatus}"></span></td>
                                 <td class="text-right">
                                     <div class="dropdown">
                                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"

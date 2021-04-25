@@ -66,8 +66,10 @@ public class ServiceOrderService {
             ServiceOrder serviceOrderToSave = new ServiceOrder();
             serviceOrderToSave.setDevice(deviceService.findById(serviceOrder.getDevice().getId()));
             Set<ArticleOrdered> articleOrderedSet = new HashSet<>();
-            for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
-                articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+            if(serviceOrder.getArticleOrderedSet()!=null){ //dodany if //FIXME
+                for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
+                    articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+                }
             }
             serviceOrderToSave.setArticleOrderedSet(articleOrderedSet);
             serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
