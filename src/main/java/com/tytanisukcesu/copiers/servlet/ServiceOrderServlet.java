@@ -1,6 +1,7 @@
 package com.tytanisukcesu.copiers.servlet;
 
 
+import com.tytanisukcesu.copiers.dto.ModelDto;
 import com.tytanisukcesu.copiers.dto.ServiceOrderDto;
 import com.tytanisukcesu.copiers.entity.ServiceOrder;
 import com.tytanisukcesu.copiers.service.CustomerService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,13 @@ public class ServiceOrderServlet {
     @PostMapping
     public RedirectView save(ServiceOrderDto serviceOrderDto){
         serviceOrderService.saveFromServlet(convertToEntity(serviceOrderDto));
+        return new RedirectView("/serviceOrders");
+    }
+
+    @PostMapping(value = "/delete")
+    public RedirectView delete (ServiceOrderDto serviceOrderDto){
+        ServiceOrder serviceOrder = convertToEntity(serviceOrderDto);
+        serviceOrderService.delete(serviceOrder.getId());
         return new RedirectView("/serviceOrders");
     }
 

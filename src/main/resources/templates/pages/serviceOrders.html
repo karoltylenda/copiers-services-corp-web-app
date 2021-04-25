@@ -53,29 +53,32 @@
                     <div class="container-fluid">
                         <table class="table align-items-center" id="serviceOrdersTable">
                             <thead class="thead-light">
-                            <tr>
+                            <tr style="text-align: center">
                                 <th scope="col">Order Number</th>
                                 <th scope="col">Type</th>
-                                <th scope="col">Status</th>
+                                <!--                                <th scope="col">Status</th>-->
                                 <th scope="col">Creation Date</th>
                                 <th scope="col">Start Date</th>
                                 <th scope="col">End Date</th>
                                 <th scope="col">Last Update</th>
-                                <th scope="col">Device</th>
-                                <th scope="col">Status Bar</th>
+                                <th scope="col">Device Serial Number</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Status</th>
                                 <th class="text-right" scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="sOrder:${serviceOrders}">
+                            <tr style="text-align: center" th:each="sOrder:${serviceOrders}">
                                 <td th:text="${sOrder.serviceOrderNumber}"></td>
-                                <td th:text="${sOrder.orderType}"></td>
-                                <td th:text="${sOrder.orderStatus}"></td>
-                                <td th:text="${sOrder.orderCreationDate}"></td>
-                                <td th:text="${sOrder.orderStartDate}"></td>
-                                <td th:text="${sOrder.orderEndDate}"></td>
-                                <td th:text="${sOrder.lastUpdateDate}"></td>
-                                <td th:text="${sOrder.device}"></td>
+                                <td><span class="badge badge-pill badge-default" th:text="${sOrder.orderType}"></span>
+                                </td>
+                                <td class=""
+                                    th:text="${#temporals.format(sOrder.orderCreationDate,'dd-MM-yyyy HH:mm')}"></td>
+                                <td th:text="${#temporals.format(sOrder.orderStartDate,'dd-MM-yyyy HH:mm')}"></td>
+                                <td th:text="${#temporals.format(sOrder.orderEndDate,'dd-MM-yyyy HH:mm')}"></td>
+                                <td th:text="${#temporals.format(sOrder.lastUpdateDate,'dd-MM-yyyy HH:mm')}"></td>
+                                <td th:text="${sOrder.device.serialNumber}"></td>
+                                <td class="text-align:center" th:text="${sOrder.device.model.name}"></td>
                                 <td><span class="badge badge-pill" th:classappend="${(sOrder.orderStatus.equals(sOrder.orderStatus.NEW) ? 'badge-info' : '')+
                                                                                    (sOrder.orderStatus.equals(sOrder.orderStatus.IN_PROGRESS) ? 'badge-primary' : '')+
                                                                                    (sOrder.orderStatus.equals(sOrder.orderStatus.COMPLETED) ? 'badge-success' : '')+
@@ -160,7 +163,8 @@
                             <div class="form-group">
                                 <label for="deviceSelect">Device:</label>
                                 <select class="form-control form-control-sm"
-                                        id="deviceSelect" name="device.id" onchange="getArticlesForModel(this.value)" required>
+                                        id="deviceSelect" name="device.id" onchange="getArticlesForModel(this.value)"
+                                        required>
                                 </select>
                             </div>
                         </div>
@@ -186,8 +190,37 @@
                 <hr>
                 <div class="modal-footer text-sm align-content-end">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary btn-sm" >Add Order
+                    <button type="submit" class="btn btn-primary btn-sm">Add Order
                     </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete article modal -->
+<div class="modal fade" id="deleteServiceOrderModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmation</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/articles/delete">
+                <div class="modal-body text-sm">
+                    <p>Are you sure you want to delete article: </p>
+                    <h3 id="h3deleteArticleModal"></h3>
+                    <p>This action cannot be undone and you will be unable to recover any data.</p>
+                    <input type="text" id="deleteArticleId" name="id" hidden="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm"
+                            data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </div>
             </form>
         </div>
@@ -267,10 +300,7 @@
     }
 
 
-
-
-
-    function getArticlesForModel(deviceId){
+    function getArticlesForModel(deviceId) {
         $('#articleSelect').empty();
         $.ajax({
             url: "http://localhost:8080/api/devices/" + deviceId,
@@ -299,7 +329,8 @@
                     }
                 })
             }
-    })}
+        })
+    }
 
 
     function isConsumableDeliverySelected() {
