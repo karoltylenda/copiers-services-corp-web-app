@@ -43,7 +43,6 @@ public class ServiceOrderDto {
 
     @JsonIgnoreProperties({
             "id",
-            "model",
             "customer",
             "counters",
             "address",

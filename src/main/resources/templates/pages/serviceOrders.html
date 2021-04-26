@@ -96,7 +96,7 @@
                                                th:data-target="'#editServiceOrderModal'+${sOrder.id}">Edit</a>
                                             <a class="dropdown-item" href="deleteServiceOrderModal"
                                                data-toggle="modal" data-target="#deleteServiceOrderModal"
-                                               th:onclick="'deleteServiceOrderModal('+${sOrder.id}+')'">Delete</a>
+                                               th:onclick="'setDeleteServiceOrderModal('+${sOrder.id}+')'">Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -208,12 +208,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="/articles/delete">
+            <form method="post" action="/serviceOrders/delete">
                 <div class="modal-body text-sm">
-                    <p>Are you sure you want to delete article: </p>
-                    <h3 id="h3deleteArticleModal"></h3>
+                    <p>Are you sure you want to delete service order: </p>
+                    <h3 id="h3deleteServiceOrderModal"></h3>
                     <p>This action cannot be undone and you will be unable to recover any data.</p>
-                    <input type="text" id="deleteArticleId" name="id" hidden="true">
+                    <input type="text" id="deleteServiceOrderId" name="id" hidden="true">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm"
@@ -344,6 +344,21 @@
     $('#selectType').on('change', function () {
         isConsumableDeliverySelected();
     })
+
+    function setDeleteServiceOrderModal(id){
+        $.ajax({
+            url: "http://localhost:8080/api/serviceOrders/" + id,
+            type: "GET",
+            success: function (result){
+                console.log(result)
+                document.getElementById('deleteServiceOrderId').value = id;
+                document.getElementById('h3deleteServiceOrderModal').innerText = 'with order number ' + result.serviceOrderNumber + ' for device: ' + result.device.model.name + ' with serial number: ' + result.device.serialNumber + '?';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
 
 
 </script>
