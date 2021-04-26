@@ -48,6 +48,13 @@ public class ServiceOrderServlet {
         return new RedirectView("/serviceOrders");
     }
 
+    @PostMapping(value = "/update")
+    public RedirectView update (Long id, ServiceOrderDto serviceOrderDto){
+        serviceOrderService.update(id,convertToEntity(serviceOrderDto));
+        return new RedirectView("/serviceOrders");
+    }
+
+
     private ServiceOrderDto convertToDto(ServiceOrder serviceOrder){
         ServiceOrderDto serviceOrderDto = modelMapper.map(serviceOrder, ServiceOrderDto.class);
         return serviceOrderDto;

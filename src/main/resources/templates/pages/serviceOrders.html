@@ -100,11 +100,36 @@
                                         </div>
                                     </div>
                                 </td>
+
+                                <!-- Edit modal -->
                                 <div class="modal fade" tabindex="-1" role="dialog"
                                      aria-hidden="true" th:id="editServiceOrderModal+${sOrder.id}">
                                     <div class="modal-dialog modal-dialog-centered modal-" role="document">
                                         <div class="modal-content">
-
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit service order:</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="/serviceOrders/update" method="post" autocomplete="off">
+                                                <div class="modal-body text-sm">
+                                                    <input type="text" th:value="${sOrder.id}" name="id" hidden="true">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="selectTypeEdit">Order Type: </label>
+                                                                <select class="form-control form-control-sm" id="selectTypeEdit"
+                                                                        name="orderType" required>
+                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.REPAIR)}" class="list-group-item" value="REPAIR">Repair</option>
+                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.CONSUMABLE_DELIVERY)}" class="list-group-item" value="CONSUMABLE_DELIVERY">Consumable Delivery</option>
+                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.TECHNICAL_REVIEW)}" class="list-group-item" value="TECHNICAL_REVIEW">Technival Review</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +159,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="selectType">Printing Format: </label>
+                                <label for="selectType">Order Type: </label>
                                 <select class="form-control form-control-sm" id="selectType"
                                         name="orderType" required>
                                     <option class="list-group-item" value="REPAIR">
