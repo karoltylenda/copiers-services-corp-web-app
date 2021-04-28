@@ -7,6 +7,7 @@ import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
 import com.tytanisukcesu.copiers.types.ServiceOrderType;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,9 +33,10 @@ public class ServiceOrderDto {
 
     private LocalDateTime orderCreationDate;
 
-    //TODO Pola tylko edytowalne
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime orderStartDate;
-    //TODO Pola tylko edytowalne
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime orderEndDate;
 
     private LocalDateTime lastUpdateDate;

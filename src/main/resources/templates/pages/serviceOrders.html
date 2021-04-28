@@ -108,7 +108,8 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Edit service order:</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -119,15 +120,76 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="selectTypeEdit">Order Type: </label>
-                                                                <select class="form-control form-control-sm" id="selectTypeEdit"
+                                                                <select class="form-control form-control-sm"
+                                                                        id="selectTypeEdit"
                                                                         name="orderType" required>
-                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.REPAIR)}" class="list-group-item" value="REPAIR">Repair</option>
-                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.CONSUMABLE_DELIVERY)}" class="list-group-item" value="CONSUMABLE_DELIVERY">Consumable Delivery</option>
-                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.TECHNICAL_REVIEW)}" class="list-group-item" value="TECHNICAL_REVIEW">Technival Review</option>
+                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.REPAIR)}"
+                                                                            class="list-group-item" value="REPAIR">
+                                                                        Repair
+                                                                    </option>
+                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.CONSUMABLE_DELIVERY)}"
+                                                                            class="list-group-item"
+                                                                            value="CONSUMABLE_DELIVERY">Consumable
+                                                                        Delivery
+                                                                    </option>
+                                                                    <option th:selected="${sOrder.orderType.equals(sOrder.orderType.TECHNICAL_REVIEW)}"
+                                                                            class="list-group-item"
+                                                                            value="TECHNICAL_REVIEW">Technival Review
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="selectStatusEdit">Order Status: </label>
+                                                                <select class="form-control form-control-sm"
+                                                                        id="selectStatusEdit"
+                                                                        name="orderStatus" required>
+                                                                    <option th:selected="${sOrder.orderStatus.equals(sOrder.orderStatus.NEW)}"
+                                                                            class="list-group-item" value="NEW">New
+                                                                    </option>
+                                                                    <option th:selected="${sOrder.orderStatus.equals(sOrder.orderStatus.IN_PROGRESS)}"
+                                                                            class="list-group-item" value="IN_PROGRESS">
+                                                                        In progress
+                                                                    </option>
+                                                                    <option th:selected="${sOrder.orderStatus.equals(sOrder.orderStatus.COMPLETED)}"
+                                                                            class="list-group-item" value="COMPLETED">
+                                                                        Completed
+                                                                    </option>
+                                                                    <option th:selected="${sOrder.orderStatus.equals(sOrder.orderStatus.CANCELLED)}"
+                                                                            class="list-group-item" value="CANCELLED">
+                                                                        Canceled
+                                                                    </option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Start date:</label>
+                                                                <input type="datetime-local" class="form-control form-control-sm"
+                                                                       name="orderStartDate" th:value="${sOrder.orderStartDate}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>End date:</label>
+                                                                <input type="datetime-local" class="form-control form-control-sm"
+                                                                       name="orderEndDate" th:value="${sOrder.orderEndDate}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="descriptionOfTheFaultEdit">Description:</label>
+                                                        <textarea class="form-control"
+                                                                  th:text="${sOrder.descriptionOfTheFault}"
+                                                                  id="descriptionOfTheFaultEdit" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer text-sm align-content-end">
+                                                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -370,11 +432,11 @@
         isConsumableDeliverySelected();
     })
 
-    function setDeleteServiceOrderModal(id){
+    function setDeleteServiceOrderModal(id) {
         $.ajax({
             url: "http://localhost:8080/api/serviceOrders/" + id,
             type: "GET",
-            success: function (result){
+            success: function (result) {
                 console.log(result)
                 document.getElementById('deleteServiceOrderId').value = id;
                 document.getElementById('h3deleteServiceOrderModal').innerText = 'with order number ' + result.serviceOrderNumber + ' for device: ' + result.device.model.name + ' with serial number: ' + result.device.serialNumber + '?';

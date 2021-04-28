@@ -131,17 +131,19 @@ public class ServiceOrderService {
         }
     }
 
+    @Transactional
     public ServiceOrder update(Long id, ServiceOrder serviceOrder) {
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.findById(id);
-        if (serviceOrderOptional.isPresent() && serviceOrderOptional.get().getOrderStatus() != ServiceOrderStatus.COMPLETED) {
+        if (serviceOrderOptional.isPresent()) {
             ServiceOrder serviceOrderUpdated = serviceOrderOptional.get();
-            serviceOrderUpdated.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
+//            serviceOrderUpdated.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
             serviceOrderUpdated.setOrderStatus(serviceOrder.getOrderStatus());
             serviceOrderUpdated.setLastUpdateDate(LocalDateTime.now());
-            serviceOrderUpdated.setDevice(serviceOrder.getDevice());
+//            serviceOrderUpdated.setDevice(serviceOrder.getDevice());
             serviceOrderUpdated.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
             serviceOrderUpdated.setOrderStartDate(serviceOrder.getOrderStartDate());
             serviceOrderUpdated.setOrderEndDate(serviceOrder.getOrderEndDate());
+            LOGGER.info(serviceOrderUpdated.getServiceOrderNumber() + " for id " + serviceOrderUpdated.getId() + " has been updated.");
             return serviceOrderUpdated;
         } else {
             return new ServiceOrder();
