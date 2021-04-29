@@ -56,6 +56,7 @@
                             <tr style="text-align: center">
                                 <th scope="col">Order Number</th>
                                 <th scope="col">Type</th>
+                                <th scope="col">Customer</th>
                                 <!--                                <th scope="col">Status</th>-->
                                 <th scope="col">Creation Date</th>
                                 <th scope="col">Start Date</th>
@@ -72,8 +73,8 @@
                                 <td th:text="${sOrder.serviceOrderNumber}"></td>
                                 <td><span class="badge badge-pill badge-default" th:text="${sOrder.orderType}"></span>
                                 </td>
-                                <td class=""
-                                    th:text="${#temporals.format(sOrder.orderCreationDate,'dd-MM-yyyy HH:mm')}"></td>
+                                <td th:text="${sOrder.device.customer.companyName}"></td>
+                                <td th:text="${#temporals.format(sOrder.orderCreationDate,'dd-MM-yyyy HH:mm')}"></td>
                                 <td th:text="${#temporals.format(sOrder.orderStartDate,'dd-MM-yyyy HH:mm')}"></td>
                                 <td th:text="${#temporals.format(sOrder.orderEndDate,'dd-MM-yyyy HH:mm')}"></td>
                                 <td th:text="${#temporals.format(sOrder.lastUpdateDate,'dd-MM-yyyy HH:mm')}"></td>
@@ -168,15 +169,19 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Start date:</label>
-                                                                <input type="datetime-local" class="form-control form-control-sm"
-                                                                       name="orderStartDate" th:value="${sOrder.orderStartDate}">
+                                                                <input type="datetime-local"
+                                                                       class="form-control form-control-sm"
+                                                                       name="orderStartDate"
+                                                                       th:value="${sOrder.orderStartDate}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>End date:</label>
-                                                                <input type="datetime-local" class="form-control form-control-sm"
-                                                                       name="orderEndDate" th:value="${sOrder.orderEndDate}">
+                                                                <input type="datetime-local"
+                                                                       class="form-control form-control-sm"
+                                                                       name="orderEndDate"
+                                                                       th:value="${sOrder.orderEndDate}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -188,8 +193,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer text-sm align-content-end">
-                                                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                                                    <button type="button" class="btn btn-default btn-sm"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Save changes
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
