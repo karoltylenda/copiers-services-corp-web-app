@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main/addArticle</title>
+</head>
+<body>
+<form method="post" action="/main/articles/save">
+    <label>Article name:</label><br>
+    <input type="text" name="name"> <br>
+    <label>Catalogue Number:</label><br>
+    <input type="text" name="catalogueNumber"> <br>
+    <label>manufacturerName:</label><br>
+    <input type="text" name="manufacturerName"> <br>
+    <label>is Consumable:</label><br>
+    <input type="radio"name="isConsumable" value="true">
+    <label>True</label><br>
+    <input type="radio"name="isConsumable" value="false">
+    <label>False</label><br>
+    <label>is Alternative:</label><br>
+    <input type="radio"name="isAlternative" value="true">
+    <label>True</label><br>
+    <input type="radio"name="isAlternative" value="false">
+    <label>False</label><br>
+    <label>Purchase Price:</label><br>
+    <input type="number" name="purchasePrice"> <br>
+    <label>Sale Price:</label><br>
+    <input type="number" name="salePrice"> <br>
+    <label>Yield:</label><br>
+    <input type="number" name="yield"> <br>
+    <button type="submit">Submit</button>
+
+
+</form>
+</body>
+</html>

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/article-ordered")
+@RequestMapping(path = "/api/article-ordered")
 @RequiredArgsConstructor
 public class ArticleOrderedController {
 

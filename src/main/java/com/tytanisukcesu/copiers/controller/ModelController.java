@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/models")
+@RequestMapping(path = "/api/models")
 @RequiredArgsConstructor
 public class ModelController {
 
@@ -33,6 +33,13 @@ public class ModelController {
         return models.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/search")
+    public ModelDto getModelByNameAndManufacturerName(@RequestParam String modelName,
+                                                      @RequestParam String manufacturerName){
+        Model model = modelService.getModelByNameAndManufacturerName(modelName,manufacturerName);
+        return convertToDto(model);
     }
 
     @PostMapping

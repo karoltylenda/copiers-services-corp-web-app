@@ -1,57 +1,64 @@
 package com.tytanisukcesu.copiers.servlet;
 
+
+import com.tytanisukcesu.copiers.dto.ModelDto;
+import com.tytanisukcesu.copiers.service.ManufacturerService;
+import com.tytanisukcesu.copiers.service.ModelService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/main/models")
 @RequiredArgsConstructor
+@RequestMapping("/models")
 public class ModelServlet {
 
-//    private final ModelService modelService;
-//    private final ManufacturerService manufacturerService;
-//
-//    @GetMapping
-//    public String findAll(Model springModel){
-//        springModel.addAttribute("models", modelService.findAll());
-//        return "models";
-//    }
-//
-//    @GetMapping(value = "/search")
-//    public String getAllByParameters(@RequestParam(required = false, defaultValue = "") String manufacturer,
-//                                       @RequestParam(required = false, defaultValue = "") String model,
-//                                       @RequestParam(required = false) Boolean printsInColor,
-//                                        Model springModel){
-//        if (printsInColor == null){
-//            springModel.addAttribute("models", modelService.getAllByParameters(manufacturer, model));
-//        } else {
-//            springModel.addAttribute("models",modelService.getAllByParameters(manufacturer,model,printsInColor));
-//        }
-//        return "models";
-//    }
-//
-//    @GetMapping(value = "/{id}")
-//    public String getById(@PathVariable("id") Long id, Model springModel){
-//        springModel.addAttribute("model",modelService.getById(id));
-//        return "model";
-//    }
-//
-//    //FIXME - zmien na postMapping
-//    @GetMapping("/save")
-//    public RedirectView save(@RequestParam String manufacturerName,  @ModelAttribute ModelDto modelDto) {
-//        ManufacturerDto manufacturerDto = new ManufacturerDto();
-//        if (manufacturerService.getByName(manufacturerName).isEmpty()) {
-//            manufacturerDto.setName(manufacturerName);
-//            manufacturerService.save(manufacturerDto);
-//        } else {
-//            manufacturerDto = manufacturerService.getByName(manufacturerName).get(0);
-//            manufacturerService.update(manufacturerDto.getId(), manufacturerDto);
-//        }
-//        modelDto.setManufacturer(manufacturerService.provideEntity(manufacturerDto));
-//        modelService.save(modelDto);
-//        return new RedirectView("/main/addModelForm");
-//    }
+    private final ModelService modelService;
+    private final ModelMapper modelMapper;
+    private final ManufacturerService manufacturerService;
+
+
+    @GetMapping
+    public String findAll(Model model) {
+        model.addAttribute("models", modelService.findAll());
+        model.addAttribute("manufacturers",manufacturerService.findAll());
+        return "pages/models";
+    }
+
+    @PostMapping
+    public RedirectView save(ModelDto modelDto){
+        modelService.save(convertToEntity(modelDto));
+        return new RedirectView("/models");
+    }
+
+    @PostMapping(value = "/update")
+    public RedirectView update(Long id,ModelDto modelDto){
+        modelService.update(id,convertToEntity(modelDto));
+        return new RedirectView("/models");
+    }
+
+    @PostMapping(value = "/delete")
+    public RedirectView delete (ModelDto modelDto){
+        com.tytanisukcesu.copiers.entity.Model model = convertToEntity(modelDto);
+        modelService.delete(model.getId());
+        return new RedirectView("/models");
+    }
+
+
+    private ModelDto convertToDto(com.tytanisukcesu.copiers.entity.Model model) {
+        ModelDto modelDto = modelMapper.map(model, ModelDto.class);
+        return modelDto;
+    }
+
+    private com.tytanisukcesu.copiers.entity.Model convertToEntity(ModelDto modelDto) {
+        com.tytanisukcesu.copiers.entity.Model model = modelMapper.map(modelDto, com.tytanisukcesu.copiers.entity.Model.class);
+        return model;
+    }
 
 
 }

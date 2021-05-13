@@ -1,6 +1,6 @@
 package com.tytanisukcesu.copiers.entity;
 
-import com.tytanisukcesu.copiers.types.AddresType;
+import com.tytanisukcesu.copiers.types.AddressType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,12 +34,14 @@ public class Address {
 
     private String apartmentNumber;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "address")
     private Customer customer;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "address")
     private Device device;
 
-    private AddresType addresType;
+    private AddressType addressType;
 
 }

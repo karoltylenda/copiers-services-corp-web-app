@@ -31,13 +31,14 @@ public class Model {
 
     @ManyToOne(
             fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     private PrintingFormat printingFormat;
 
-    @ManyToMany(mappedBy = "models")
+    @ManyToMany(mappedBy = "models",
+            cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
     private Set<Article> consumables;
 }

@@ -1,15 +1,14 @@
 package com.tytanisukcesu.copiers.service;
 
-import com.tytanisukcesu.copiers.entity.Customer;
 import com.tytanisukcesu.copiers.entity.Device;
 import com.tytanisukcesu.copiers.repository.DeviceRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -21,17 +20,17 @@ public class DeviceService {
     private final DeviceRepository deviceRepository;
     private final ModelService modelService;
     private final CustomerService customerService;
+    private final AddressService addressService;
+    private final MapperService mapperService;
     private static final Logger LOGGER = Logger.getLogger(DeviceService.class.getName());
 
-    @Cacheable(cacheNames = "AllDevices")
     public List<Device> findAll() {
         List<Device> devices = deviceRepository.findAll();
         return devices;
     }
 
-    @Cacheable(cacheNames = "SingleDevice",key = "#id")
     public Device findById(Long id) {
-        return deviceRepository.findById(id).orElseThrow(()->new ModelNotFoundException(id,"device"));
+        return deviceRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id, "device"));
     }
 
     @Transactional
@@ -45,13 +44,30 @@ public class DeviceService {
             deviceToSave.setModel(modelService.save(device.getModel()));
             deviceToSave.setCustomer(customerService.save(device.getCustomer()));
             deviceToSave.setContract(device.getContract());
+            deviceToSave.setAddress(device.getAddress());
             LOGGER.info("A new row has been added.");
             return deviceRepository.save(deviceToSave);
         }
     }
 
     @Transactional
-    @CachePut(cacheNames = "SingleDevice",key = "#result.id")
+    public Device saveFromServlet(Device device) {
+        Optional<Device> deviceOptional = deviceRepository.getDeviceBySerialNumber(device.getSerialNumber());
+        if (deviceOptional.isPresent()) {
+            return deviceOptional.get();
+        } else {
+            Device deviceToSave = new Device();
+            deviceToSave.setSerialNumber(device.getSerialNumber());
+            deviceToSave.setModel(modelService.findById(device.getModel().getId()));
+            deviceToSave.setCustomer(customerService.findById(device.getCustomer().getId()));
+            deviceToSave.setAddress(addressService.save(device.getAddress()));
+            LOGGER.info("A new row has been added.");
+            return deviceRepository.save(deviceToSave);
+        }
+    }
+
+    @Transactional
+    @CachePut(cacheNames = "SingleDevice", key = "#result.id")
     public Device update(Long id, Device device) {
         Optional<Device> deviceOptional = deviceRepository.findById(id);
         if (deviceOptional.isPresent()) {
@@ -66,7 +82,8 @@ public class DeviceService {
             return deviceUpdated;
         } else {
             LOGGER.warning("Device for id " + id + " has not been found");
-            throw new ModelNotFoundException(id,"device");        }
+            throw new ModelNotFoundException(id, "device");
+        }
     }
 
     @CacheEvict(cacheNames = "SingleDevice")
@@ -82,7 +99,8 @@ public class DeviceService {
         }
     }
 
-    public List<Device> findByCustomer(Customer customer) {
-        return deviceRepository.getAllByCustomer(customer);
+    public List<Device> findByCustomer(Long customerId) {
+        return deviceRepository.getAllByCustomer_Id(customerId);
     }
+
 }

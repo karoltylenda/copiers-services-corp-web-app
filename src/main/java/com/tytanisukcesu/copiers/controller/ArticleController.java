@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/articles")
+@RequestMapping(path = "/api/articles")
 @RequiredArgsConstructor
 public class ArticleController {
 

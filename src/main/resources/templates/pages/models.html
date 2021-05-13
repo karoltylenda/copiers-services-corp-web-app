@@ -1,0 +1,490 @@
+<!--
+=========================================================
+* Argon Dashboard - v1.2.0
+=========================================================
+* Product Page: https://www.creative-tim.com/product/argon-dashboard
+
+
+* Copyright  Creative Tim (http://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+
+
+=========================================================
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <head>
+        <th:block th:include="pages/fragments/header.html"></th:block>
+    </head>
+<body>
+<!-- Sidenav -->
+<th:block th:include="pages/fragments/sidenav.html"></th:block>
+
+<!-- Main content -->
+<div class="main-content" id="panel">
+
+    <!-- Topnav -->
+    <th:block th:include="pages/fragments/topnav.html"></th:block>
+
+    <!-- Page content -->
+
+    <div class="container-fluid mt--6">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                <div class="row">
+                    <div class="col">
+                        <h3>Models</h3>
+                    </div>
+                    <div class="col text-right">
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addNewModelModal">
+                            Add new Model
+                        </button>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#addNewManufacturerModal">
+                            Add new Manufacturer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div class="container-fluid">
+                        <table class="table align-items-center" id="modelsTable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Prints in colour?</th>
+                                <th scope="col">Production Year</th>
+                                <th scope="col">Printing Speed</th>
+                                <th scope="col">Manufacturer</th>
+                                <th scope="col">Printing Format</th>
+                                <th class="text-right" scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="model:${models}">
+                                <td th:text="${model.name}"></td>
+                                <td th:text="${model.printsInColor}"></td>
+                                <td th:text="${model.productionYear}"></td>
+                                <td th:text="${model.printingSpeed}"></td>
+                                <td th:text="${model.manufacturer.name}"></td>
+                                <td th:text="${model.printingFormat}"></td>
+                                <td class="text-right">
+                                    <div class="dropdown">
+                                        <a class="btn btn-sm btn-icon-only text-light" href="#" role="button"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <a class="dropdown-item" th:href="editModelModal+${model.id}"
+                                               data-toggle="modal"
+                                               th:data-target="'#editModelModal'+${model.id}">Edit</a>
+                                            <a class="dropdown-item" href="deleteModelModal"
+                                               data-toggle="modal"
+                                               data-target="#deleteModelModal"
+                                               th:onclick="'setDeleteModelModal('+${model.id}+')'">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Edit modal -->
+                                <div class="modal fade" th:id="editModelModal+${model.id}" tabindex="-1" role="dialog"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content p-4 bg-secondary">
+                                            <form method="post" action="/models/update" autocomplete="off">
+                                                <div class="modal-header">
+                                                    <h2>Edit model: </h2>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-sm">
+                                                    <input type="text" th:value="${model.id}" name="id" hidden="true">
+                                                    <div class="form-group">
+                                                        <label for="nameEditInput">Name: </label>
+                                                        <input type="text"
+                                                               class="form-control form-control-alternative form-control-sm"
+                                                               id="nameEditInput"
+                                                               name="name"
+                                                               th:value="${model.name}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="productionYearEditInput">Production
+                                                            Year: </label>
+                                                        <input type="text"
+                                                               class="form-control form-control-alternative form-control-sm"
+                                                               id="productionYearEditInput"
+                                                               name="productionYear"
+                                                               th:value="${model.productionYear}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="printingSpeedEditInput">Printing
+                                                            Speed: </label>
+                                                        <input type="text"
+                                                               class="form-control form-control-alternative form-control-sm"
+                                                               id="printingSpeedEditInput"
+                                                               name="printingSpeed"
+                                                               th:value="${model.printingSpeed}" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="selectPrintingFormatEdit">Printing
+                                                            Format: </label>
+                                                        <select class="form-control form-control-sm"
+                                                                id="selectPrintingFormatEdit"
+                                                                name="printingFormat" required>
+                                                            <option class="list-group-item" value="A4">
+                                                                A4
+                                                            </option>
+                                                            <option class="list-group-item" value="A3">
+                                                                A3
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="selectPrintsInColourEdit">Prints in Colour: </label>
+                                                        <select class="form-control form-control-sm"
+                                                                id="selectPrintsInColourEdit"
+                                                                name="printingFormat" required>
+                                                            <option class="list-group-item"
+                                                                    value=true>
+                                                                YES
+                                                            </option>
+                                                            <option class="list-group-item"
+                                                                    value=false>
+                                                                NO
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                            class="btn btn-default btn-sm"
+                                                            data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit"
+                                                            class="btn btn-primary btn-sm">Save
+                                                        changes
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add new model modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+     aria-hidden="true" id="addNewModelModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new model</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/models" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nameInput">Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       id="nameInput" onkeyup="isModelExists(this.value,getNameManufacturerSelect())" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerSelect">Manufacturer:</label>
+                                <select class="form-control form-control-sm"
+                                        id="manufacturerSelect" name="manufacturer.name" required>
+                                    <option value=""></option>
+                                    <option th:each="manufacturer:${manufacturers}" th:value="${manufacturer.name}" th:text="${manufacturer.name}"></option>
+                                    <!--                                    <option value="new">add new Manufacturer <input></option>-->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="prodYearInput">Production Year:</label>
+                                <input type="text" class="form-control form-control-sm" name="productionYear"
+                                       id="prodYearInput" placeholder="production year" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="printingSpeedInput">Printing Speed:</label>
+                                <input type="text" class="form-control form-control-sm" name="printingSpeed"
+                                       id="printingSpeedInput" placeholder="printing speed" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectPrintingFormatEdit">Printing Format: </label>
+                                <select class="form-control form-control-sm"
+                                        name="printingFormat" required>
+                                    <option class="list-group-item" value="A4">
+                                        A4
+                                    </option>
+                                    <option class="list-group-item" value="A3">
+                                        A3
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="selectPrintsInColourEdit">Prints in Colour: </label>
+                                <select class="form-control form-control-sm"
+                                        name="printingFormat" required>
+                                    <option class="list-group-item"
+                                            value=true>
+                                        YES
+                                    </option>
+                                    <option class="list-group-item"
+                                            value=false>
+                                        NO
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="messageFieldsControl"></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewModelButton" disabled>Add model
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete model modal -->
+<div class="modal fade" id="deleteModelModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmation</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/models/delete">
+                <div class="modal-body text-sm">
+                    <p>Are you sure you want to delete model: </p>
+                    <h3 id="h3DeleteModelModal"></h3>
+                    <p>This action cannot be undone and you will be unable to recover any data.</p>
+                    <input type="text" id="deleteModelId" name="id" hidden="true">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm"
+                            data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add new Manufacturer modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+     aria-hidden="true" id="addNewManufacturerModal">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add new Manufacturer</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times</span>
+                </button>
+            </div>
+            <form action="/manufacturers" method="post" autocomplete="off">
+                <div class="modal-body text-sm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="manufacturerInput">Name:</label>
+                                <input type="text" class="form-control form-control-sm" name="name"
+                                       placeholder="insert new manufacturer name" id="manufacturerInput" onkeyup="isManufacturerExists(this.value)" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="form-control col-sm-4">Info:</span>
+                        <span class="form-control col-sm-8" id="manufacturerFieldControl"></span>
+                    </div>
+                </div>
+                <hr>
+                <div class="modal-footer text-sm align-content-end">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="addNewManufacturerButton" disabled>Add
+                        manufacturer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<th:block th:include="pages/fragments/scripts.html"></th:block>
+
+
+<script>
+    $(document).ready(function () {
+        $('#modelsTable').DataTable();
+
+
+    });
+
+    $('#manufacturerSelect').select2({
+        dropdownParent: $("#addNewModelModal"),
+        theme: "bootstrap",
+        placeholder: 'Select manufacturer',
+        allowClear: true
+    });
+
+    // function getManufacturers() {
+    //     $.ajax({
+    //         url: "http://localhost:8080/api/manufacturers",
+    //         type: "GET",
+    //         success: function (result) {
+    //             console.log(result);
+    //             const manufacturersLength = result.length;
+    //             for (let i = 0; i < manufacturersLength; i++) {
+    //                 $('#manufacturerSelect').append(
+    //                     $('<option>', {
+    //                         value: result[i].name,
+    //                         text: result[i].name
+    //                     })
+    //                 );
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     })
+    // }
+
+    function setDeleteModelModal(id) {
+        $.ajax({
+            url: "http://localhost:8080/api/models/" + id,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                document.getElementById('deleteModelId').value = id;
+                document.getElementById('h3DeleteModelModal').innerText = 'Model ' + result.name + '?';
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
+    $('#nameInput, #printingSpeedInput, #prodYearInput').on('keyup', function () {
+        areFieldsFilled();
+        isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
+    });
+
+    $('#manufacturerSelect').on('change', function () {
+        areFieldsFilled();
+        isModelExists($('#nameInput').val(),$('#manufacturerSelect').val())
+    })
+
+    function areFieldsFilled() {
+        if ($('#nameInput').val() === '' || $('#prodYearInput').val() === '' || $('#printingSpeedInput').val() === '' || $('#manufacturerSelect').val() === '') {
+            $('#messageFieldsControl').text('Fields cannot be null.').css('color', 'tomato');
+            document.getElementById("addNewModelButton").disabled = true;
+            return false;
+        } else {
+            $('#messageFieldsControl').text('All fields correctly completed').css('color', 'green');
+            document.getElementById("addNewModelButton").disabled = false;
+            return true;
+        }
+    }
+
+
+    function isModelExists(modelName,manufacturerName) {
+        $.ajax({
+            url: "http://localhost:8080/api/models/search?modelName="+modelName + "&manufacturerName="+manufacturerName,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                if (result.id !== null) {
+                    $('#messageFieldsControl').text('Model for this Manufacturer already exists.').css('color', 'tomato');
+                    document.getElementById("addNewModelButton").disabled = true;
+                } else {
+                    document.getElementById("addNewModelButton").disabled = false;
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+
+    // manufacturers
+    function isManufacturerExists(name) {
+        $.ajax({
+            url: "http://localhost:8080/api/manufacturers/search?name=" + name,
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                const manufacturersLength = result.length;
+                if (manufacturersLength > 0) {
+                    $('#manufacturerFieldControl').text('Manufacturer already exists.').css('color', 'tomato');
+                    document.getElementById("addNewManufacturerButton").disabled = true;
+                } else {
+                    $('#manufacturerFieldControl').text('All correct.').css('color', 'green');
+                    document.getElementById("addNewManufacturerButton").disabled = false;
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    // $('#manufacturerInput').on('keyup', function () {
+    //     isManufacturerExists();
+    // });
+
+    function getNameManufacturerSelect(){
+        return $('#manufacturerSelect').val();
+    }
+
+
+
+</script>
+
+</body>
+</html>

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/serviceOrders")
+@RequestMapping(path = "/api/serviceOrders")
 @RequiredArgsConstructor
 public class ServiceOrderController {
 

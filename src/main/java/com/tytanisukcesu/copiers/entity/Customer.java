@@ -23,16 +23,17 @@ public class Customer {
     @Column(nullable = false)
     private String companyName;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String taxId;
 
     private String regon;
 
+    @EqualsAndHashCode.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(referencedColumnName = "id")
     private Address address;
 
-    private Long telephoneNumber;
+    private String telephoneNumber;
 
     private String email;
 

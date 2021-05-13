@@ -25,15 +25,20 @@ public class CustomerDto {
 
     private String regon;
 
+    @JsonIgnoreProperties({
+            "customer",
+            "device",
+            "addressType"
+    })
     private AddressDto address;
 
-    private Long telephoneNumber;
+    private String telephoneNumber;
 
     private String email;
 
     private String companySiteUrl;
 
-    @JsonManagedReference
+    @EqualsAndHashCode.Exclude
     @JsonIgnoreProperties({
             "model",
             "counters",

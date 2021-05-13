@@ -28,6 +28,7 @@ public class ModelService {
     public Model save(Model model) {
         Optional<Model> modelOptional = modelRepository.getModelByNameAndManufacturerName(model.getName(), model.getManufacturer().getName());
         if (modelOptional.isPresent()) {
+            LOGGER.info("A new row has not been added cause it already exists.");
             return modelOptional.get();
         } else {
             model.setManufacturer(manufacturerService.save(model.getManufacturer()));
@@ -35,6 +36,10 @@ public class ModelService {
             LOGGER.info("A new row has been added.");
             return modelSaved;
         }
+    }
+
+    public Model getModelByNameAndManufacturerName(String modelName, String manufacturerName){
+        return modelRepository.getModelByNameAndManufacturerName(modelName,manufacturerName).orElse(new Model());
     }
 
     public Model findById(Long id) {
@@ -59,7 +64,6 @@ public class ModelService {
         Optional<Model> modelOptional = modelRepository.findById(id);
         if (modelOptional.isPresent()) {
             Model modelUpdated = modelOptional.get();
-            modelUpdated.setManufacturer(model.getManufacturer());
             modelUpdated.setName(model.getName());
             modelUpdated.setConsumables(model.getConsumables());
             modelUpdated.setPrintingFormat(model.getPrintingFormat());

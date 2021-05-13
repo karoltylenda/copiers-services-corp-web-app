@@ -63,7 +63,6 @@ public class CopierSettlementService {
             LOGGER.info("A new row has been added.");
             return copierSettlementSaved;
         } else {
-//            return new CopierSettlement();
             return copierSettlementRepository.getTopByContract_DeviceOrderByDateOfSettlementDesc(device).get();
         }
     }

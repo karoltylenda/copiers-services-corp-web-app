@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main/Customers</title>
+</head>
+<body>
+<table>
+    <tbody>
+    <tr th:each="customer: ${customers}">
+        <td>
+            <span th:text="${customer.id}"></span>
+        </td>
+        <td>
+            <span th:text="${customer.address}"></span>
+        </td>
+        <td>
+            <span th:text="${customer.nip}"></span>
+        </td>
+        <td>
+            <span th:text="${customer.regon}"></span>
+        </td>
+        <td>
+            <span th:text="${customer.email}"></span>
+        </td>
+        <td>
+            <span th:text="${customer.companyName}"></span>
+        </td>
+        <td>
+            <span th:text="${customer.companySiteUrl}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

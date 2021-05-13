@@ -68,6 +68,6 @@ public class ManufacturerService {
     }
 
     public List<Manufacturer> findAllByName(String name) {
-        return manufacturerRepository.getAllByNameContains(name);
+        return manufacturerRepository.getAllByName(name);
     }
 }
