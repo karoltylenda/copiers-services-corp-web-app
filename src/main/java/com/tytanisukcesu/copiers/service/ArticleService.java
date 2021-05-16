@@ -4,6 +4,7 @@ import com.tytanisukcesu.copiers.entity.Article;
 import com.tytanisukcesu.copiers.entity.Model;
 import com.tytanisukcesu.copiers.repository.ArticleRepository;
 import com.tytanisukcesu.copiers.service.exception.ModelNotFoundException;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -31,6 +32,7 @@ public class ArticleService {
         return articleRepository.findById(id).orElseThrow(() -> new ModelNotFoundException(id,"article"));
     }
 
+    @Transactional
     public Article save(Article article) {
         Optional<Article> articleOptional = articleRepository.getArticleByCatalogueNumber(article.getCatalogueNumber());
         if (articleOptional.isPresent()) {
@@ -44,6 +46,28 @@ public class ArticleService {
             Set<Model> modelsList = new HashSet<>();
             for (Model model: article.getModels()) {
                 modelsList.add(modelService.save(model));
+            }
+            articleToSave.setModels(modelsList);
+            Article articleSaved = articleRepository.save(articleToSave);
+            LOGGER.info("A new row has been added.");
+            return articleSaved;
+        }
+    }
+
+    @Transactional
+    public Article saveFromServlet(Article article) {
+        Optional<Article> articleOptional = articleRepository.getArticleByCatalogueNumber(article.getCatalogueNumber());
+        if (articleOptional.isPresent()) {
+            return articleOptional.get();
+        } else {
+            Article articleToSave = new Article();
+            articleToSave.setName(article.getName());
+            articleToSave.setManufacturer(manufacturerService.findById(article.getManufacturer().getId()));
+            articleToSave.setConsumable(article.isConsumable());
+            articleToSave.setCatalogueNumber(article.getCatalogueNumber());
+            Set<Model> modelsList = new HashSet<>();
+            for (Model model: article.getModels()) {
+                modelsList.add(modelService.findById(model.getId()));
             }
             articleToSave.setModels(modelsList);
             Article articleSaved = articleRepository.save(articleToSave);
@@ -69,8 +93,6 @@ public class ArticleService {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
             Article articleUpdated = articleOptional.get();
-            articleUpdated.setManufacturer(article.getManufacturer());
-            articleUpdated.setModels(article.getModels());
             articleUpdated.setName(article.getName());
             articleUpdated.setCatalogueNumber(article.getCatalogueNumber());
             articleUpdated.setConsumable(article.isConsumable());

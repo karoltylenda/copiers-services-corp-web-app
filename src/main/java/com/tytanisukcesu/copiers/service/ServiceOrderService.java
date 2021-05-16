@@ -36,8 +36,40 @@ public class ServiceOrderService {
             ServiceOrder serviceOrderToSave = new ServiceOrder();
             serviceOrderToSave.setDevice(deviceService.save(serviceOrder.getDevice()));
             Set<ArticleOrdered> articleOrderedSet = new HashSet<>();
-            for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
-                articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+            if(serviceOrder.getArticleOrderedSet()!=null){ //dodany if //FIXME
+                for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
+                    articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+                }
+            }
+            serviceOrderToSave.setArticleOrderedSet(articleOrderedSet);
+            serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
+            serviceOrderToSave.setLastUpdateDate(LocalDateTime.now());
+            serviceOrderToSave.setOrderType(serviceOrder.getOrderType());
+            serviceOrderToSave.setOrderCreationDate(LocalDateTime.now());
+            serviceOrderToSave.setServiceOrderNumber(generateOrderNumber(serviceOrderToSave.getOrderCreationDate()));
+            serviceOrderToSave.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
+            serviceOrderToSave.setOrderStartDate(serviceOrder.getOrderStartDate());
+            serviceOrderToSave.setOrderEndDate(serviceOrder.getOrderEndDate());
+            ServiceOrder serviceOrderSaved = serviceOrderRepository.save(serviceOrderToSave);
+            articleOrderedSet.forEach(articleOrdered -> {
+                articleOrdered.setServiceOrder(serviceOrderSaved);
+            });
+            return serviceOrderSaved;
+        } else {
+            return new ServiceOrder();
+        }
+    }
+
+    @Transactional
+    public ServiceOrder saveFromServlet(ServiceOrder serviceOrder) {
+        if (!checkIfServiceOrderExists(serviceOrder.getDevice().getSerialNumber()) || serviceOrder.getOrderType().equals(ServiceOrderType.CONSUMABLE_DELIVERY)) {
+            ServiceOrder serviceOrderToSave = new ServiceOrder();
+            serviceOrderToSave.setDevice(deviceService.findById(serviceOrder.getDevice().getId()));
+            Set<ArticleOrdered> articleOrderedSet = new HashSet<>();
+            if(serviceOrder.getArticleOrderedSet()!=null){ //dodany if //FIXME
+                for (ArticleOrdered articleOrdered: serviceOrder.getArticleOrderedSet()) {
+                    articleOrderedSet.add(articleOrderedService.save(articleOrdered));
+                }
             }
             serviceOrderToSave.setArticleOrderedSet(articleOrderedSet);
             serviceOrderToSave.setOrderStatus(ServiceOrderStatus.NEW);
@@ -99,17 +131,19 @@ public class ServiceOrderService {
         }
     }
 
+    @Transactional
     public ServiceOrder update(Long id, ServiceOrder serviceOrder) {
         Optional<ServiceOrder> serviceOrderOptional = serviceOrderRepository.findById(id);
-        if (serviceOrderOptional.isPresent() && serviceOrderOptional.get().getOrderStatus() != ServiceOrderStatus.COMPLETED) {
+        if (serviceOrderOptional.isPresent()) {
             ServiceOrder serviceOrderUpdated = serviceOrderOptional.get();
-            serviceOrderUpdated.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
+//            serviceOrderUpdated.setArticleOrderedSet(serviceOrder.getArticleOrderedSet());
             serviceOrderUpdated.setOrderStatus(serviceOrder.getOrderStatus());
             serviceOrderUpdated.setLastUpdateDate(LocalDateTime.now());
-            serviceOrderUpdated.setDevice(serviceOrder.getDevice());
+//            serviceOrderUpdated.setDevice(serviceOrder.getDevice());
             serviceOrderUpdated.setDescriptionOfTheFault(serviceOrder.getDescriptionOfTheFault());
             serviceOrderUpdated.setOrderStartDate(serviceOrder.getOrderStartDate());
             serviceOrderUpdated.setOrderEndDate(serviceOrder.getOrderEndDate());
+            LOGGER.info(serviceOrderUpdated.getServiceOrderNumber() + " for id " + serviceOrderUpdated.getId() + " has been updated.");
             return serviceOrderUpdated;
         } else {
             return new ServiceOrder();

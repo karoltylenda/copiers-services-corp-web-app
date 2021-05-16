@@ -40,7 +40,6 @@ public class CustomerDto {
 
     @EqualsAndHashCode.Exclude
     @JsonIgnoreProperties({
-            "model",
             "counters",
             "customer",
             "contract",

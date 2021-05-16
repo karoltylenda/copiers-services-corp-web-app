@@ -3,6 +3,7 @@ package com.tytanisukcesu.copiers.entity;
 import com.tytanisukcesu.copiers.types.ServiceOrderStatus;
 import com.tytanisukcesu.copiers.types.ServiceOrderType;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,8 +31,10 @@ public class ServiceOrder {
 
     private LocalDateTime orderCreationDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime orderStartDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime orderEndDate;
 
     private LocalDateTime lastUpdateDate;
